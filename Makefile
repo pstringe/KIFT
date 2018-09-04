@@ -6,7 +6,7 @@
 #    By: pstringe <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/08/02 14:49:53 by pstringe          #+#    #+#              #
-#    Updated: 2018/09/04 13:00:43 by pstringe         ###   ########.fr        #
+#    Updated: 2018/09/04 13:06:41 by pstringe         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -32,6 +32,11 @@ debug: fclean $(INCD)$(LIB)
 	$(CC) $(CFLAGS) $(DFLAGS) -o $(NAME) $(patsubst %, $(SRCD)%.c, $(SRCS)) -L$(LIBD) -lft -I $(INCD) $(PFLAGS)
 sanitize: fclean $(INCD)$(LIB)
 	$(CC) $(CFLAGS) $(SFLAGS) -o $(NAME) $(patsubst %, $(SRCD)%.c, $(SRCS)) -L$(LIBD) -lft -I $(INCD) $(PFLAGS)
+setup: 
+	brew tap watsonbox/cmu-sphinx
+	brew install --HEAD watsonbox/cmu-sphinx/cmu-sphinxbase
+	brew install --HEAD watsonbox/cmu-sphinx/cmu-sphinxtrain
+	brew install --HEAD watsonbox/cmu-sphinx/cmu-pocketsphinx
 $(INCD)$(LIB):
 	make -C $(INCD)libft
 clean:
