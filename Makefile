@@ -1,51 +1,40 @@
-#**************************************************************************** #
-#                                                                              #
-#                                                         :::      ::::::::    #
-#    Makefile                                           :+:      :+:    :+:    #
-#                                                     +:+ +:+         +:+      #
-#    By: pstringe <marvin@42.fr>                    +#+  +:+       +#+         #
-#                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2018/08/02 14:49:53 by pstringe          #+#    #+#              #
-#    Updated: 2018/09/04 13:06:41 by pstringe         ###   ########.fr        #
-#                                                                              #
-# **************************************************************************** #
-
 CC = gcc
-NAME = hello
-INCD = ./includes/
-LIB = libft.a
-INCD = ./includes/
-SRCD = ./srcs/
-LIBD = $(INCD)libft/
-SRCS = hello_ps
-OBJS = $(patsubst $(SRCD)%, %.o, $(SRCS))
-CFLAGS = -Wall -Wextra
-DFLAGS = -g
-SFLAGS = -fsanitize=address -fno-omit-frame-pointer
-PFLAGS = -DMODELDIR=\"`pkg-config --variable=modeldir pocketsphinx`\" \
-		 `pkg-config --cflags --libs pocketsphinx sphinxbase`
+INC = ../hydra/libft
+NAME = client
+SRCS = client.c
+OBJS = $(patsubst %.c, %.o, $(SRCS))
+LIBD = -L$(INC) -lft
+CFLAGS = -Wall -Werror -Wextra -I$(INC) 
+OFLAGS =  -o $(NAME) $(OBJS) $(LIBD)
+DSRCS = $(SRCS)
+DFLAGS = $(CFLAGS) -g $(LIBD) $(DSRCS) -o
+DNAME = $(NAME)_debug
+DOBJS = $(patsubst %.c, %.o, $(DSRCS))
 
 all: $(NAME)
-$(NAME): $(INCD)$(LIB)
-	$(CC) $(CFLAGS) -o $(NAME) $(patsubst %, $(SRCD)%.c, $(SRCS)) -L$(LIBD) -lft -I $(INCD) $(PFLAGS)
-debug: fclean $(INCD)$(LIB)
-	$(CC) $(CFLAGS) $(DFLAGS) -o $(NAME) $(patsubst %, $(SRCD)%.c, $(SRCS)) -L$(LIBD) -lft -I $(INCD) $(PFLAGS)
-sanitize: fclean $(INCD)$(LIB)
-	$(CC) $(CFLAGS) $(SFLAGS) -o $(NAME) $(patsubst %, $(SRCD)%.c, $(SRCS)) -L$(LIBD) -lft -I $(INCD) $(PFLAGS)
-setup: 
-	brew tap watsonbox/cmu-sphinx
-	brew install --HEAD watsonbox/cmu-sphinx/cmu-sphinxbase
-	brew install --HEAD watsonbox/cmu-sphinx/cmu-sphinxtrain
-	brew install --HEAD watsonbox/cmu-sphinx/cmu-pocketsphinx
-$(INCD)$(LIB):
-	make -C $(INCD)libft
+
+libft.a : ../hydra/libft/Makefile
+	make -C ../hydra/libft/
+$(NAME): libft.a $(OBJS)
+	$(CC) $(OFLAGS)
+
+$(OBJS): $(SRCS)
+	$(CC) $(CFLAGS) -c $(SRCS)
+	echo "successful object compilation"
+
 clean:
-	make -C $(INCD)libft clean
-	rm -rf *.o
-	rm -rf *.dSYM
+	rm -f $(OBJS)
+
 fclean: clean
-	make -C $(INCD)libft fclean
-	rm -rf $(NAME)
+	rm -f $(NAME)
+	rm -f $(DNAME)
+	rm -rf $(DNAME).dSYM
+
 re: fclean
 	make
 
+debug: $(DNAME)
+
+$(DNAME): fclean
+	$(CC) $(DFLAGS) $(DNAME)
+	lldb $(DNAME) $(DARGS)
