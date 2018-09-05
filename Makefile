@@ -1,40 +1,90 @@
+#**************************************************************************** #
+#                                                                              #
+#                                                         :::      ::::::::    #
+#    Makefile                                           :+:      :+:    :+:    #
+#                                                     +:+ +:+         +:+      #
+#    By: pstringe <marvin@42.fr>                    +#+  +:+       +#+         #
+#                                                 +#+#+#+#+#+   +#+            #
+#    Created: 2018/08/02 14:49:53 by pstringe          #+#    #+#              #
+#    Updated: 2018/09/05 15:59:14 by pstringe         ###   ########.fr        #
+#                                                                              #
+# **************************************************************************** #
+
 CC = gcc
-INC = ../hydra/libft
-NAME = client
-SRCS = client.c
-OBJS = $(patsubst %.c, %.o, $(SRCS))
-LIBD = -L$(INC) -lft
-CFLAGS = -Wall -Werror -Wextra -I$(INC) 
-OFLAGS =  -o $(NAME) $(OBJS) $(LIBD)
-DSRCS = $(SRCS)
-DFLAGS = $(CFLAGS) -g $(LIBD) $(DSRCS) -o
-DNAME = $(NAME)_debug
-DOBJS = $(patsubst %.c, %.o, $(DSRCS))
+NAME = KIFT
+CLIENT = client
+SERVER = server
+
+INCD = ./includes/
+
+LIB = libft.a
+LIBD = $(INCD)libft/
+
+SSRCD = ./srcs/server/
+CSRCD = ./srcs/client/
+
+SSRCS = server
+CSRCS = continuous
+
+SOBJS = $(patsubst $(SSRCD)%, %.o, $(SSRCS))
+COBJS = $(patsubst $(CSRCD)%, %.o, $(CSRCS))
+
+CFLAGS = -Wall -Wextra
+DFLAGS = -g
+SFLAGS = -fsanitize=address -fno-omit-frame-pointer
+PFLAGS = -DMODELDIR=\"`pkg-config --variable=modeldir pocketsphinx`\" \
+		 `pkg-config --cflags --libs pocketsphinx sphinxbase`
+
 
 all: $(NAME)
 
-libft.a : ../hydra/libft/Makefile
-	make -C ../hydra/libft/
-$(NAME): libft.a $(OBJS)
-	$(CC) $(OFLAGS)
+$(NAME): $(SERVER) $(CLIENT)
 
-$(OBJS): $(SRCS)
-	$(CC) $(CFLAGS) -c $(SRCS)
-	echo "successful object compilation"
+$(SERVER) : $(INCD)$(LIB)
+	$(CC) $(CFLAGS) -o $(SERVER) $(patsubst %, $(SSRCD)%.c, $(SSRCS)) \
+	-L$(LIBD) -lft -I $(LIBD)
+	
+$(CLIENT) : $(INCD)$(LIB)
+	$(CC) $(CFLAGS) -o $(CLIENT) $(patsubst %, $(CSRCD)%.c, $(CSRCS)) \
+	-L$(LIBD) -lft -I $(LIBD) $(PFLAGS)
+
+debug-server: fclean $(INCD)$(LIB)
+	$(CC) $(CFLAGS) $(DFLAGS) -o $(SERVER) $(patsubst %, $(SSRCD)%.c, $(SSRCS)) \
+	-L$(LIBD) -lft -I $(INCD)
+
+debug-client: fclean $(INCD)$(LIB)
+	$(CC) $(CFLAGS) $(DFLAGS) -o $(CLIENT) $(patsubst %, $(CSRCD)%.c, $(CSRCS)) \
+	-L$(LIBD) -lft -I $(INCD) $(PFLAGS)
+
+sanitize-server: fclean $(INCD)$(LIB)
+	$(CC) $(CFLAGS) $(SFLAGS) -o $(SERVER) $(patsubst %, $(SSRCD)%.c, $(SSRCS)) \
+	-L$(LIBD) -lft -I $(INCD)
+
+sanitize-client: fclean $(INCD)$(LIB)
+	$(CC) $(CFLAGS) $(SFLAGS) -o $(CLIENT) $(patsubst %, $(CSRCD)%.c, $(CSRCS)) \
+	-L$(LIBD) -lft -I $(INCD) $(PFLAGS)
+
+debug: debug-server debug-client 
+sanitize: sanitize-server sanitize-client
+
+setup: 
+	brew tap watsonbox/cmu-sphinx
+	brew install --HEAD watsonbox/cmu-sphinx/cmu-sphinxbase
+	brew install --HEAD watsonbox/cmu-sphinx/cmu-sphinxtrain
+	brew install --HEAD watsonbox/cmu-sphinx/cmu-pocketsphinx
+
+$(INCD)$(LIB):
+	make -C $(INCD)libft
 
 clean:
-	rm -f $(OBJS)
+	make -C $(INCD)libft clean
+	rm -rf *.o
+	rm -rf *.dSYM
 
 fclean: clean
-	rm -f $(NAME)
-	rm -f $(DNAME)
-	rm -rf $(DNAME).dSYM
+	make -C $(INCD)libft fclean
+	rm -rf $(SERVER) $(CLIENT)
 
 re: fclean
 	make
 
-debug: $(DNAME)
-
-$(DNAME): fclean
-	$(CC) $(DFLAGS) $(DNAME)
-	lldb $(DNAME) $(DARGS)
