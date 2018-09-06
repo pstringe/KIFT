@@ -6,7 +6,7 @@
 /*   By: pstringe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/05 18:05:26 by pstringe          #+#    #+#             */
-/*   Updated: 2018/09/05 18:51:59 by pstringe         ###   ########.fr       */
+/*   Updated: 2018/09/05 20:06:42 by pstringe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,21 +24,21 @@
 **	response object
 */
 
-typedef struct 	s_resp
+typedef struct 	s_response
 {
-	char *text;
-	char *size;
-}				t_resp;
+	char 	text[SOCK_BUF_SIZE];
+	size_t	size;
+}				t_response;
 
 /*
 ** command object for dispatch
 */
 
-typedef struct 	s_cmd
+typedef struct 	s_command
 {
 	char			*name;
 	struct s_resp	(*action)(void);
-}				t_cmd;
+}				t_command;
 
 /*
 **	server struct containing essential variables for communication with client 
@@ -53,5 +53,9 @@ typedef struct  s_server
 	int					c_sock;
 	struct sockaddr_in	addr;
 	socklen_t			addr_len;
+	struct s_response	response;
+	int					(*connect)(struct s_server*, int, char**);
+	void				(*listen)(struct s_server*);
+	void				(*respond)(struct s_server*);
 }				t_server;
 #endif
