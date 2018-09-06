@@ -6,7 +6,7 @@
 /*   By: pstringe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/05 19:49:30 by pstringe          #+#    #+#             */
-/*   Updated: 2018/09/06 15:02:11 by pstringe         ###   ########.fr       */
+/*   Updated: 2018/09/06 15:39:09 by pstringe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,19 +65,14 @@ void	listening(t_server *server)
 		ret = read(server->c_sock, &buf, SOCK_BUF_SIZE);
 		ft_putendl(buf);
 		if (!server->dispatch(server, buf))
-			ft_memcpy(server->response.txt, "command not recognized", 22); 
+		{
+			ft_memcpy(server->response.txt, "command not recognized", 22);
+			server->response.size = 22;
+		}	
 		else
 			write(server->c_sock, server->response.txt, server->response.size);
 		close(server->c_sock);
 	}
-}
-
-void	cmd_quit(t_server *server, char *client_input)
-{
-	ft_bzero(server->response.txt, SOCK_BUF_SIZE);
-	ft_memcpy(server->response.txt, "quit", 4);
-	server->response.size = 4;
-	server->listening = 0;
 }
 
 /*
