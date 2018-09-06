@@ -6,7 +6,7 @@
 #    By: pstringe <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/08/02 14:49:53 by pstringe          #+#    #+#              #
-#    Updated: 2018/09/05 19:01:22 by pstringe         ###   ########.fr        #
+#    Updated: 2018/09/06 14:29:59 by pstringe         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -25,7 +25,8 @@ SINC = $(INCD)
 SSRCD = ./srcs/server/
 CSRCD = ./srcs/client/
 
-SSRCS = server
+SSRCS = server\
+		server_methods
 CSRCS = client
 
 SOBJS = $(patsubst $(SSRCD)%, %.o, $(SSRCS))

@@ -6,7 +6,7 @@
 /*   By: pstringe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/05 19:49:30 by pstringe          #+#    #+#             */
-/*   Updated: 2018/09/05 20:06:23 by pstringe         ###   ########.fr       */
+/*   Updated: 2018/09/06 15:02:11 by pstringe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,6 @@ int		establish_connection(t_server *server, int argc, char **argv)
 void	listening(t_server *server)
 {
 	char 		buf[SOCK_BUF_SIZE];
-	char 		*msg;
 	size_t		ret;
 	
 	while (server->listening)
@@ -65,38 +64,38 @@ void	listening(t_server *server)
 		ft_bzero(buf, SOCK_BUF_SIZE);
 		ret = read(server->c_sock, &buf, SOCK_BUF_SIZE);
 		ft_putendl(buf);
-		if (!ft_strncmp(buf, "ping", ft_strlen(buf)))
-			msg = "pong pong";
-		else if (!ft_strncmp(buf, "quit", ft_strlen(buf)))
-		{
-			server->listening = 0;
-			msg = "quit";
-		}
+		if (!server->dispatch(server, buf))
+			ft_memcpy(server->response.txt, "command not recognized", 22); 
 		else
-			msg = "command not recongnized";
-		write(server->c_sock, msg, ft_strlen(msg));
+			write(server->c_sock, server->response.txt, server->response.size);
 		close(server->c_sock);
 	}
 }
 
-void	test_method(t_server *server)
+void	cmd_quit(t_server *server, char *client_input)
 {
-	ft_bzero(server->response.)
+	ft_bzero(server->response.txt, SOCK_BUF_SIZE);
+	ft_memcpy(server->response.txt, "quit", 4);
+	server->response.size = 4;
+	server->listening = 0;
 }
 
 /*
 ** server dispatch
 */
 
-void	dispatch(t_server *server, char *cmd)
+int		dispatch(t_server *server, char *client_input)
 {
 	int i;
 	
-	s_commands cmds = {
-		{"test", test_method}
-		{NULL}
-	};
-
 	i = -1;
-	while ((++i))
+	while (server->cmds[++i].name)
+	{
+		if (!ft_strncmp(client_input, server->cmds[i].name, ft_strlen(client_input)))
+		{
+			server->cmds[i].action(server, client_input);
+			return (1);
+		}
+	}
+	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: pstringe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/05 18:05:26 by pstringe          #+#    #+#             */
-/*   Updated: 2018/09/05 20:06:42 by pstringe         ###   ########.fr       */
+/*   Updated: 2018/09/06 15:02:12 by pstringe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,13 @@
 # define SERVER_H
 
 # define SOCK_BUF_SIZE 256
-
+# define NO_OF_CMDS
 # include "libft.h"
 # include <stdio.h>
 # include <sys/socket.h>
 # include <netinet/in.h>
+
+struct s_server;
 
 /*
 **	response object
@@ -26,18 +28,18 @@
 
 typedef struct 	s_response
 {
-	char 	text[SOCK_BUF_SIZE];
+	char 	txt[SOCK_BUF_SIZE];
 	size_t	size;
 }				t_response;
 
 /*
-** command object for dispatch
+** dispatch table element
 */
 
 typedef struct 	s_command
 {
-	char			*name;
-	struct s_resp	(*action)(void);
+	char	*name;
+	void	(*action)(struct s_server*, char*);
 }				t_command;
 
 /*
@@ -54,8 +56,27 @@ typedef struct  s_server
 	struct sockaddr_in	addr;
 	socklen_t			addr_len;
 	struct s_response	response;
+	struct s_command	*cmds;
 	int					(*connect)(struct s_server*, int, char**);
 	void				(*listen)(struct s_server*);
-	void				(*respond)(struct s_server*);
+	int					(*dispatch)(struct s_server*, char*);
+//	void				(*respond)(struct s_server*);
 }				t_server;
+
+/*
+**	server methods
+*/
+
+
+int		dispatch(t_server *server, char *client_input);
+int		establish_connection(t_server *server, int argc, char **argv);
+void	listening(t_server *server);
+
+
+/*
+**	commands
+*/
+
+void	cmd_quit(t_server *server, char *client_input);
+
 #endif
