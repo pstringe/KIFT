@@ -1,6 +1,23 @@
 CC = gcc
 NAME = libft.a
-SRCS = ft_bzero.c\
+SRCS = ft_printf.c\
+	   queue.c\
+	   algo.c\
+	   parse.c\
+	   init.c\
+	   help.c\
+	   string.c\
+	   digit.c\
+	   pointer.c\
+	   num_extract.c\
+	   num_convert.c\
+	   num_flags.c\
+	   num_mod.c\
+	   not.c\
+	   wide_string.c\
+	   num_help.c\
+	   char.c\
+	   ft_bzero.c\
 	   ft_memcpy.c\
 	   ft_memccpy.c\
 	   ft_strlen.c\
@@ -61,11 +78,17 @@ SRCS = ft_bzero.c\
 	   ft_nbrlen.c \
 	   ft_strsub.c \
 	   ft_is_whitespace.c\
+	   ft_two_d_free.c\
+	   ft_lstsort.c\
+	   ft_lstforeach.c\
+	   ft_lstdstry.c\
 	   ft_lstsethead.c\
-	   get_next_line.c
+	   get_next_line.c\
+	   ft_exp.c\
+	   ft_digslct.c
 
 OBJS := $(patsubst %.c, %.o, $(SRCS))
-CFLAGS = -c -Wall -Werror -Wextra -g
+CFLAGS = -Wall -Werror -Wextra
 
 all : $(NAME)
 
@@ -74,12 +97,11 @@ $(NAME) : $(OBJS)
 	ranlib $(NAME)
 
 $(OBJS): $(SRCS)
-	$(CC) $(CFLAGS) $(SRCS)
+	$(CC) $(CFLAGS) -c $(SRCS)
 
 clean : 
 	rm -f *.o
 
 fclean : clean
 	rm -f $(NAME)
-
 re : fclean all

@@ -6,7 +6,7 @@
 /*   By: pstringe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/28 12:59:29 by pstringe          #+#    #+#             */
-/*   Updated: 2018/04/19 07:25:27 by pstringe         ###   ########.fr       */
+/*   Updated: 2018/08/17 09:15:37 by pstringe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 # include <unistd.h>
 # include <string.h>
 # include "get_next_line.h"
+# include "ft_printf.h"
 
 typedef	struct		s_list
 {
@@ -23,6 +24,19 @@ typedef	struct		s_list
 	size_t			content_size;
 	struct s_list	*next;
 }					t_list;
+
+typedef struct		s_queue
+{
+	struct s_list	*lst;
+	struct s_list	*head;
+	struct s_list	*tail;
+
+}					t_queue;
+
+
+void				*ft_dequeue(struct s_queue *q);
+void				ft_enqueue(struct s_queue *q, void *n, size_t size);
+t_queue				*ft_queuenw(void *n, size_t size);
 t_list				**ft_lstsethead(t_list *elem);
 void				ft_two_d_free(void **array);
 int					ft_is_whitespace(int c);
@@ -53,7 +67,6 @@ int					ft_nbrlen(int nbr);
 unsigned int		ft_absval(int n);
 void				*ft_memcpy(void *dst, const void *src, size_t n);
 void				*ft_memccpy(void *dst, const void *src, int c, size_t n);
-
 void				*ft_memalloc(size_t size);
 char				*ft_strnew(size_t size);
 void				ft_memdel(void **ap);
@@ -87,5 +100,8 @@ void				ft_lstadd(t_list **alst, t_list *new);
 t_list				*ft_lstmap(t_list *lst, t_list *(*f)(t_list *elem));
 int					ft_strlcat(char *dst, char const *src, size_t size);
 void				ft_bzero(void *s, size_t n);
-int					get_next_line(const int fd, char **line);
+void				ft_lstsort(t_list *begin, int (*cmp)(void *, void *, void **, int), void **aux, int len);
+void				ft_lstforeach(t_list *lst, void (*f)(), void **aux, int len);
+int					ft_digslct(int k, int n);
+int					ft_exp(int base, int power);
 #endif
