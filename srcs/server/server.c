@@ -6,7 +6,7 @@
 /*   By: pstringe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/02 17:52:13 by pstringe          #+#    #+#             */
-/*   Updated: 2018/09/06 15:02:10 by pstringe         ###   ########.fr       */
+/*   Updated: 2018/09/07 14:08:34 by pstringe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ void	server_init(t_server *s)
 	s->listen = listening;
 	s->cmds = g_cmds;
 	s->dispatch = dispatch;
-	//	s->respond = server_respond;
+	s->respond = respond;
 }
 
 int		main(int argc, char **argv)

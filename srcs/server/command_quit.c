@@ -6,7 +6,7 @@
 /*   By: pstringe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/06 15:37:43 by pstringe          #+#    #+#             */
-/*   Updated: 2018/09/06 15:39:06 by pstringe         ###   ########.fr       */
+/*   Updated: 2018/09/07 14:13:43 by pstringe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,10 +18,7 @@
 
 void	cmd_quit(t_server *server, char *client_input)
 {
-	ft_putendl("in command function");
-	ft_bzero(server->response.txt, SOCK_BUF_SIZE);
-	ft_memcpy(server->response.txt, "quit", 4);
-	server->response.size = 4;
+	server->respond(server, "quit", 4);
 	server->listening = 0;
 }
 

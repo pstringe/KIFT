@@ -6,7 +6,7 @@
 /*   By: pstringe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/05 19:49:30 by pstringe          #+#    #+#             */
-/*   Updated: 2018/09/06 15:39:09 by pstringe         ###   ########.fr       */
+/*   Updated: 2018/09/07 14:16:37 by pstringe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,18 @@ int		establish_connection(t_server *server, int argc, char **argv)
 }
 
 /*
+** A function to for writing to  the response object and sending it off
+*/
+
+void	respond(t_server *server, char *msg, size_t size)
+{
+	ft_bzero(server->response.txt, SOCK_BUF_SIZE);
+	ft_memcpy(server->response.txt, msg, size);
+	server->response.size = size;
+	write(server->c_sock, server->response.txt, server->response.size);
+}
+
+/*
 **	this is the called for the server to listen continuosly on the read socket and
 **	having registered a valid command, exit.
 */
@@ -65,12 +77,7 @@ void	listening(t_server *server)
 		ret = read(server->c_sock, &buf, SOCK_BUF_SIZE);
 		ft_putendl(buf);
 		if (!server->dispatch(server, buf))
-		{
-			ft_memcpy(server->response.txt, "command not recognized", 22);
-			server->response.size = 22;
-		}	
-		else
-			write(server->c_sock, server->response.txt, server->response.size);
+			server->respond(server, "command not recognized", 22);
 		close(server->c_sock);
 	}
 }
