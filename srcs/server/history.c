@@ -6,7 +6,7 @@
 /*   By: pstringe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/10 10:53:29 by pstringe          #+#    #+#             */
-/*   Updated: 2018/09/10 13:22:40 by pstringe         ###   ########.fr       */
+/*   Updated: 2018/09/10 13:42:25 by pstringe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ void	history_display(t_history *history)
 {
 	t_list	*tmp;
 	t_entry *entry;
+	
 	tmp = history->queue->head;
 	while (tmp)
 	{
@@ -34,7 +35,10 @@ void	history_display(t_history *history)
 
 void	history_update(t_history *history, t_entry *entry)
 {
-	
+	if (!history->queue)
+		history->queue = ft_queuenw((void*)entry, sizeof(t_entry));
+	else
+		ft_enqueue(history->queue, (void*)entry, sizeof(t_entry));		
 }
 
 /*
@@ -58,7 +62,7 @@ void	history_get(t_history *history)
 	while (get_next_line(&line, history->file) >= 0)
 	{
 		row = ft_strsplit(line, ',')
-		history->update(entry_new(row[0], row[1]));
+		history->update(history, entry_new(row[0], row[1]));
 	}
 }
 
