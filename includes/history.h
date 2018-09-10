@@ -6,7 +6,7 @@
 /*   By: pstringe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/10 10:13:21 by pstringe          #+#    #+#             */
-/*   Updated: 2018/09/10 11:05:26 by pstringe         ###   ########.fr       */
+/*   Updated: 2018/09/10 11:59:21 by pstringe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,11 +18,11 @@
 typedef struct	s_history
 {
 	int			file;
-	t_queue		*history;										//queue of historical entries
+	t_queue		*queue;											//queue of historical entries
 	void		(*init)(struct s_history);						//initializes history object
 	void		(*get)(struct s_history);						//enqueues current entries within the history file
 	void		(*update)(struct s_history);					//enqueues new entry
-	void		(*save)(struct s_history);					//appends new entries to the end of the history file
+	void		(*save)(struct s_history);						//appends new entries to the end of the history file
 	void 		(*display)(struct s_history/*,int options*/);	//displays the current history
 }				t_history;
 
