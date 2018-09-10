@@ -6,13 +6,13 @@
 /*   By: pstringe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/10 12:18:56 by pstringe          #+#    #+#             */
-/*   Updated: 2018/09/10 12:28:14 by pstringe         ###   ########.fr       */
+/*   Updated: 2018/09/10 12:40:27 by pstringe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "history.h"
 
-void		entry_display(t_entry *entry)
+void		entry_display(t_list *entry)
 {
 	ft_printf("speech: %s\n command: %s\n", entry->speech, entry->command);
 }
