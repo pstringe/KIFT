@@ -6,7 +6,7 @@
 /*   By: pstringe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/02 15:52:32 by pstringe          #+#    #+#             */
-/*   Updated: 2018/03/03 19:59:36 by pstringe         ###   ########.fr       */
+/*   Updated: 2018/09/05 19:00:43 by pstringe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,14 +15,14 @@
 #include <sys/socket.h>
 #include <netinet/in.h>
 #include "libft.h"
-#define BUFF_SIZE 256
+#define CLIENT_BUF_SIZE 256
 
 int main(int argc, char const **argv)
 {
 	int					con;
 	int					port;
 	int					sock;
-	char				buf[BUFF_SIZE];
+	char				buf[CLIENT_BUF_SIZE];
 	struct sockaddr_in 	serv_addr;
 
 	if (argc < 3)

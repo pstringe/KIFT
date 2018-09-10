@@ -6,7 +6,7 @@
 #    By: pstringe <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/08/02 14:49:53 by pstringe          #+#    #+#              #
-#    Updated: 2018/09/05 15:59:14 by pstringe         ###   ########.fr        #
+#    Updated: 2018/09/06 15:39:03 by pstringe         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,13 +18,18 @@ SERVER = server
 INCD = ./includes/
 
 LIB = libft.a
+
 LIBD = $(INCD)libft/
+SINC = $(INCD)
 
 SSRCD = ./srcs/server/
 CSRCD = ./srcs/client/
 
-SSRCS = server
-CSRCS = continuous
+SSRCS = server\
+		server_methods\
+		command_quit
+
+CSRCS = client
 
 SOBJS = $(patsubst $(SSRCD)%, %.o, $(SSRCS))
 COBJS = $(patsubst $(CSRCD)%, %.o, $(CSRCS))
@@ -35,14 +40,13 @@ SFLAGS = -fsanitize=address -fno-omit-frame-pointer
 PFLAGS = -DMODELDIR=\"`pkg-config --variable=modeldir pocketsphinx`\" \
 		 `pkg-config --cflags --libs pocketsphinx sphinxbase`
 
-
 all: $(NAME)
 
 $(NAME): $(SERVER) $(CLIENT)
 
 $(SERVER) : $(INCD)$(LIB)
 	$(CC) $(CFLAGS) -o $(SERVER) $(patsubst %, $(SSRCD)%.c, $(SSRCS)) \
-	-L$(LIBD) -lft -I $(LIBD)
+	-L$(LIBD) -lft -I $(INCD) -I $(LIBD)
 	
 $(CLIENT) : $(INCD)$(LIB)
 	$(CC) $(CFLAGS) -o $(CLIENT) $(patsubst %, $(CSRCD)%.c, $(CSRCS)) \
@@ -50,7 +54,7 @@ $(CLIENT) : $(INCD)$(LIB)
 
 debug-server: fclean $(INCD)$(LIB)
 	$(CC) $(CFLAGS) $(DFLAGS) -o $(SERVER) $(patsubst %, $(SSRCD)%.c, $(SSRCS)) \
-	-L$(LIBD) -lft -I $(INCD)
+	-L$(LIBD) -lft -I $(INCD)  -I $(LIBD)
 
 debug-client: fclean $(INCD)$(LIB)
 	$(CC) $(CFLAGS) $(DFLAGS) -o $(CLIENT) $(patsubst %, $(CSRCD)%.c, $(CSRCS)) \
@@ -58,7 +62,7 @@ debug-client: fclean $(INCD)$(LIB)
 
 sanitize-server: fclean $(INCD)$(LIB)
 	$(CC) $(CFLAGS) $(SFLAGS) -o $(SERVER) $(patsubst %, $(SSRCD)%.c, $(SSRCS)) \
-	-L$(LIBD) -lft -I $(INCD)
+	-L$(LIBD) -lft -I $(INCD)  -I $(LIBD)
 
 sanitize-client: fclean $(INCD)$(LIB)
 	$(CC) $(CFLAGS) $(SFLAGS) -o $(CLIENT) $(patsubst %, $(CSRCD)%.c, $(CSRCS)) \
