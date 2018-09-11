@@ -6,7 +6,7 @@
 /*   By: pstringe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/10 10:53:29 by pstringe          #+#    #+#             */
-/*   Updated: 2018/09/10 13:42:25 by pstringe         ###   ########.fr       */
+/*   Updated: 2018/09/10 15:17:47 by pstringe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,16 @@ void	history_update(t_history *history, t_entry *entry)
 
 void	history_save(t_history *history)
 {
+	t_list	*tmp;
+	t_entry *entry;
+	char	*row;
 
+	history->file = open("history.csv", 0_WRONLY);
+	tmp = history->last_save->next;
+	while(tmp)
+	{
+
+	}
 }
 
 /*
@@ -64,6 +73,8 @@ void	history_get(t_history *history)
 		row = ft_strsplit(line, ',')
 		history->update(history, entry_new(row[0], row[1]));
 	}
+	history->last_save = tail;
+	close(history->file)
 }
 
 /*
@@ -72,7 +83,7 @@ void	history_get(t_history *history)
 
 void	history_init(t_history *history)
 {
-	history->file = open("history", O_CREAT);
+	history->file = open("history.csv", O_CREAT);
 	history->get = history_get;
 	history->save = history_save;
 	history->update = history_update;
