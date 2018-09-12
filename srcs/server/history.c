@@ -6,7 +6,7 @@
 /*   By: pstringe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/10 10:53:29 by pstringe          #+#    #+#             */
-/*   Updated: 2018/09/10 15:17:47 by pstringe         ###   ########.fr       */
+/*   Updated: 2018/09/12 12:41:33 by pstringe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,20 +42,20 @@ void	history_update(t_history *history, t_entry *entry)
 }
 
 /*
-**	saves current contents of history queue to file
+**	saves modified contents of history queue to file
 */
 
 void	history_save(t_history *history)
 {
 	t_list	*tmp;
 	t_entry *entry;
-	char	*row;
 
-	history->file = open("history.csv", 0_WRONLY);
-	tmp = history->last_save->next;
-	while(tmp)
+	history->file = open("history.csv", O_APPEND);
+	tmp = history->last_save;
+	while((tmp = tmp->next))
 	{
-
+		entry = tmp->content;
+		ft_dprintf(history->file, "%s, %s\n", entry->speech, entry->command);
 	}
 }
 
@@ -68,13 +68,13 @@ void	history_get(t_history *history)
 	char	*line;
 	char 	**row;
 
-	while (get_next_line(&line, history->file) >= 0)
+	while (get_next_line(history->file, &line) >= 0)
 	{
-		row = ft_strsplit(line, ',')
+		row = ft_strsplit(line, ',');
 		history->update(history, entry_new(row[0], row[1]));
 	}
-	history->last_save = tail;
-	close(history->file)
+	history->last_save = history->queue->tail;
+	close(history->file);
 }
 
 /*

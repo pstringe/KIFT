@@ -6,7 +6,7 @@
 #    By: pstringe <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/08/02 14:49:53 by pstringe          #+#    #+#              #
-#    Updated: 2018/09/06 15:39:03 by pstringe         ###   ########.fr        #
+#    Updated: 2018/09/12 12:42:06 by pstringe         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -27,6 +27,8 @@ CSRCD = ./srcs/client/
 
 SSRCS = server\
 		server_methods\
+		history\
+		entry\
 		command_quit
 
 CSRCS = client

@@ -1,6 +1,7 @@
 CC = gcc
 NAME = libft.a
-SRCS = ft_vdprintf.c\
+SRCS = ft_dprintf.c\
+	   ft_vdprintf.c\
 	   ft_printf.c\
 	   queue.c\
 	   algo.c\
