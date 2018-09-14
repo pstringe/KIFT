@@ -1,19 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   history.h                                          :+:      :+:    :+:   */
+/*   s_response.h                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pstringe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/09/10 10:13:21 by pstringe          #+#    #+#             */
-/*   Updated: 2018/09/14 10:38:42 by pstringe         ###   ########.fr       */
+/*   Created: 2018/09/14 10:23:04 by pstringe          #+#    #+#             */
+/*   Updated: 2018/09/14 10:24:32 by pstringe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef HISTORY_H
-# define HISTORY_H
-# include "server.h"
-# include <time.h>
-# include "types/s_entry.h"
-# include "types/s_history.h"
+#ifndef S_RESPONSE_H
+# define S_RESPONSE_H
+
+/*
+**	response object
+*/
+
+typedef struct 	s_response
+{
+	char 	txt[SOCK_BUF_SIZE];
+	size_t	size;
+}				t_response;
 #endif
