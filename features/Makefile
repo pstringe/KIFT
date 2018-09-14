@@ -6,9 +6,9 @@
 #    By: ssong <marvin@42.fr>                       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/09/13 19:12:17 by ssong             #+#    #+#              #
-#    Updated: 2018/09/14 08:44:43 by ssong            ###   ########.fr        #
+#    Updated: 2018/09/14 09:02:14 by ssong            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 all:
-	gcc -Wall -Werror -Wextra -lcurl -L../includes/libft/ -lft weather.c -I../includes/libft/.
+	gcc -Wall -Werror -Wextra -lcurl -L../includes/libft/ -lft weather/weather.c -I../includes/libft/.
