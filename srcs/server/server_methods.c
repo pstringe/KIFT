@@ -6,7 +6,7 @@
 /*   By: pstringe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/05 19:49:30 by pstringe          #+#    #+#             */
-/*   Updated: 2018/09/07 14:16:37 by pstringe         ###   ########.fr       */
+/*   Updated: 2018/09/13 17:03:26 by pstringe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,8 +78,11 @@ void	listening(t_server *server)
 		ft_putendl(buf);
 		if (!server->dispatch(server, buf))
 			server->respond(server, "command not recognized", 22);
-		close(server->c_sock);
-	}
+//		if (server->listening && listen(server->s_sock, 5) == -1)
+//			perror("server is not listening");
+//	}
+	close(server->c_sock);
+}
 }
 
 /*
