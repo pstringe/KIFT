@@ -6,7 +6,7 @@
 /*   By: pstringe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/05 19:49:30 by pstringe          #+#    #+#             */
-/*   Updated: 2018/09/13 17:03:26 by pstringe         ###   ########.fr       */
+/*   Updated: 2018/09/13 18:44:02 by pstringe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,9 +68,9 @@ void	listening(t_server *server)
 	char 		buf[SOCK_BUF_SIZE];
 	size_t		ret;
 	
+	server->c_sock = accept(server->s_sock, (struct sockaddr*)&(server->addr), (socklen_t*)&(server->addr_len));
 	while (server->listening)
 	{
-		server->c_sock = accept(server->s_sock, (struct sockaddr*)&(server->addr), (socklen_t*)&(server->addr_len));
 		if (server->c_sock < 0)
 			perror("did not accept");
 		ft_bzero(buf, SOCK_BUF_SIZE);
@@ -78,11 +78,8 @@ void	listening(t_server *server)
 		ft_putendl(buf);
 		if (!server->dispatch(server, buf))
 			server->respond(server, "command not recognized", 22);
-//		if (server->listening && listen(server->s_sock, 5) == -1)
-//			perror("server is not listening");
-//	}
+	}
 	close(server->c_sock);
-}
 }
 
 /*
