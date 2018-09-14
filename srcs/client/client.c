@@ -6,7 +6,7 @@
 /*   By: drosa-ta <drosa-ta@student.42.us.org>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/02 15:52:32 by pstringe          #+#    #+#             */
-/*   Updated: 2018/09/13 17:15:24 by drosa-ta         ###   ########.fr       */
+/*   Updated: 2018/09/13 18:08:01 by pstringe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,14 +92,10 @@ int main(int argc, char const **argv)
 	ps = ps_init(config);                                                        // initialize the pocketsphinx decoder
 	ad = ad_open_dev("sysdefault", (int) cmd_ln_float32_r(config, "-samprate")); // open default microphone at default samplerate
 
-	int i;
-	i = 2;
-	while(i < argc){
-		// decoded_speech = recognize_from_microphone(ad, ps);         		  // call the function to capture and decode speech
-		// printf("You Said: %s\n", decoded_speech);								// send decoded speech to screen
-		write(sock, argv[i], ft_strlen(argv[i]));
-		i++;
-		// write(sock, decoded_speech, ft_strlen(decoded_speech));
+	while(1){
+		 decoded_speech = recognize_from_microphone(ad, ps);         		  // call the function to capture and decode speech
+		printf("You Said: %s\n", decoded_speech);								// send decoded speech to screen
+		write(sock, decoded_speech, ft_strlen(decoded_speech));
 		read(sock, &buf, BUFF_SIZE);
 		ft_putendl(buf);
 		// TODO: Clearb buff
