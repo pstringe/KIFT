@@ -6,7 +6,7 @@
 /*   By: pstringe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/05 19:49:30 by pstringe          #+#    #+#             */
-/*   Updated: 2018/09/13 18:44:02 by pstringe         ###   ########.fr       */
+/*   Updated: 2018/09/15 14:49:19 by pstringe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,10 +73,10 @@ void	listening(t_server *server)
 	{
 		if (server->c_sock < 0)
 			perror("did not accept");
-		ft_bzero(buf, SOCK_BUF_SIZE);
-		ret = read(server->c_sock, &buf, SOCK_BUF_SIZE);
-		ft_putendl(buf);
-		if (!server->dispatch(server, buf))
+		ft_bzero(server->request->text, SOCK_BUF_SIZE);
+		server->request->size = read(server->c_sock, &(server->request->text), SOCK_BUF_SIZE);
+		ft_putendl(server->entry->text);
+		if (!server->dispatch(server))
 			server->respond(server, "command not recognized", 22);
 	}
 	close(server->c_sock);
@@ -86,10 +86,13 @@ void	listening(t_server *server)
 ** server dispatch
 */
 
-int		dispatch(t_server *server, char *client_input)
+int		dispatch(t_server *server)
 {
-	int i;
-	
+	int 	i;
+	char 	client_input[SOCK_BUF_SIZE];
+
+	ft_bzero(client_input, SOCK_BUF_SIZE);
+	ft_memcpy(client_input, server->request->text, server->request->size);  
 	i = -1;
 	while (server->cmds[++i].name)
 	{

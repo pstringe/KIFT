@@ -6,7 +6,7 @@
 /*   By: pstringe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/10 10:53:29 by pstringe          #+#    #+#             */
-/*   Updated: 2018/09/12 12:41:33 by pstringe         ###   ########.fr       */
+/*   Updated: 2018/09/15 15:37:34 by pstringe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,12 +33,17 @@ void	history_display(t_history *history)
 **	updates current contents of history queue with new entry
 */
 
-void	history_update(t_history *history, t_entry *entry)
+void	history_update(t_server *server)
 {
+	t_history *history;
+	t_request *request;
+
+	request = server.request;
+	history = &(server->history);
 	if (!history->queue)
-		history->queue = ft_queuenw((void*)entry, sizeof(t_entry));
+		history->queue = ft_queuenw((void*)(entry_new(request)), sizeof(t_entry));
 	else
-		ft_enqueue(history->queue, (void*)entry, sizeof(t_entry));		
+		ft_enqueue(history->queue, (void*)(entry_new(request)), sizeof(t_entry));		
 }
 
 /*
