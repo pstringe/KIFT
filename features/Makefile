@@ -6,7 +6,7 @@
 #    By: ssong <marvin@42.fr>                       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/09/13 19:12:17 by ssong             #+#    #+#              #
-#    Updated: 2018/09/14 10:42:55 by ssong            ###   ########.fr        #
+#    Updated: 2018/09/14 17:44:55 by ssong            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,6 +15,9 @@ all:
 
 musicexec:
 	gcc -Wall -Werror -Wextra -o musicexec -L../includes/libft/ -lft music/playmusic.c -I../includes/libft/.
+
+term:
+	gcc -Wall -Werror -Wextra -o term -lcurl -L../includes/libft/ -lft search/web_search.c -I../includes/libft/.
 
 clean:
 	rm -rf weatherexec
