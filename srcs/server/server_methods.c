@@ -6,7 +6,7 @@
 /*   By: pstringe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/05 19:49:30 by pstringe          #+#    #+#             */
-/*   Updated: 2018/09/15 14:49:19 by pstringe         ###   ########.fr       */
+/*   Updated: 2018/09/15 17:19:23 by pstringe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,17 +65,14 @@ void	respond(t_server *server, char *msg, size_t size)
 
 void	listening(t_server *server)
 {
-	char 		buf[SOCK_BUF_SIZE];
-	size_t		ret;
-	
 	server->c_sock = accept(server->s_sock, (struct sockaddr*)&(server->addr), (socklen_t*)&(server->addr_len));
 	while (server->listening)
 	{
 		if (server->c_sock < 0)
 			perror("did not accept");
-		ft_bzero(server->request->text, SOCK_BUF_SIZE);
-		server->request->size = read(server->c_sock, &(server->request->text), SOCK_BUF_SIZE);
-		ft_putendl(server->entry->text);
+		ft_bzero(server->request.text, SOCK_BUF_SIZE);
+		server->request.size = read(server->c_sock, &(server->request.text), SOCK_BUF_SIZE);
+		ft_putendl(server->request.text);
 		if (!server->dispatch(server))
 			server->respond(server, "command not recognized", 22);
 	}
@@ -92,13 +89,13 @@ int		dispatch(t_server *server)
 	char 	client_input[SOCK_BUF_SIZE];
 
 	ft_bzero(client_input, SOCK_BUF_SIZE);
-	ft_memcpy(client_input, server->request->text, server->request->size);  
+	ft_memcpy(client_input, server->request.text, server->request.size);  
 	i = -1;
 	while (server->cmds[++i].name)
 	{
 		if (!ft_strncmp(client_input, server->cmds[i].name, ft_strlen(client_input)))
 		{
-			server->cmds[i].action(server, client_input);
+			server->cmds[i].action(server);
 			return (1);
 		}
 	}

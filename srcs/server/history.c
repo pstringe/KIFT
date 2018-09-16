@@ -6,7 +6,7 @@
 /*   By: pstringe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/10 10:53:29 by pstringe          #+#    #+#             */
-/*   Updated: 2018/09/15 15:37:34 by pstringe         ###   ########.fr       */
+/*   Updated: 2018/09/15 16:45:47 by pstringe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,12 +16,12 @@
 **	displays current contents of history queue
 */
 
-void	history_display(t_history *history)
+void	history_display(t_history history)
 {
 	t_list	*tmp;
 	t_entry *entry;
 	
-	tmp = history->queue->head;
+	tmp = history.queue->head;
 	while (tmp)
 	{
 		entry = tmp->content;
@@ -36,9 +36,9 @@ void	history_display(t_history *history)
 void	history_update(t_server *server)
 {
 	t_history *history;
-	t_request *request;
+	t_request request;
 
-	request = server.request;
+	request = server->request;
 	history = &(server->history);
 	if (!history->queue)
 		history->queue = ft_queuenw((void*)(entry_new(request)), sizeof(t_entry));
@@ -48,7 +48,7 @@ void	history_update(t_server *server)
 
 /*
 **	saves modified contents of history queue to file
-*/
+
 
 void	history_save(t_history *history)
 {
@@ -63,10 +63,10 @@ void	history_save(t_history *history)
 		ft_dprintf(history->file, "%s, %s\n", entry->speech, entry->command);
 	}
 }
-
+*/
 /*
 **	retrieve history from file, enqueue within history object
-*/
+
 
 void	history_get(t_history *history)
 {
@@ -81,7 +81,7 @@ void	history_get(t_history *history)
 	history->last_save = history->queue->tail;
 	close(history->file);
 }
-
+*/
 /*
 **	initialize history object
 */
@@ -89,9 +89,9 @@ void	history_get(t_history *history)
 void	history_init(t_history *history)
 {
 	history->file = open("history.csv", O_CREAT);
-	history->get = history_get;
-	history->save = history_save;
+//	history->get = history_get;
+//	history->save = history_save;
 	history->update = history_update;
 	history->display = history_display;
-	history->get(history);
+//	history->get(history);
 }
