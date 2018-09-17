@@ -6,7 +6,7 @@
 /*   By: pstringe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/05 18:05:26 by pstringe          #+#    #+#             */
-/*   Updated: 2018/09/15 16:46:25 by pstringe         ###   ########.fr       */
+/*   Updated: 2018/09/16 19:24:45 by pstringe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@
 # include <stdio.h>
 # include <sys/socket.h>
 # include <netinet/in.h>
-# include "types/s_server.h"
+# include "types.h"
 
 /*
 **	server methods

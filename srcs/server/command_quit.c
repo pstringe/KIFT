@@ -6,7 +6,7 @@
 /*   By: pstringe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/06 15:37:43 by pstringe          #+#    #+#             */
-/*   Updated: 2018/09/15 16:43:03 by pstringe         ###   ########.fr       */
+/*   Updated: 2018/09/16 19:51:41 by pstringe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,8 @@
 void	cmd_quit(t_server *server, char *client_input)
 {
 	server->respond(server, "quit", 4);
+	server->history.update(server);
+	server->history.save(server);
 	server->listening = 0;
 }
 
