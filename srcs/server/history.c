@@ -6,7 +6,7 @@
 /*   By: pstringe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/10 10:53:29 by pstringe          #+#    #+#             */
-/*   Updated: 2018/09/17 10:25:17 by pstringe         ###   ########.fr       */
+/*   Updated: 2018/09/17 12:12:20 by pstringe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,14 +60,15 @@ void	history_save(t_server *server)
 	t_entry *entry;
 	
 
-	if ((server->history.file = open("history.csv", O_WRONLY)))
-		ft_printf("error opening history file\n");
+	server->history.file = open("history.csv", O_WRONLY | O_APPEND);
 	tmp = server->history.last_save;
-	while((tmp = tmp->next))
+	while(tmp)
 	{
 		entry = (t_entry*)tmp->content;
 		ft_dprintf(server->history.file, "%s, %s\n", entry->speech, entry->command);
+		tmp = tmp->next;
 	}
+	close(server->history.file);
 }
 
 /*
