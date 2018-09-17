@@ -6,7 +6,7 @@
 /*   By: pstringe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/05 19:49:30 by pstringe          #+#    #+#             */
-/*   Updated: 2018/09/15 17:19:23 by pstringe         ###   ########.fr       */
+/*   Updated: 2018/09/16 16:50:53 by pstringe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,8 +96,13 @@ int		dispatch(t_server *server)
 		if (!ft_strncmp(client_input, server->cmds[i].name, ft_strlen(client_input)))
 		{
 			server->cmds[i].action(server);
+			server->request.command.name = server->cmds[i].name;
+			server->request.command.action = server->cmds[i].action;
+			server->history.update(server);
 			return (1);
 		}
 	}
+	ft_bzero(&(server->request.command.name), sizeof(t_command));
+	server->history.update(server);
 	return (0);
 }

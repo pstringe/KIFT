@@ -6,7 +6,7 @@
 /*   By: pstringe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/14 10:28:39 by pstringe          #+#    #+#             */
-/*   Updated: 2018/09/15 16:05:10 by pstringe         ###   ########.fr       */
+/*   Updated: 2018/09/16 15:31:04 by pstringe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 # include "types/s_request.h"
 # include "types/s_response.h"
 # include "types/s_history.h"
+
 /*
 **	server struct containing essential variables for communication with client 
 */
@@ -39,4 +40,5 @@ typedef struct  s_server
 	int					(*dispatch)(struct s_server*);
 	void				(*respond)(struct s_server*, char*, size_t);
 }				t_server;
+
 #endif

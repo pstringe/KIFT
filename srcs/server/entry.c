@@ -6,7 +6,7 @@
 /*   By: pstringe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/10 12:18:56 by pstringe          #+#    #+#             */
-/*   Updated: 2018/09/15 16:22:53 by pstringe         ###   ########.fr       */
+/*   Updated: 2018/09/16 17:06:54 by pstringe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ t_entry		*entry_new(struct s_request request)
 
 	entry = ft_memalloc(sizeof(t_entry));
 	ft_memcpy(entry->speech, request.text, request.size);
-	ft_memcpy(entry->command, request.command.name, MAX_COMMAND_SIZE);
+	ft_strncpy(entry->command, request.command.name ? request.command.name : "none" , MAX_COMMAND_SIZE);
 	entry->display = entry_display;
 
 	return (entry);

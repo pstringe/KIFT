@@ -6,7 +6,7 @@
 /*   By: pstringe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/10 10:53:29 by pstringe          #+#    #+#             */
-/*   Updated: 2018/09/15 16:45:47 by pstringe         ###   ########.fr       */
+/*   Updated: 2018/09/16 18:28:51 by pstringe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,16 +16,17 @@
 **	displays current contents of history queue
 */
 
-void	history_display(t_history history)
+void	history_display(t_server *server)
 {
 	t_list	*tmp;
 	t_entry *entry;
 	
-	tmp = history.queue->head;
+	tmp = server->history.queue->head;
 	while (tmp)
 	{
-		entry = tmp->content;
+		entry = (t_entry*)(tmp->content);
 		entry->display(entry);
+		tmp = tmp->next;
 	}	
 }
 
@@ -91,6 +92,7 @@ void	history_init(t_history *history)
 	history->file = open("history.csv", O_CREAT);
 //	history->get = history_get;
 //	history->save = history_save;
+	history->queue = NULL;
 	history->update = history_update;
 	history->display = history_display;
 //	history->get(history);
