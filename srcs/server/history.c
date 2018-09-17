@@ -6,7 +6,7 @@
 /*   By: pstringe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/10 10:53:29 by pstringe          #+#    #+#             */
-/*   Updated: 2018/09/17 12:12:20 by pstringe         ###   ########.fr       */
+/*   Updated: 2018/09/17 15:53:46 by pstringe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,34 +73,47 @@ void	history_save(t_server *server)
 
 /*
 **	retrieve history from file, enqueue within history object
+*/
 
-
-void	history_get(t_history *history)
+void	history_get(t_server *server)
 {
 	char	*line;
 	char 	**row;
 
-	while (get_next_line(history->file, &line) >= 0)
+	server->history.file = open("history.csv", O_RDONLY);
+	ft_printf("loading history...\n");
+	while (get_next_line(server->history.file, &line) > 0)
 	{
+		ft_bzero(server->request.command.name, MAX_COMMAND_SIZE);
+		ft_bzero(server->request.text, SOCK_BUF_SIZE);
 		row = ft_strsplit(line, ',');
-		history->update(history, entry_new(row[0], row[1]));
+		if (!row[0])
+			break;
+		ft_memcpy(server->request.text, row[0], SOCK_BUF_SIZE);
+		if (ft_strcmp(" none", row[1]))
+			ft_memcpy(server->request.command.name, row[1], ft_strlen(server->request.command.name));
+		else
+			server->request.command.name = ft_strdup( "none");
+		server->request.size = ft_strlen(server->request.text);
+		server->history.update(server);
+		ft_printf("%s, %s\n", row[0], row[1]);
 	}
-	history->last_save = history->queue->tail;
-	close(history->file);
+	server->history.last_save = server->history.queue->tail;
+	close(server->history.file);
 }
-*/
 
 /*
 **	initialize history object
 */
 
-void	history_init(t_history *history)
+void	history_init(t_server *s)
 {
-	history->file = open("history.csv", O_CREAT);
-//	history->get = history_get;
-	history->save = history_save;
-	history->queue = NULL;
-	history->update = history_update;
-	history->display = history_display;
-//	history->get(history);
+	s->history.file = open("history.csv", O_CREAT);
+	close(s->history.file);
+	s->history.queue = NULL;
+	s->history.get = history_get;
+	s->history.save = history_save;
+	s->history.update = history_update;
+	s->history.display = history_display;
+	s->history.get(s);
 }

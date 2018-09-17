@@ -6,7 +6,7 @@
 /*   By: pstringe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/05 19:49:30 by pstringe          #+#    #+#             */
-/*   Updated: 2018/09/17 10:52:50 by pstringe         ###   ########.fr       */
+/*   Updated: 2018/09/17 14:50:05 by pstringe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,6 @@ int		establish_connection(t_server *server, int argc, char **argv)
 		perror("failed to get socket descriptor");
 		return (-1);
 	}
-	server->port = ft_atoi(argv[1]);
 	server->addr.sin_family = AF_INET;
 	server->addr.sin_addr.s_addr = INADDR_ANY;
 	server->addr.sin_port = htons(server->port);
