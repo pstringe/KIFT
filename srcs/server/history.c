@@ -6,7 +6,7 @@
 /*   By: pstringe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/10 10:53:29 by pstringe          #+#    #+#             */
-/*   Updated: 2018/09/16 18:28:51 by pstringe         ###   ########.fr       */
+/*   Updated: 2018/09/16 18:31:55 by pstringe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,7 @@ void	history_save(t_history *history)
 	}
 }
 */
+
 /*
 **	retrieve history from file, enqueue within history object
 
@@ -83,6 +84,7 @@ void	history_get(t_history *history)
 	close(history->file);
 }
 */
+
 /*
 **	initialize history object
 */
