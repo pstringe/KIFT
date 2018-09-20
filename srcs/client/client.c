@@ -6,7 +6,7 @@
 /*   By: pstringe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/02 15:52:32 by pstringe          #+#    #+#             */
-/*   Updated: 2018/09/13 17:04:49 by pstringe         ###   ########.fr       */
+/*   Updated: 2018/09/20 10:49:11 by pstringe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,8 +46,11 @@ int main(int argc, char const **argv)
 	while (++i < argc)
 	{
 		write(sock, argv[i], ft_strlen(argv[i]));
-		read(sock, &buf, BUFF_SIZE);
-		ft_putendl(buf);
+		while(read(sock, &buf, BUFF_SIZE))
+		{
+			ft_putendl(buf);
+			ft_bzero(buf, CLIENT_BUF_SIZE);
+		}
 	}
 	close(sock);
 	return (0);

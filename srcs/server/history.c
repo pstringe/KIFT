@@ -6,7 +6,7 @@
 /*   By: pstringe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/10 10:53:29 by pstringe          #+#    #+#             */
-/*   Updated: 2018/09/20 10:14:34 by pstringe         ###   ########.fr       */
+/*   Updated: 2018/09/20 10:40:27 by pstringe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ void	history_display(t_server *server)
 	while (tmp)
 	{
 		entry = (t_entry*)(tmp->content);
-		entry->display(entry);
+		entry->display(server, entry);
 		tmp = tmp->next;
 	}	
 }

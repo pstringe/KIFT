@@ -6,16 +6,16 @@
 /*   By: pstringe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/10 12:18:56 by pstringe          #+#    #+#             */
-/*   Updated: 2018/09/16 17:06:54 by pstringe         ###   ########.fr       */
+/*   Updated: 2018/09/20 10:40:03 by pstringe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 //#include "history.h"
 #include "server.h"
 
-void		entry_display(t_entry *entry)
+void		entry_display(t_server *server, t_entry *entry)
 {
-	ft_printf("speech: %s\n command: %s\n", entry->speech, entry->command);
+	ft_dprintf(server->c_sock, "speech: %s\tcommand: %s\n", entry->speech, entry->command);
 }
 
 t_entry		*entry_new(struct s_request request)
