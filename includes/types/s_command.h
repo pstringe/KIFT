@@ -1,26 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   command_quit.c                                     :+:      :+:    :+:   */
+/*   s_command.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pstringe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/09/06 15:37:43 by pstringe          #+#    #+#             */
-/*   Updated: 2018/09/16 19:51:41 by pstringe         ###   ########.fr       */
+/*   Created: 2018/09/14 10:25:33 by pstringe          #+#    #+#             */
+/*   Updated: 2018/09/16 19:27:05 by pstringe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "server.h"
+#ifndef S_DEFINE_H
+# define S_DEFINE_H
+# include "s_server.h"
 
 /*
-**	this command sends the msg, "quit" to the client, and terminates the server proccess
+** dispatch table element
 */
 
-void	cmd_quit(t_server *server, char *client_input)
+typedef struct 	s_command
 {
-	server->respond(server, "quit", 4);
-	server->history.update(server);
-	server->history.save(server);
-	server->listening = 0;
-}
-
+	char	*name;
+	void	(*action)(struct s_server*);
+}				t_command;
+#endif

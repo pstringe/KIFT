@@ -6,7 +6,7 @@
 #    By: pstringe <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/08/02 14:49:53 by pstringe          #+#    #+#              #
-#    Updated: 2018/09/06 15:39:03 by pstringe         ###   ########.fr        #
+#    Updated: 2018/09/15 16:44:16 by pstringe         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -27,6 +27,9 @@ CSRCD = ./srcs/client/
 
 SSRCS = server\
 		server_methods\
+		history\
+		entry\
+		command_history\
 		command_quit
 
 CSRCS = client
@@ -58,7 +61,7 @@ debug-server: fclean $(INCD)$(LIB)
 
 debug-client: fclean $(INCD)$(LIB)
 	$(CC) $(CFLAGS) $(DFLAGS) -o $(CLIENT) $(patsubst %, $(CSRCD)%.c, $(CSRCS)) \
-	-L$(LIBD) -lft -I $(INCD) $(PFLAGS)
+	-L$(LIBD) -lft -I $(LIBD) $(PFLAGS)
 
 sanitize-server: fclean $(INCD)$(LIB)
 	$(CC) $(CFLAGS) $(SFLAGS) -o $(SERVER) $(patsubst %, $(SSRCD)%.c, $(SSRCS)) \
