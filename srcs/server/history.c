@@ -6,7 +6,7 @@
 /*   By: pstringe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/10 10:53:29 by pstringe          #+#    #+#             */
-/*   Updated: 2018/09/17 15:53:46 by pstringe         ###   ########.fr       */
+/*   Updated: 2018/09/20 10:14:34 by pstringe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ void	history_update(t_server *server)
 		history->last_save = history->queue->head;
 	}
 	else
-		ft_enqueue(history->queue, (void*)(entry_new(request)), sizeof(t_entry));		
+		ft_enqueue(history->queue, (void*)(entry_new(request)), sizeof(t_entry));	
 }
 
 /*
@@ -61,7 +61,7 @@ void	history_save(t_server *server)
 	
 
 	server->history.file = open("history.csv", O_WRONLY | O_APPEND);
-	tmp = server->history.last_save;
+	tmp = server->history.last_save->next;
 	while(tmp)
 	{
 		entry = (t_entry*)tmp->content;
@@ -84,14 +84,13 @@ void	history_get(t_server *server)
 	ft_printf("loading history...\n");
 	while (get_next_line(server->history.file, &line) > 0)
 	{
-		ft_bzero(server->request.command.name, MAX_COMMAND_SIZE);
 		ft_bzero(server->request.text, SOCK_BUF_SIZE);
 		row = ft_strsplit(line, ',');
 		if (!row[0])
 			break;
 		ft_memcpy(server->request.text, row[0], SOCK_BUF_SIZE);
-		if (ft_strcmp(" none", row[1]))
-			ft_memcpy(server->request.command.name, row[1], ft_strlen(server->request.command.name));
+		if (ft_strcmp(" none", ft_strtrim(row[1])))
+			server->request.command.name = ft_strdup(row[1]);
 		else
 			server->request.command.name = ft_strdup( "none");
 		server->request.size = ft_strlen(server->request.text);

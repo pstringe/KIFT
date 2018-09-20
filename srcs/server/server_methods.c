@@ -6,7 +6,7 @@
 /*   By: pstringe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/05 19:49:30 by pstringe          #+#    #+#             */
-/*   Updated: 2018/09/17 14:50:05 by pstringe         ###   ########.fr       */
+/*   Updated: 2018/09/20 10:02:35 by pstringe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,10 +70,12 @@ void	listening(t_server *server)
 		if (server->c_sock < 0)
 			perror("did not accept");
 		ft_bzero(server->request.text, SOCK_BUF_SIZE);
-		server->request.size = read(server->c_sock, &(server->request.text), SOCK_BUF_SIZE);
-		ft_putendl(server->request.text);
-		if (!server->dispatch(server))
-			server->respond(server, "command not recognized", 22);
+		if (server->request.size = read(server->c_sock, &(server->request.text), SOCK_BUF_SIZE))
+		{
+			ft_putendl(server->request.text);
+			if (!server->dispatch(server))
+				server->respond(server, "command not recognized", 22);
+		}
 	}
 	close(server->c_sock);
 }
@@ -102,7 +104,7 @@ int		dispatch(t_server *server)
 			return (1);
 		}
 	}
-	ft_bzero(&(server->request.command.name), sizeof(t_command));
+	server->request.command.name = NULL;
 	server->history.update(server);
 	return (0);
 }
