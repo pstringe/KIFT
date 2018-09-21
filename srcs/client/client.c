@@ -6,7 +6,7 @@
 /*   By: pstringe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/02 15:52:32 by pstringe          #+#    #+#             */
-/*   Updated: 2018/09/05 19:00:43 by pstringe         ###   ########.fr       */
+/*   Updated: 2018/09/20 10:49:11 by pstringe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,9 +41,17 @@ int main(int argc, char const **argv)
 		perror("Connection error");
 		return (-1);
 	}
-	write(sock, argv[2], ft_strlen(argv[2]));
-	read(sock, &buf, BUFF_SIZE);
-	ft_putendl(buf);
+	int i;
+	i = 1;
+	while (++i < argc)
+	{
+		write(sock, argv[i], ft_strlen(argv[i]));
+		while(read(sock, &buf, BUFF_SIZE))
+		{
+			ft_putendl(buf);
+			ft_bzero(buf, CLIENT_BUF_SIZE);
+		}
+	}
 	close(sock);
 	return (0);
 }

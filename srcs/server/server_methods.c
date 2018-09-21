@@ -6,7 +6,7 @@
 /*   By: pstringe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/05 19:49:30 by pstringe          #+#    #+#             */
-/*   Updated: 2018/09/07 14:16:37 by pstringe         ###   ########.fr       */
+/*   Updated: 2018/09/20 10:02:35 by pstringe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,6 @@ int		establish_connection(t_server *server, int argc, char **argv)
 		perror("failed to get socket descriptor");
 		return (-1);
 	}
-	server->port = ft_atoi(argv[1]);
 	server->addr.sin_family = AF_INET;
 	server->addr.sin_addr.s_addr = INADDR_ANY;
 	server->addr.sin_port = htons(server->port);
@@ -65,39 +64,47 @@ void	respond(t_server *server, char *msg, size_t size)
 
 void	listening(t_server *server)
 {
-	char 		buf[SOCK_BUF_SIZE];
-	size_t		ret;
-	
+	server->c_sock = accept(server->s_sock, (struct sockaddr*)&(server->addr), (socklen_t*)&(server->addr_len));
 	while (server->listening)
 	{
-		server->c_sock = accept(server->s_sock, (struct sockaddr*)&(server->addr), (socklen_t*)&(server->addr_len));
 		if (server->c_sock < 0)
 			perror("did not accept");
-		ft_bzero(buf, SOCK_BUF_SIZE);
-		ret = read(server->c_sock, &buf, SOCK_BUF_SIZE);
-		ft_putendl(buf);
-		if (!server->dispatch(server, buf))
-			server->respond(server, "command not recognized", 22);
-		close(server->c_sock);
+		ft_bzero(server->request.text, SOCK_BUF_SIZE);
+		if (server->request.size = read(server->c_sock, &(server->request.text), SOCK_BUF_SIZE))
+		{
+			ft_putendl(server->request.text);
+			if (!server->dispatch(server))
+				server->respond(server, "command not recognized", 22);
+		}
 	}
+	close(server->c_sock);
 }
 
 /*
 ** server dispatch
 */
 
-int		dispatch(t_server *server, char *client_input)
+int		dispatch(t_server *server)
 {
-	int i;
-	
+	int 	i;
+	char 	client_input[SOCK_BUF_SIZE];
+
+	ft_bzero(client_input, SOCK_BUF_SIZE);
+	ft_memcpy(client_input, server->request.text, server->request.size);  
 	i = -1;
 	while (server->cmds[++i].name)
 	{
 		if (!ft_strncmp(client_input, server->cmds[i].name, ft_strlen(client_input)))
 		{
-			server->cmds[i].action(server, client_input);
+			server->request.command.name = server->cmds[i].name;
+			server->request.command.action = server->cmds[i].action;
+			server->cmds[i].action(server);
+			if (i)
+				server->history.update(server);
 			return (1);
 		}
 	}
+	server->request.command.name = NULL;
+	server->history.update(server);
 	return (0);
 }

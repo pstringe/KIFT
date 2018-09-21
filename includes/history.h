@@ -1,26 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   command_quit.c                                     :+:      :+:    :+:   */
+/*   history.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pstringe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/09/06 15:37:43 by pstringe          #+#    #+#             */
-/*   Updated: 2018/09/16 19:51:41 by pstringe         ###   ########.fr       */
+/*   Created: 2018/09/10 10:13:21 by pstringe          #+#    #+#             */
+/*   Updated: 2018/09/15 16:16:51 by pstringe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "server.h"
+#ifndef HISTORY_H
+# define HISTORY_H
+# include "server.h"
+# include <time.h>
+# include "types/s_entry.h"
+# include "types/s_history.h"
+# include "types/s_request.h"
 
-/*
-**	this command sends the msg, "quit" to the client, and terminates the server proccess
-*/
+t_entry		*entry_new(struct s_request);
 
-void	cmd_quit(t_server *server, char *client_input)
-{
-	server->respond(server, "quit", 4);
-	server->history.update(server);
-	server->history.save(server);
-	server->listening = 0;
-}
-
+#endif

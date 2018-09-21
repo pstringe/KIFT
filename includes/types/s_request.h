@@ -1,26 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   command_quit.c                                     :+:      :+:    :+:   */
+/*   s_request.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pstringe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/09/06 15:37:43 by pstringe          #+#    #+#             */
-/*   Updated: 2018/09/16 19:51:41 by pstringe         ###   ########.fr       */
+/*   Created: 2018/09/15 14:51:14 by pstringe          #+#    #+#             */
+/*   Updated: 2018/09/15 16:20:38 by pstringe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "server.h"
+#ifndef S_REQUEST_H
+# define S_REQUEST_H
+# include "server.h"
+# include "types/s_command.h"
 
-/*
-**	this command sends the msg, "quit" to the client, and terminates the server proccess
-*/
-
-void	cmd_quit(t_server *server, char *client_input)
+typedef struct 	s_request
 {
-	server->respond(server, "quit", 4);
-	server->history.update(server);
-	server->history.save(server);
-	server->listening = 0;
-}
+	int					type;
+	char				text[SOCK_BUF_SIZE];
+	struct s_command	command;
+	int 				size;
+}				t_request;
 
+#endif
