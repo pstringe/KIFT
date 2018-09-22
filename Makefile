@@ -6,7 +6,7 @@
 #    By: pstringe <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/08/02 14:49:53 by pstringe          #+#    #+#              #
-#    Updated: 2018/09/21 14:31:59 by pstringe         ###   ########.fr        #
+#    Updated: 2018/09/22 11:14:55 by pstringe         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -59,16 +59,16 @@ debug-server: fclean $(INCD)$(LIB)
 	-L$(LIBD) -lft -I $(INCD)  -I $(LIBD)
 
 debug-client: fclean $(INCD)$(LIB)
-	$(CC) $(CFLAGS) $(DFLAGS) -o $(CLIENT) $(patsubst %, $(CSRCD)%.c, $(CSRCS)
-	-L$(LIBD) -lft -I $(INCD) -I $(LIBD) $(PFLAGS)
+	$(CC) $(CFLAGS) $(DFLAGS) -o $(CLIENT) $(patsubst %, $(CSRCD)%.c, $(CSRCS)) \
+	-L$(LIBD) -lft -I $(LIBD) -I $(INCD) $(PFLAGS)
 
 sanitize-server: fclean $(INCD)$(LIB)
 	$(CC) $(CFLAGS) $(SFLAGS) -o $(SERVER) $(patsubst %, $(SSRCD)%.c, $(SSRCS)) \
-	-L$(LIBD) -lft -I $(INCD)  -I $(LIBD)
+	-L$(LIBD) -lft -I $(LIBD)  -I $(INCD)
 
 sanitize-client: fclean $(INCD)$(LIB)
 	$(CC) $(CFLAGS) $(SFLAGS) -o $(CLIENT) $(patsubst %, $(CSRCD)%.c, $(CSRCS)) \
-	-L$(LIBD) -lft -I $(INCD) $(PFLAGS)
+	-L$(LIBD) -lft -I $(LIBD) -I$(INCD) $(PFLAGS)
 
 debug: debug-server debug-client
 sanitize: sanitize-server sanitize-client
