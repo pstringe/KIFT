@@ -6,17 +6,11 @@
 /*   By: drosa-ta <drosa-ta@student.42.us.org>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/02 15:52:32 by pstringe          #+#    #+#             */
-/*   Updated: 2018/09/20 10:49:11 by pstringe         ###   ########.fr       */
+/*   Updated: 2018/09/22 13:38:48 by pstringe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdio.h>
-#include <sys/types.h>
-#include <sys/socket.h>
-#include <netinet/in.h>
-#include "libft.h"
-#include "mic.h"
-#define CLIENT_BUF_SIZE 256
+#include "client.h"
 
 /*
 // ad creates audio recording structure - for use with ALSA functions
@@ -64,7 +58,7 @@ int main(int argc, char const **argv)
 	ad_rec_t *ad = NULL;
 	ps_decoder_t *ps = NULL;           // create pocketsphinx decoder structure
 	char const *decoded_speech;
-
+	
 	if (argc < 3)
 	{
 		perror("Please specify port and msg");
@@ -92,13 +86,20 @@ int main(int argc, char const **argv)
 	ps = ps_init(config);                                                        // initialize the pocketsphinx decoder
 	ad = ad_open_dev("sysdefault", (int) cmd_ln_float32_r(config, "-samprate")); // open default microphone at default samplerate
 
-	while(1){
-		 decoded_speech = recognize_from_microphone(ad, ps);         		  // call the function to capture and decode speech
+	while(1)
+	{	
+		decoded_speech = NULL;
+		decoded_speech = recognize_from_microphone(ad, ps);         		  // call the function to capture and decode speech
 		printf("You Said: %s\n", decoded_speech);								// send decoded speech to screen
-		write(sock, decoded_speech, ft_strlen(decoded_speech));
-		read(sock, &buf, BUFF_SIZE);
-		ft_putendl(buf);
-		// TODO: Clearb buff
+		if (ft_strlen(decoded_speech))
+		{
+			write(sock, decoded_speech, ft_strlen(decoded_speech));
+			while (read(sock, &buf, BUFF_SIZE))
+				ft_putstr(buf);
+		}
+		else
+			ft_putendl("no speech recognized");
+		ft_bzero(buf, CLIENT_BUF_SIZE);
 	}
 	ad_close(ad);
 	close(sock);
