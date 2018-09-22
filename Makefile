@@ -14,7 +14,6 @@ CC = gcc
 NAME = KIFT
 CLIENT = client
 SERVER = server
-
 INCD = ./includes/
 
 LIB = libft.a
@@ -50,18 +49,18 @@ $(NAME): $(SERVER) $(CLIENT)
 $(SERVER) : $(INCD)$(LIB)
 	$(CC) $(CFLAGS) -o $(SERVER) $(patsubst %, $(SSRCD)%.c, $(SSRCS)) \
 	-L$(LIBD) -lft -I $(INCD) -I $(LIBD)
-	
+
 $(CLIENT) : $(INCD)$(LIB)
 	$(CC) $(CFLAGS) -o $(CLIENT) $(patsubst %, $(CSRCD)%.c, $(CSRCS)) \
-	-L$(LIBD) -lft -I $(LIBD) $(PFLAGS)
+	-L$(LIBD) -lft -I $(LIBD) -I $(INCD) $(PFLAGS)
 
 debug-server: fclean $(INCD)$(LIB)
 	$(CC) $(CFLAGS) $(DFLAGS) -o $(SERVER) $(patsubst %, $(SSRCD)%.c, $(SSRCS)) \
 	-L$(LIBD) -lft -I $(INCD)  -I $(LIBD)
 
 debug-client: fclean $(INCD)$(LIB)
-	$(CC) $(CFLAGS) $(DFLAGS) -o $(CLIENT) $(patsubst %, $(CSRCD)%.c, $(CSRCS)) \
-	-L$(LIBD) -lft -I $(LIBD) $(PFLAGS)
+	$(CC) $(CFLAGS) $(DFLAGS) -o $(CLIENT) $(patsubst %, $(CSRCD)%.c, $(CSRCS)
+	-L$(LIBD) -lft -I $(INCD) -I $(LIBD) $(PFLAGS)
 
 sanitize-server: fclean $(INCD)$(LIB)
 	$(CC) $(CFLAGS) $(SFLAGS) -o $(SERVER) $(patsubst %, $(SSRCD)%.c, $(SSRCS)) \
@@ -71,10 +70,10 @@ sanitize-client: fclean $(INCD)$(LIB)
 	$(CC) $(CFLAGS) $(SFLAGS) -o $(CLIENT) $(patsubst %, $(CSRCD)%.c, $(CSRCS)) \
 	-L$(LIBD) -lft -I $(INCD) $(PFLAGS)
 
-debug: debug-server debug-client 
+debug: debug-server debug-client
 sanitize: sanitize-server sanitize-client
 
-setup: 
+setup:
 	brew tap watsonbox/cmu-sphinx
 	brew install --HEAD watsonbox/cmu-sphinx/cmu-sphinxbase
 	brew install --HEAD watsonbox/cmu-sphinx/cmu-sphinxtrain
@@ -94,4 +93,3 @@ fclean: clean
 
 re: fclean
 	make
-
