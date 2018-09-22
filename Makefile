@@ -6,7 +6,7 @@
 #    By: pstringe <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/08/02 14:49:53 by pstringe          #+#    #+#              #
-#    Updated: 2018/09/06 15:39:03 by pstringe         ###   ########.fr        #
+#    Updated: 2018/09/21 14:31:59 by pstringe         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,7 +14,6 @@ CC = gcc
 NAME = KIFT
 CLIENT = client
 SERVER = server
-
 INCD = ./includes/
 
 LIB = libft.a
@@ -27,6 +26,9 @@ CSRCD = ./srcs/client/
 
 SSRCS = server\
 		server_methods\
+		history\
+		entry\
+		command_history\
 		command_quit
 
 CSRCS = client
@@ -57,7 +59,7 @@ debug-server: fclean $(INCD)$(LIB)
 	-L$(LIBD) -lft -I $(INCD)  -I $(LIBD)
 
 debug-client: fclean $(INCD)$(LIB)
-	$(CC) $(CFLAGS) $(DFLAGS) -o $(CLIENT) $(patsubst %, $(CSRCD)%.c, $(CSRCS)) \
+	$(CC) $(CFLAGS) $(DFLAGS) -o $(CLIENT) $(patsubst %, $(CSRCD)%.c, $(CSRCS)
 	-L$(LIBD) -lft -I $(INCD) -I $(LIBD) $(PFLAGS)
 
 sanitize-server: fclean $(INCD)$(LIB)
