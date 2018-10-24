@@ -6,7 +6,7 @@
 /*   By: pstringe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/14 10:28:39 by pstringe          #+#    #+#             */
-/*   Updated: 2018/09/16 15:31:04 by pstringe         ###   ########.fr       */
+/*   Updated: 2018/10/24 16:18:24 by pstringe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,6 @@
 # define S_SERVER_H
 # include "types/s_entry.h"
 # include "types/s_command.h"
-# include "types/s_request.h"
-# include "types/s_response.h"
 # include "types/s_history.h"
 
 /*

@@ -6,7 +6,7 @@
 /*   By: pstringe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/05 19:49:30 by pstringe          #+#    #+#             */
-/*   Updated: 2018/09/20 10:02:35 by pstringe         ###   ########.fr       */
+/*   Updated: 2018/09/28 16:59:32 by pstringe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,10 +51,23 @@ int		establish_connection(t_server *server, int argc, char **argv)
 
 void	respond(t_server *server, char *msg, size_t size)
 {
+	t_packet 	packet;
+	int			i;
+
+	i = size / PACKET_SIZE;
+	j = 0;
+	while (--i >= 0)
+	{
+		ft_bzero(packet->content, PACKET_SIZE);
+		ft_memcpy(packet->content, msg + j , PACKET_SIZE);
+		q
+	}
+	/*
 	ft_bzero(server->response.txt, SOCK_BUF_SIZE);
 	ft_memcpy(server->response.txt, msg, size);
 	server->response.size = size;
 	write(server->c_sock, server->response.txt, server->response.size);
+	*/
 }
 
 /*

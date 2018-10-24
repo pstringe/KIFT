@@ -6,7 +6,7 @@
 /*   By: pstringe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/05 18:05:26 by pstringe          #+#    #+#             */
-/*   Updated: 2018/09/16 19:24:45 by pstringe         ###   ########.fr       */
+/*   Updated: 2018/09/28 16:31:45 by pstringe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@
 **	server methods
 */
 
-void	respond(t_server *server, char *msg, size_t size);
+void	respond(t_server *server, char *msg);
 int		dispatch(t_server *server);
 int		establish_connection(t_server *server, int argc, char **argv);
 void	listening(t_server *server);

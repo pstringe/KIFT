@@ -6,7 +6,7 @@
 /*   By: drosa-ta <drosa-ta@student.42.us.org>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/02 15:52:32 by pstringe          #+#    #+#             */
-/*   Updated: 2018/09/22 13:38:48 by pstringe         ###   ########.fr       */
+/*   Updated: 2018/10/24 16:18:22 by pstringe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 // ad creates audio recording structure - for use with ALSA functions
 */
 
-const char * recognize_from_microphone(ad_rec_t *ad, ps_decoder_t *ps){
+const char	*recognize_from_microphone(ad_rec_t *ad, ps_decoder_t *ps){
 	int16 adbuf[4096];                 // buffer array to hold audio data
 	uint8 utt_started, in_speech;      // flags for tracking active speech - has speech started? - is speech currently happening?
 	int32 k;                           // holds the number of frames in the audio buffer
@@ -46,19 +46,28 @@ const char * recognize_from_microphone(ad_rec_t *ad, ps_decoder_t *ps){
     }
 }
 
-int main(int argc, char const **argv)
+void	configure_decoder()
 {
-	int					con;
-	int					port;
-	int					sock;
-	char				buf[CLIENT_BUF_SIZE];
-	struct sockaddr_in 	serv_addr;
 
 	cmd_ln_t *config = NULL;                  // create configuration structure
 	ad_rec_t *ad = NULL;
 	ps_decoder_t *ps = NULL;           // create pocketsphinx decoder structure
 	char const *decoded_speech;
-	
+
+	config = cmd_ln_init(NULL, ps_args(), TRUE,                   // Load the configuration structure - ps_args() passes the default values
+		"-hmm", MODELDIR "/en-us/en-us",                            // path to the standard english language model
+		"-lm", MODELDIR "/en-us/en-us.lm.bin",                      // custom language model (file must be present)
+		"-dict", MODELDIR "/en-us/cmudict-en-us.dict",              // custom dictionary (file must be present)
+		"-logfn", "/dev/null",                                      // suppress log info from being sent to screen
+		NULL);
+
+	ps = ps_init(config);                                                        // initialize the pocketsphinx decoder
+	ad = ad_open_dev("sysdefault", (int) cmd_ln_float32_r(config, "-samprate")); // open default microphone at default samplerate
+
+}
+
+void	connect_to_server()
+{
 	if (argc < 3)
 	{
 		perror("Please specify port and msg");
@@ -76,16 +85,18 @@ int main(int argc, char const **argv)
 		return (-1);
 	}
 
-	config = cmd_ln_init(NULL, ps_args(), TRUE,                   // Load the configuration structure - ps_args() passes the default values
-		"-hmm", MODELDIR "/en-us/en-us",                            // path to the standard english language model
-		"-lm", MODELDIR "/en-us/en-us.lm.bin",                      // custom language model (file must be present)
-		"-dict", MODELDIR "/en-us/cmudict-en-us.dict",              // custom dictionary (file must be present)
-		"-logfn", "/dev/null",                                      // suppress log info from being sent to screen
-		NULL);
+}
 
-	ps = ps_init(config);                                                        // initialize the pocketsphinx decoder
-	ad = ad_open_dev("sysdefault", (int) cmd_ln_float32_r(config, "-samprate")); // open default microphone at default samplerate
 
+int 	main(int argc, char const **argv)
+{
+	int					con;
+	int					port;
+	int					sock;
+	char				buf[CLIENT_BUF_SIZE];
+	struct sockaddr_in 	serv_addr;
+
+	
 	while(1)
 	{	
 		decoded_speech = NULL;

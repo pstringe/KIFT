@@ -1,16 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   KIFT.h                                             :+:      :+:    :+:   */
+/*   s_packet.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pstringe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/09/22 13:05:42 by pstringe          #+#    #+#             */
-/*   Updated: 2018/09/22 13:24:41 by pstringe         ###   ########.fr       */
+/*   Created: 2018/09/22 13:57:35 by pstringe          #+#    #+#             */
+/*   Updated: 2018/09/28 16:59:41 by pstringe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef KIFT_H
-# define KIFT_H
-# include "types/e_ptypes.h"
-# endif
+#ifndef S_PACKET
+# define S_PACKET
+# define PACKET_SIZE 256
+# include "KIFT.h"
+
+typedef struct 	s_packet
+{
+	t_ptype type;
+	char	content[PACKET_SIZE];
+	int		content_size;
+}				t_packet;
+
+#endif
