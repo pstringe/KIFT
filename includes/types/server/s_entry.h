@@ -6,14 +6,13 @@
 /*   By: pstringe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/13 19:12:52 by pstringe          #+#    #+#             */
-/*   Updated: 2018/09/20 10:43:52 by pstringe         ###   ########.fr       */
+/*   Updated: 2018/10/25 11:29:23 by pstringe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef S_ENTRY_H
 # define S_ENTRY_H
-# include "server.h"
-# include "types/s_server.h"
+# include "s_server.h"
 
 typedef struct	s_entry
 {

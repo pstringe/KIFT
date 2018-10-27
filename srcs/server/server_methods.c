@@ -6,11 +6,12 @@
 /*   By: pstringe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/05 19:49:30 by pstringe          #+#    #+#             */
-/*   Updated: 2018/09/28 16:59:32 by pstringe         ###   ########.fr       */
+/*   Updated: 2018/10/25 12:35:52 by pstringe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "server.h"
+#include "server/server.h"
+#include "types/protocol/s_packet.h"
 
 /*
 **	This function is called to establish a connection with the client machine
@@ -53,14 +54,14 @@ void	respond(t_server *server, char *msg, size_t size)
 {
 	t_packet 	packet;
 	int			i;
+	int			j;
 
 	i = size / PACKET_SIZE;
 	j = 0;
 	while (--i >= 0)
 	{
-		ft_bzero(packet->content, PACKET_SIZE);
-		ft_memcpy(packet->content, msg + j , PACKET_SIZE);
-		q
+		ft_bzero(packet.content, PACKET_SIZE);
+		ft_memcpy(packet.content, msg + j , PACKET_SIZE);
 	}
 	/*
 	ft_bzero(server->response.txt, SOCK_BUF_SIZE);

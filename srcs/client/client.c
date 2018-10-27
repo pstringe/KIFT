@@ -6,17 +6,18 @@
 /*   By: drosa-ta <drosa-ta@student.42.us.org>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/02 15:52:32 by pstringe          #+#    #+#             */
-/*   Updated: 2018/10/24 16:18:22 by pstringe         ###   ########.fr       */
+/*   Updated: 2018/10/27 15:35:09 by pstringe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "client.h"
+#include "client/client.h"
 
 /*
-// ad creates audio recording structure - for use with ALSA functions
+** ad creates audio recording structure - for use with ALSA functions
 */
 
-const char	*recognize_from_microphone(ad_rec_t *ad, ps_decoder_t *ps){
+const char	*recognize_from_microphone(ad_rec_t *ad, ps_decoder_t *ps)
+{
 	int16 adbuf[4096];                 // buffer array to hold audio data
 	uint8 utt_started, in_speech;      // flags for tracking active speech - has speech started? - is speech currently happening?
 	int32 k;                           // holds the number of frames in the audio buffer
@@ -46,73 +47,90 @@ const char	*recognize_from_microphone(ad_rec_t *ad, ps_decoder_t *ps){
     }
 }
 
-void	configure_decoder()
+void	sphinx_init(t_sphinx *s)
 {
 
-	cmd_ln_t *config = NULL;                  // create configuration structure
-	ad_rec_t *ad = NULL;
-	ps_decoder_t *ps = NULL;           // create pocketsphinx decoder structure
-	char const *decoded_speech;
+	s->config = NULL;                  	// create configuration structure
+	s->ad = NULL;
+	s->ps = NULL;						// create pocketsphinx decoder structure
 
-	config = cmd_ln_init(NULL, ps_args(), TRUE,                   // Load the configuration structure - ps_args() passes the default values
+	s->config = cmd_ln_init(NULL, ps_args(), TRUE,                   // Load the configuration structure - ps_args() passes the default values
 		"-hmm", MODELDIR "/en-us/en-us",                            // path to the standard english language model
 		"-lm", MODELDIR "/en-us/en-us.lm.bin",                      // custom language model (file must be present)
 		"-dict", MODELDIR "/en-us/cmudict-en-us.dict",              // custom dictionary (file must be present)
 		"-logfn", "/dev/null",                                      // suppress log info from being sent to screen
 		NULL);
 
-	ps = ps_init(config);                                                        // initialize the pocketsphinx decoder
-	ad = ad_open_dev("sysdefault", (int) cmd_ln_float32_r(config, "-samprate")); // open default microphone at default samplerate
+	s->ps = ps_init(s->config);                                                        // initialize the pocketsphinx decoder
+	s->ad = ad_open_dev("sysdefault", (int) cmd_ln_float32_r(s->config, "-samprate")); // open default microphone at default samplerate
 
 }
 
-void	connect_to_server()
+int		client_connect(t_client *c)
 {
-	if (argc < 3)
-	{
-		perror("Please specify port and msg");
-		return (-1);
-	}
-	sock = socket(AF_INET, SOCK_STREAM, 0);
-	serv_addr.sin_family = AF_INET;
-	port = ft_atoi(argv[1]);
-	serv_addr.sin_port = htons(port);
-	serv_addr.sin_addr.s_addr = INADDR_ANY;
-	con = connect(sock, (struct sockaddr *)&serv_addr, sizeof(serv_addr));
-	if (con < 0)
+	c->sock = socket(AF_INET, SOCK_STREAM, 0);
+	c->serv_addr.sin_family = AF_INET;
+	c->serv_addr.sin_port = htons(c->port);
+	c->serv_addr.sin_addr.s_addr = INADDR_ANY;
+	c->con = connect(c->sock, (struct sockaddr *)&(c->serv_addr), sizeof(c->serv_addr));
+	if (c->con < 0)
 	{
 		perror("Connection error");
 		return (-1);
 	}
-
 }
 
-
-int 	main(int argc, char const **argv)
+int		client_listen(t_client *c)
 {
-	int					con;
-	int					port;
-	int					sock;
-	char				buf[CLIENT_BUF_SIZE];
-	struct sockaddr_in 	serv_addr;
-
+	t_sphinx	sphinx;
+	char		buf[CLIENT_BUF_SIZE];
 	
+	sphinx = c->sphinx;
 	while(1)
 	{	
-		decoded_speech = NULL;
-		decoded_speech = recognize_from_microphone(ad, ps);         		  // call the function to capture and decode speech
-		printf("You Said: %s\n", decoded_speech);								// send decoded speech to screen
-		if (ft_strlen(decoded_speech))
+		sphinx.decoded_speech = NULL;
+		sphinx.decoded_speech = recognize_from_microphone(sphinx.ad, sphinx.ps);      // call the function to capture and decode speech
+		printf("You Said: %s\n", sphinx.decoded_speech);							  // send decoded speech to screen
+		if (ft_strlen(sphinx.decoded_speech))
 		{
-			write(sock, decoded_speech, ft_strlen(decoded_speech));
-			while (read(sock, &buf, BUFF_SIZE))
+			write(c->sock, sphinx.decoded_speech, ft_strlen(sphinx.decoded_speech));
+			while (read(c->sock, &buf, CLIENT_BUF_SIZE))
 				ft_putstr(buf);
 		}
 		else
 			ft_putendl("no speech recognized");
 		ft_bzero(buf, CLIENT_BUF_SIZE);
 	}
-	ad_close(ad);
-	close(sock);
+}
+
+int 	client_terminate(t_client *c)
+{
+	ad_close(c->sphinx.ad);
+	close(c->sock);
+}
+
+int		client_init(t_client *c, int port)
+{
+	c->port = port;
+	c->connect = client_connect;
+	c->listen = client_listen;
+	sphinx_init(&(c->sphinx));
+	//c->request = client_request;
+	c->terminate = client_terminate;
+}
+
+int 	main(int argc, char const **argv)
+{
+	t_client				client;					
+	
+	if (argc < 2)
+	{
+		perror("Please specify port");
+		return (-1);
+	}
+	client_init(&client, ft_atoi(argv[1]));
+	client.connect(&client);
+	client.listen(&client);
+	client.terminate(&client);
 	return (0);
 }

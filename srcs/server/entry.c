@@ -6,12 +6,12 @@
 /*   By: pstringe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/10 12:18:56 by pstringe          #+#    #+#             */
-/*   Updated: 2018/09/20 10:40:03 by pstringe         ###   ########.fr       */
+/*   Updated: 2018/10/25 11:55:23 by pstringe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 //#include "history.h"
-#include "server.h"
+#include "server/server.h"
 
 void		entry_display(t_server *server, t_entry *entry)
 {

@@ -6,14 +6,14 @@
 /*   By: pstringe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/15 14:51:14 by pstringe          #+#    #+#             */
-/*   Updated: 2018/09/15 16:20:38 by pstringe         ###   ########.fr       */
+/*   Updated: 2018/10/25 11:35:05 by pstringe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef S_REQUEST_H
 # define S_REQUEST_H
-# include "server.h"
-# include "types/s_command.h"
+# include "../../server/server.h"
+# include "s_command.h"
 
 typedef struct 	s_request
 {

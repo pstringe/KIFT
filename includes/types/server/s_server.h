@@ -6,15 +6,17 @@
 /*   By: pstringe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/14 10:28:39 by pstringe          #+#    #+#             */
-/*   Updated: 2018/10/24 16:18:24 by pstringe         ###   ########.fr       */
+/*   Updated: 2018/10/25 11:47:16 by pstringe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef S_SERVER_H
 # define S_SERVER_H
-# include "types/s_entry.h"
-# include "types/s_command.h"
-# include "types/s_history.h"
+# include "s_entry.h"
+# include "s_history.h"
+# include "types/protocol/s_command.h"
+# include "types/protocol/s_request.h"
+# include "types/protocol/s_response.h"
 
 /*
 **	server struct containing essential variables for communication with client 

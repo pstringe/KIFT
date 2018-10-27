@@ -6,11 +6,11 @@
 /*   By: pstringe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/02 17:52:13 by pstringe          #+#    #+#             */
-/*   Updated: 2018/09/17 15:23:53 by pstringe         ###   ########.fr       */
+/*   Updated: 2018/10/25 11:16:09 by pstringe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "server.h"
+#include "server/server.h"
 
 /*
 **	server command dispatch table

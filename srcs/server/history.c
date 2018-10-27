@@ -6,11 +6,11 @@
 /*   By: pstringe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/10 10:53:29 by pstringe          #+#    #+#             */
-/*   Updated: 2018/09/20 10:40:27 by pstringe         ###   ########.fr       */
+/*   Updated: 2018/10/25 11:50:20 by pstringe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "history.h"
+#include "server/history.h"
 
 /*
 **	displays current contents of history queue

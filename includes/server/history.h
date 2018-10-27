@@ -6,7 +6,7 @@
 /*   By: pstringe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/10 10:13:21 by pstringe          #+#    #+#             */
-/*   Updated: 2018/09/15 16:16:51 by pstringe         ###   ########.fr       */
+/*   Updated: 2018/10/25 11:51:48 by pstringe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,9 @@
 # define HISTORY_H
 # include "server.h"
 # include <time.h>
-# include "types/s_entry.h"
-# include "types/s_history.h"
-# include "types/s_request.h"
+# include "types/server/s_entry.h"
+# include "types/server/s_history.h"
+# include "types/protocol/s_request.h"
 
 t_entry		*entry_new(struct s_request);
 

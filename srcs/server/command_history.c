@@ -6,11 +6,11 @@
 /*   By: pstringe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/15 16:38:12 by pstringe          #+#    #+#             */
-/*   Updated: 2018/09/17 15:13:47 by pstringe         ###   ########.fr       */
+/*   Updated: 2018/10/25 11:56:17 by pstringe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "server.h"
+#include "server/server.h"
 
 void	cmd_history(t_server *server)
 {

@@ -6,20 +6,19 @@
 /*   By: pstringe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/22 13:57:35 by pstringe          #+#    #+#             */
-/*   Updated: 2018/09/28 16:59:41 by pstringe         ###   ########.fr       */
+/*   Updated: 2018/10/25 12:33:31 by pstringe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef S_PACKET
 # define S_PACKET
 # define PACKET_SIZE 256
-# include "KIFT.h"
 
 typedef struct 	s_packet
 {
-	t_ptype type;
+	int		type;
 	char	content[PACKET_SIZE];
-	int		content_size;
+	size_t	content_size;
 }				t_packet;
 
 #endif

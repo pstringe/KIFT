@@ -6,11 +6,11 @@
 /*   By: pstringe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/06 15:37:43 by pstringe          #+#    #+#             */
-/*   Updated: 2018/09/16 19:51:41 by pstringe         ###   ########.fr       */
+/*   Updated: 2018/10/25 11:56:50 by pstringe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "server.h"
+#include "server/server.h"
 
 /*
 **	this command sends the msg, "quit" to the client, and terminates the server proccess

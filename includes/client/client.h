@@ -6,7 +6,7 @@
 /*   By: pstringe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/22 13:36:22 by pstringe          #+#    #+#             */
-/*   Updated: 2018/10/24 15:53:58 by pstringe         ###   ########.fr       */
+/*   Updated: 2018/10/27 15:13:25 by pstringe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,6 @@
 # include <netinet/in.h>
 # include "libft.h"
 # include "mic.h"
-# include "KIFT.h"
-
+# include "types/client/s_client.h"
+# include "types/client/s_sphinx.h"
 #endif
