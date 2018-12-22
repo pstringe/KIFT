@@ -6,7 +6,7 @@
 /*   By: drosa-ta <drosa-ta@student.42.us.org>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/02 15:52:32 by pstringe          #+#    #+#             */
-/*   Updated: 2018/12/22 13:18:30 by pstringe         ###   ########.fr       */
+/*   Updated: 2018/12/22 13:28:56 by pstringe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,7 +101,7 @@ int main(int argc, char const **argv)
 	while(1){
 		if (debug_mode)
 		{
-			if (getline((char**)&decoded_speech, &cap, 0) == -1	)
+			if (getline((char**)&decoded_speech, &cap, stdin) == -1	)
 				return (-1);
 		}
 		else
