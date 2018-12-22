@@ -6,7 +6,7 @@
 /*   By: pstringe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/05 19:49:30 by pstringe          #+#    #+#             */
-/*   Updated: 2018/12/22 13:11:29 by pstringe         ###   ########.fr       */
+/*   Updated: 2018/12/22 14:36:59 by pstringe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,14 +87,11 @@ void	listening(t_server *server)
 int		dispatch(t_server *server)
 {
 	int 	i;
-	char 	client_input[SOCK_BUF_SIZE];
 
-	ft_bzero(client_input, SOCK_BUF_SIZE);
-	ft_memcpy(client_input, server->request.text, server->request.size);  
 	i = -1;
 	while (server->cmds[++i].name)
 	{
-		if (!ft_strncmp(client_input, server->cmds[i].name, ft_strlen(client_input)))
+		if (!ft_strncmp(server->request.text, server->cmds[i].name, SOCK_BUF_SIZE))
 		{
 			server->request.command.name = server->cmds[i].name;
 			server->request.command.action = server->cmds[i].action;
