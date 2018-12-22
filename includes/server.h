@@ -6,7 +6,7 @@
 /*   By: pstringe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/05 18:05:26 by pstringe          #+#    #+#             */
-/*   Updated: 2018/09/16 19:24:45 by pstringe         ###   ########.fr       */
+/*   Updated: 2018/12/22 13:08:59 by pstringe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,14 +27,15 @@
 
 void	respond(t_server *server, char *msg, size_t size);
 int		dispatch(t_server *server);
-int		establish_connection(t_server *server, int argc, char **argv);
+int		establish_connection(t_server *server, int argc);
 void	listening(t_server *server);
+void	history_init(t_server *s);
 
 /*
 **	commands
 */
 
-void	cmd_quit(t_server *server, char *client_input);
+void	cmd_quit(t_server *server);
 void	cmd_history(t_server *server);
 
 #endif

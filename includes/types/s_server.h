@@ -6,7 +6,7 @@
 /*   By: pstringe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/14 10:28:39 by pstringe          #+#    #+#             */
-/*   Updated: 2018/09/16 15:31:04 by pstringe         ###   ########.fr       */
+/*   Updated: 2018/12/22 13:09:49 by pstringe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ typedef struct  s_server
 	struct s_response	response;
 	struct s_history	history;
 	struct s_command	*cmds;
-	int					(*connect)(struct s_server*, int, char**);
+	int					(*connect)(struct s_server*, int);
 	void				(*listen)(struct s_server*);
 	int					(*dispatch)(struct s_server*);
 	void				(*respond)(struct s_server*, char*, size_t);
