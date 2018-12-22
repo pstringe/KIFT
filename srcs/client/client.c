@@ -6,7 +6,7 @@
 /*   By: drosa-ta <drosa-ta@student.42.us.org>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/02 15:52:32 by pstringe          #+#    #+#             */
-/*   Updated: 2018/12/22 13:28:56 by pstringe         ###   ########.fr       */
+/*   Updated: 2018/12/22 15:07:47 by pstringe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,7 +107,7 @@ int main(int argc, char const **argv)
 		else
 			decoded_speech = recognize_from_microphone(ad, ps);  // call the function to capture and decode speech
 		printf("You Said: %s\n", decoded_speech);								// send decoded speech to screen
-		write(sock, decoded_speech, ft_strlen(decoded_speech));
+		write(sock, ft_strtrim(decoded_speech), ft_strlen(decoded_speech));
 		read(sock, &buf, BUFF_SIZE);
 		ft_putendl(buf);
 		// TODO: Clear buff
