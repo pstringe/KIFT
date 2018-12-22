@@ -6,7 +6,7 @@
 /*   By: pstringe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/05 19:49:30 by pstringe          #+#    #+#             */
-/*   Updated: 2018/09/20 10:02:35 by pstringe         ###   ########.fr       */
+/*   Updated: 2018/12/22 13:11:29 by pstringe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 **	This function is called to establish a connection with the client machine
 */
 
-int		establish_connection(t_server *server, int argc, char **argv)
+int		establish_connection(t_server *server, int argc)
 {
 	if (argc != 2)
 	{
@@ -70,7 +70,7 @@ void	listening(t_server *server)
 		if (server->c_sock < 0)
 			perror("did not accept");
 		ft_bzero(server->request.text, SOCK_BUF_SIZE);
-		if (server->request.size = read(server->c_sock, &(server->request.text), SOCK_BUF_SIZE))
+		if ((server->request.size = read(server->c_sock, &(server->request.text), SOCK_BUF_SIZE)))
 		{
 			ft_putendl(server->request.text);
 			if (!server->dispatch(server))

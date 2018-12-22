@@ -6,7 +6,7 @@
 /*   By: drosa-ta <drosa-ta@student.42.us.org>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/02 15:52:32 by pstringe          #+#    #+#             */
-/*   Updated: 2018/09/20 10:49:11 by pstringe         ###   ########.fr       */
+/*   Updated: 2018/12/22 13:18:30 by pstringe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,25 +57,31 @@ int main(int argc, char const **argv)
 	int					con;
 	int					port;
 	int					sock;
+	int					debug_mode;
+	size_t				cap;
 	char				buf[CLIENT_BUF_SIZE];
 	struct sockaddr_in 	serv_addr;
 
-	cmd_ln_t *config = NULL;                  // create configuration structure
+	//set debug mode to true if the option is set
+	debug_mode = !ft_strncmp(argv[1], "--debug", 7) ? 1 : 0;
+	cmd_ln_t *config = NULL;           // create configuration structure
 	ad_rec_t *ad = NULL;
 	ps_decoder_t *ps = NULL;           // create pocketsphinx decoder structure
-	char const *decoded_speech;
+	char const *decoded_speech = NULL;
 
-	if (argc < 3)
+	if (argc < 2)
 	{
-		perror("Please specify port and msg");
+		perror("Please specify port");
 		return (-1);
 	}
+
 	sock = socket(AF_INET, SOCK_STREAM, 0);
 	serv_addr.sin_family = AF_INET;
-	port = ft_atoi(argv[1]);
+	port = ft_atoi(debug_mode ? argv[2] : argv[1]);
 	serv_addr.sin_port = htons(port);
 	serv_addr.sin_addr.s_addr = INADDR_ANY;
 	con = connect(sock, (struct sockaddr *)&serv_addr, sizeof(serv_addr));
+	
 	if (con < 0)
 	{
 		perror("Connection error");
@@ -93,12 +99,18 @@ int main(int argc, char const **argv)
 	ad = ad_open_dev("sysdefault", (int) cmd_ln_float32_r(config, "-samprate")); // open default microphone at default samplerate
 
 	while(1){
-		 decoded_speech = recognize_from_microphone(ad, ps);         		  // call the function to capture and decode speech
+		if (debug_mode)
+		{
+			if (getline((char**)&decoded_speech, &cap, 0) == -1	)
+				return (-1);
+		}
+		else
+			decoded_speech = recognize_from_microphone(ad, ps);  // call the function to capture and decode speech
 		printf("You Said: %s\n", decoded_speech);								// send decoded speech to screen
 		write(sock, decoded_speech, ft_strlen(decoded_speech));
 		read(sock, &buf, BUFF_SIZE);
 		ft_putendl(buf);
-		// TODO: Clearb buff
+		// TODO: Clear buff
 	}
 	ad_close(ad);
 	close(sock);

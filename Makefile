@@ -6,7 +6,7 @@
 #    By: pstringe <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/08/02 14:49:53 by pstringe          #+#    #+#              #
-#    Updated: 2018/09/22 11:14:55 by pstringe         ###   ########.fr        #
+#    Updated: 2018/12/22 13:18:54 by pstringe         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -36,7 +36,7 @@ CSRCS = client
 SOBJS = $(patsubst $(SSRCD)%, %.o, $(SSRCS))
 COBJS = $(patsubst $(CSRCD)%, %.o, $(CSRCS))
 
-CFLAGS = -Wall -Wextra
+CFLAGS = -Wall -Werror -Wextra
 DFLAGS = -g
 SFLAGS = -fsanitize=address -fno-omit-frame-pointer
 PFLAGS = -DMODELDIR=\"`pkg-config --variable=modeldir pocketsphinx`\" \
