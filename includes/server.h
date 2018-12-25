@@ -6,7 +6,7 @@
 /*   By: pstringe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/05 18:05:26 by pstringe          #+#    #+#             */
-/*   Updated: 2018/12/22 13:08:59 by pstringe         ###   ########.fr       */
+/*   Updated: 2018/12/24 16:30:11 by pstringe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,9 @@
 # include "libft.h"
 # include <stdio.h>
 # include <sys/socket.h>
+# include <arpa/inet.h>
 # include <netinet/in.h>
+# include <sys/time.h>
 # include "types.h"
 
 /*
