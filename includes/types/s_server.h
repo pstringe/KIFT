@@ -6,7 +6,7 @@
 /*   By: pstringe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/14 10:28:39 by pstringe          #+#    #+#             */
-/*   Updated: 2018/12/24 16:55:34 by pstringe         ###   ########.fr       */
+/*   Updated: 2018/12/24 17:12:04 by pstringe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,7 @@ typedef struct  s_server
 	int					valread; //(new)
 	int					sd; //(sd)
 	int					client_sockets[MAX_CLIENTS]; //(new)
+	int					opt;
 	struct sockaddr_in	addr;
 	socklen_t			addr_len;
 	struct s_request	request;

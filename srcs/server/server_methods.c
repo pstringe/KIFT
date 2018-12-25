@@ -6,7 +6,7 @@
 /*   By: pstringe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/05 19:49:30 by pstringe          #+#    #+#             */
-/*   Updated: 2018/12/24 16:58:57 by pstringe         ###   ########.fr       */
+/*   Updated: 2018/12/24 17:11:34 by pstringe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,23 +23,37 @@ int		establish_connection(t_server *server, int argc)
 		perror("please specify port to listen on");
 		return (-1);
 	}
-	
+
+	//create master socket
 	if (!(server->m_sock = socket(AF_INET, SOCK_STREAM, 0)))
 	{
 		perror("failed to get socket descriptor");
 		return (-1);
 	}
+
+	//set master socket to allow multiple connections
+	if (setsckopt(server->m_sock, SOL_SOCKET, SO_REUSEADDR, \
+				(char *)&(server->opt), sizeof(server->opt)) < 0 )
+	{
+		perror("setsocketopt");
+		return(-1);
+	}
+
 	server->addr.sin_family = AF_INET;
 	server->addr.sin_addr.s_addr = INADDR_ANY;
 	server->addr.sin_port = htons(server->port);
 	server->addr_len = sizeof(server->addr);
-	if (bind(server->s_sock, (struct sockaddr*)&(server->addr), 
+	
+	//bind port to master socket
+	if (bind(server->m_sock, (struct sockaddr*)&(server->addr), 
 				(socklen_t)sizeof(server->addr)) < 0)
 	{
 		perror("faild to bind port to address");
 		return (-1);
 	}
-	if (listen(server->s_sock, 5) == -1)
+
+	//maximum 5 pending connections for master socket
+	if (listen(server->m_sock, 5) == -1)
 		perror("server is not listening");
 	else
 		server->listening = 1;
