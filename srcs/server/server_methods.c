@@ -6,7 +6,7 @@
 /*   By: pstringe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/05 19:49:30 by pstringe          #+#    #+#             */
-/*   Updated: 2018/12/22 14:36:59 by pstringe         ###   ########.fr       */
+/*   Updated: 2018/12/24 16:58:57 by pstringe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,8 @@ int		establish_connection(t_server *server, int argc)
 		perror("please specify port to listen on");
 		return (-1);
 	}
-	if (!(server->s_sock = socket(AF_INET, SOCK_STREAM, 0)))
+	
+	if (!(server->m_sock = socket(AF_INET, SOCK_STREAM, 0)))
 	{
 		perror("failed to get socket descriptor");
 		return (-1);
