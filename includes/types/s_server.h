@@ -6,12 +6,13 @@
 /*   By: pstringe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/14 10:28:39 by pstringe          #+#    #+#             */
-/*   Updated: 2018/12/22 13:09:49 by pstringe         ###   ########.fr       */
+/*   Updated: 2018/12/24 16:55:34 by pstringe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef S_SERVER_H
 # define S_SERVER_H
+# define MAX_CLIENTS
 # include "types/s_entry.h"
 # include "types/s_command.h"
 # include "types/s_request.h"
@@ -27,8 +28,16 @@ typedef struct  s_server
 	int					listening;
 	int					port;
 	int 				ret;
-	int					s_sock;
-	int					c_sock;
+	// I don't remember the neccessity of s_sock, I think I only read and write from c_sock
+	int					s_sock; //prob getting rid of this
+	int					c_sock; //this too 
+	
+	int					m_sock; //master socket (new)
+	fd_set				readfds; //the set of file descriptors (new)
+	int					activity; //(new)
+	int					valread; //(new)
+	int					sd; //(sd)
+	int					client_sockets[MAX_CLIENTS]; //(new)
 	struct sockaddr_in	addr;
 	socklen_t			addr_len;
 	struct s_request	request;

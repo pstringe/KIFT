@@ -6,7 +6,7 @@
 /*   By: pstringe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/02 17:52:13 by pstringe          #+#    #+#             */
-/*   Updated: 2018/12/22 13:28:33 by pstringe         ###   ########.fr       */
+/*   Updated: 2018/12/24 16:56:19 by pstringe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@ struct s_command g_cmds[NO_OF_CMDS] = {
 
 void	server_init(t_server *s, int port)
 {
+	int	 i;
 	s->port = port;
 	history_init(s);
 	s->connect = establish_connection;
@@ -35,6 +36,12 @@ void	server_init(t_server *s, int port)
 	s->cmds = g_cmds;
 	s->dispatch = dispatch;
 	s->respond = respond;
+
+	//initialize all client socket descriptors to 0
+	i = -1;
+	while (++i < MAX_CLIENTS)
+		s->client_sockets[i] = 0;
+	
 }
 
 int		main(int argc, char **argv)
