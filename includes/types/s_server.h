@@ -6,13 +6,13 @@
 /*   By: pstringe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/14 10:28:39 by pstringe          #+#    #+#             */
-/*   Updated: 2018/12/24 17:26:36 by pstringe         ###   ########.fr       */
+/*   Updated: 2018/12/25 19:47:06 by pstringe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef S_SERVER_H
 # define S_SERVER_H
-# define MAX_CLIENTS 10
+# define MAX_CLIENTS 4
 # include "types/s_entry.h"
 # include "types/s_command.h"
 # include "types/s_request.h"

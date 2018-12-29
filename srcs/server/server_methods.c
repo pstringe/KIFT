@@ -6,7 +6,7 @@
 /*   By: pstringe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/05 19:49:30 by pstringe          #+#    #+#             */
-/*   Updated: 2018/12/25 05:23:15 by pstringe         ###   ########.fr       */
+/*   Updated: 2018/12/25 23:55:56 by pstringe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,8 +33,7 @@ int		establish_connection(t_server *server, int argc)
 	}
 
 	//set master socket to allow multiple connections
-	if (setsockopt(server->m_sock, SOL_SOCKET, SO_REUSEADDR, \
-				(char *)&(server->opt), sizeof(server->opt)) < 0 )
+	if (setsockopt(server->m_sock, SOL_SOCKET, SO_REUSEADDR, (char *)&(server->opt), sizeof(server->opt)) < 0 )
 	{
 		perror("setsocketopt");
 		return(-1);
