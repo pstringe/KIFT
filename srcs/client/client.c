@@ -6,7 +6,7 @@
 /*   By: drosa-ta <drosa-ta@student.42.us.org>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/02 15:52:32 by pstringe          #+#    #+#             */
-/*   Updated: 2018/12/29 04:41:23 by pstringe         ###   ########.fr       */
+/*   Updated: 2018/12/31 16:04:51 by pstringe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,10 @@ int main(int argc, char const **argv)
 	serv_addr.sin_port = htons(port);
 	serv_addr.sin_addr.s_addr = INADDR_ANY;
 	con = connect(sock, (struct sockaddr *)&serv_addr, sizeof(serv_addr));
-	
+	read(sock, &buf, BUFF_SIZE);
+	ft_putendl(buf);
+	ft_bzero(buf, BUFF_SIZE);
+
 	if (con < 0)
 	{
 		perror("Connection error");
@@ -110,7 +113,7 @@ int main(int argc, char const **argv)
 		write(sock, ft_strtrim(decoded_speech), ft_strlen(decoded_speech));
 		read(sock, &buf, BUFF_SIZE);
 		ft_putendl(buf);
-		// TODO: Clear buff
+		ft_bzero(buf, BUFF_SIZE);
 	}
 	ad_close(ad);
 	close(sock);
