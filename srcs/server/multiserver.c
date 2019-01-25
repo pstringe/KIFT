@@ -6,7 +6,7 @@
 /*   By: pstringe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/28 14:18:30 by pstringe          #+#    #+#             */
-/*   Updated: 2019/01/03 03:33:20 by pstringe         ###   ########.fr       */
+/*   Updated: 2019/01/25 03:32:49 by pstringe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@
 #include <netinet/in.h>
 #include <sys/time.h> //FD_SET, FD_ISSET, FD_ZERO
 
-#define BUF_SIZE 513
+#define BUF_SIZE 256
 #define TRUE	1
 #define FALSE	0
 #define PORT 	4000
@@ -163,7 +163,7 @@ void	handle_existing_connections(t_server *s)
 	while (++i < s->max_sd && s->c_sock[i])
 	{
 		s->sd = s->c_sock[i];
-		if ((s->ret = read(s->sd, s->buf, 1024)) == 0)
+		if ((s->ret = read(s->sd, s->buf, BUF_SIZE)) == 0)
 		{
 			getpeername(s->sd, (struct sockaddr*)&(s->addr), (socklen_t*)&(s->addrlen));
 			ft_printf("Host disconnected, ip %s, port %d\n", inet_ntoa(s->addr.sin_addr), ntohs(s->addr.sin_port));
@@ -173,7 +173,7 @@ void	handle_existing_connections(t_server *s)
 		else
 		{
 			s->buf[s->ret] = '\0';
-			ft_printf("read buffer: %s", s->buf);
+			ft_printf("Host connected of socket: %d\nbuffer return: %d\nbuffer value: %s\n", s->sd, s->ret, s->buf);
 			write(s->sd, s->buf, BUF_SIZE);
 		}
 	}
@@ -196,7 +196,7 @@ void	listening(t_server *s)
 		FD_SET(s->m_sock, &(s->fds));
 		s->max_sd = s->m_sock;
 		add_child_sockets(s);
-		s->activity = select( s->max_sd + 1 , &(s->fds) , NULL , NULL , NULL);
+		s->activity = select( s->max_sd + 1, &(s->fds), NULL, NULL, NULL);
 		if (s->activity < 0 && errno != EINTR)
 			ft_printf("select error\n");
 		handle_new_connections(s);

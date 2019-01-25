@@ -6,20 +6,21 @@
 /*   By: drosa-ta <drosa-ta@student.42.us.org>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/02 15:52:32 by pstringe          #+#    #+#             */
-/*   Updated: 2018/12/31 16:04:51 by pstringe         ###   ########.fr       */
+/*   Updated: 2019/01/25 03:32:45 by pstringe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdio.h>
 #include <sys/types.h>
 #include <sys/socket.h>
+#include <sys/ioctl.h>
 #include <netinet/in.h>
 #include "libft.h"
 #include "mic.h"
 #define CLIENT_BUF_SIZE 256
 
 /*
-// ad creates audio recording structure - for use with ALSA functions
+** ad creates audio recording structure - for use with ALSA functions
 */
 
 const char * recognize_from_microphone(ad_rec_t *ad, ps_decoder_t *ps){
@@ -61,6 +62,7 @@ int main(int argc, char const **argv)
 	size_t				cap;
 	char				buf[CLIENT_BUF_SIZE];
 	struct sockaddr_in 	serv_addr;
+	int 				imode;
 
 	//set debug mode to true if the option is set
 	debug_mode = !ft_strncmp(argv[1], "--debug", 7) ? 1 : 0;
@@ -81,9 +83,9 @@ int main(int argc, char const **argv)
 	serv_addr.sin_port = htons(port);
 	serv_addr.sin_addr.s_addr = INADDR_ANY;
 	con = connect(sock, (struct sockaddr *)&serv_addr, sizeof(serv_addr));
-	read(sock, &buf, BUFF_SIZE);
+	read(sock, &buf, CLIENT_BUF_SIZE);
 	ft_putendl(buf);
-	ft_bzero(buf, BUFF_SIZE);
+	ft_bzero(buf, CLIENT_BUF_SIZE);
 
 	if (con < 0)
 	{
@@ -111,9 +113,16 @@ int main(int argc, char const **argv)
 			decoded_speech = recognize_from_microphone(ad, ps);  // call the function to capture and decode speech
 		printf("You Said: %s\n", decoded_speech);								// send decoded speech to screen
 		write(sock, ft_strtrim(decoded_speech), ft_strlen(decoded_speech));
-		read(sock, &buf, BUFF_SIZE);
-		ft_putendl(buf);
-		ft_bzero(buf, BUFF_SIZE);
+		imode = 0;
+		ioctl(sock, FIONBIO, &imode);
+		int ret;
+		if ((ret = read(sock, &buf, CLIENT_BUF_SIZE)) < 0)
+			ft_printf("error with read\n");
+		else if (ret == 0)
+			ft_printf("nothing returned");
+		else
+			ft_putendl(buf);
+		ft_bzero(buf, CLIENT_BUF_SIZE);
 	}
 	ad_close(ad);
 	close(sock);
