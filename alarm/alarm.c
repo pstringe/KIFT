@@ -5,7 +5,7 @@
 #include <time.h>
 
 
-int		pm_handle(int hr)
+int		pm_handle(int hr) //REMOVE AND JUST ADD 12 to NUMBER FUCK
 {
 	int built_in_hour = 0;
 
@@ -45,7 +45,7 @@ int		convert_hour(char *hr, char *am_pm)
 		send_am_or_pm_hour = pm_handle(con_hour);
 	if (strcmp(am_pm, "am") == 0)
 		send_am_or_pm_hour = con_hour;
-	printf("found am hour %i\n", con_hour);
+	printf("found am hour (line48) %i\n", con_hour);
 
 	return(con_hour);
 }
@@ -92,6 +92,8 @@ int		main(int argc, char **argv)
 	if (argc == 4)
 		hr = convert_hour(argv[1], argv[3]); //hour + am/pm
 	min = atoi(argv[2]);
+	printf("%i min in main (line95)\n", min);
+	printf("%i hour in main (line 95\n", hr);
 	//kift_alarm(hr, min); //hour, minute.
 }
 
