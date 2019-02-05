@@ -6,7 +6,7 @@
 /*   By: pstringe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/14 10:28:39 by pstringe          #+#    #+#             */
-/*   Updated: 2018/12/25 19:47:06 by pstringe         ###   ########.fr       */
+/*   Updated: 2019/02/05 14:48:08 by pstringe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,30 @@
 
 typedef struct  s_server
 {
+	/*
+	** multiserver declarations
+	*/
+
+	int					opt;
+	int					m_sock;
+	int					addrlen;
+	int					n_sock;
+	int					c_sock[MAX_CLIENTS];
+	int					activity;
+	int					max_clients;
+	int					ret;
+	int					sd;
+	int					max_sd;
+	struct sockaddr_in	addr;
+	char				buf[BUF_SIZE];
+	char				*msg;
+	fd_set				fds;
+	
+	/*
+	**	old declarations
+	*/
+
+	/*
 	int					listening;
 	int					port;
 	int 				ret;
@@ -39,12 +63,15 @@ typedef struct  s_server
 	int					sd; //(sd)
 	int					client_sockets[MAX_CLIENTS]; //(new)
 	int					opt;
+
 	struct sockaddr_in	addr;
 	socklen_t			addr_len;
 	struct s_request	request;
 	struct s_response	response;
 	struct s_history	history;
 	struct s_command	*cmds;
+	*/
+
 	int					(*connect)(struct s_server*, int);
 	void				(*listen)(struct s_server*);
 	int					(*dispatch)(struct s_server*);
