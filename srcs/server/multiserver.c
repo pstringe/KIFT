@@ -6,28 +6,13 @@
 /*   By: pstringe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/28 14:18:30 by pstringe          #+#    #+#             */
-/*   Updated: 2019/01/25 03:32:49 by pstringe         ###   ########.fr       */
+/*   Updated: 2019/02/05 16:06:01 by pstringe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <libft.h>
-#include <stdio.h>
-#include <string.h>
-//#include <stdlib.d>
-#include <errno.h>
-#include <unistd.h>
-#include <arpa/inet.h> /*makes avail htons, in_addr_t*/
-#include <sys/types.h>
-#include <sys/socket.h>
-#include <netinet/in.h>
-#include <sys/time.h> //FD_SET, FD_ISSET, FD_ZERO
-
-#define BUF_SIZE 256
-#define TRUE	1
-#define FALSE	0
-#define PORT 	4000
-#define MAX_CLIENTS 3
-
+/*
+** commenting this struct out since I added it's parts to the s_server header
+**
 typedef struct s_server
 {
 	int					opt;
@@ -45,6 +30,7 @@ typedef struct s_server
 	char				*msg;
 	fd_set				fds;
 }				t_server;
+*/
 
 /*
 ** initialize client sockets to 0
@@ -77,7 +63,7 @@ void	init_master(t_server *s)
 	}
 	s->addr.sin_family = AF_INET;
 	s->addr.sin_addr.s_addr = INADDR_ANY;
-	s->addr.sin_port = htons(PORT);
+	s->addr.sin_port = htons(s->port);
 	if (bind(s->m_sock, (struct sockaddr *)&s->addr, sizeof(s->addr)) < 0)
 	{
 		ft_putendl("error binding");
@@ -207,15 +193,14 @@ void	listening(t_server *s)
 
 /*
 ** initialize the values needed for this test server to function
-*/
-
+**
 void	init_server(t_server *s)
 {
 	s->max_clients = MAX_CLIENTS;
 	s->opt = TRUE;
 	s->msg = ft_strdup("ECHO Daemon v1.0 \r\n");
 	init_client_socks(s);
-	init_master(s);
+	init_master(s, port);
 }
 
 int		main (void)
@@ -226,3 +211,4 @@ int		main (void)
 	listening(&s);
 	return (0);
 }
+*/
