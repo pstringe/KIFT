@@ -6,9 +6,11 @@
 /*   By: pstringe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/28 14:18:30 by pstringe          #+#    #+#             */
-/*   Updated: 2019/02/05 16:06:01 by pstringe         ###   ########.fr       */
+/*   Updated: 2019/02/06 08:47:39 by pstringe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+#include "server.h"
 
 /*
 ** commenting this struct out since I added it's parts to the s_server header
@@ -69,7 +71,7 @@ void	init_master(t_server *s)
 		ft_putendl("error binding");
 		return ;
 	}
-	ft_printf("master socket initialized  on port: %d\n", PORT);
+	ft_printf("master socket initialized  on port: %d\n", s->port);
 }
 
 /*

@@ -6,7 +6,7 @@
 /*   By: pstringe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/14 10:28:39 by pstringe          #+#    #+#             */
-/*   Updated: 2019/02/05 15:57:31 by pstringe         ###   ########.fr       */
+/*   Updated: 2019/02/06 08:53:29 by pstringe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,12 +41,13 @@ typedef struct  s_server
 	char				buf[BUF_SIZE];
 	char				*msg;
 	fd_set				fds;
-	
+	int					l_sock; //intended to hold the socket that currently needs to be written to
+
 	/*
 	**	old declarations
 	*/
 
-	//int					listening;
+	int					listening;
 	int					port;
 	//int 				ret;
 	// I don't remember the neccessity of s_sock, I think I only read and write from c_sock
@@ -68,7 +69,7 @@ typedef struct  s_server
 	struct s_history	history;
 	struct s_command	*cmds;
 
-	int					(*connect)(struct s_server*);
+	void				(*connect)(struct s_server*);
 	void				(*listen)(struct s_server*);
 	int					(*dispatch)(struct s_server*);
 	void				(*respond)(struct s_server*, char*, size_t);

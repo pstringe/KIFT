@@ -6,7 +6,7 @@
 /*   By: pstringe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/02 17:52:13 by pstringe          #+#    #+#             */
-/*   Updated: 2019/02/05 16:03:24 by pstringe         ###   ########.fr       */
+/*   Updated: 2019/02/06 08:55:03 by pstringe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,8 +33,8 @@ void	server_init(t_server *s, int port)
 	s->connect = init_master;
 	s->listen = listening;
 	s->cmds = g_cmds;
-	s->dispatch = dispatch;
-	s->respond = respond;
+//	s->dispatch = dispatch;
+//	s->respond = respond;
 
 	//multiserver initializations 
 	s->max_clients = MAX_CLIENTS;
