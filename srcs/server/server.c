@@ -6,7 +6,7 @@
 /*   By: pstringe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/02 17:52:13 by pstringe          #+#    #+#             */
-/*   Updated: 2019/02/06 09:10:32 by pstringe         ###   ########.fr       */
+/*   Updated: 2019/02/07 14:30:30 by pstringe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ void	server_init(t_server *s, int port)
 	s->opt = TRUE;
 	s->msg = ft_strdup("ECHO Daemon v1.0 \r\n");
 	init_client_socks(s);
-	init_master(s);
+	//init_master(s);
 }
 
 int		main(int argc, char **argv)

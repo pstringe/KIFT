@@ -6,7 +6,7 @@
 /*   By: pstringe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/28 14:18:30 by pstringe          #+#    #+#             */
-/*   Updated: 2019/02/06 08:47:39 by pstringe         ###   ########.fr       */
+/*   Updated: 2019/02/07 14:24:29 by pstringe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,10 +68,10 @@ void	init_master(t_server *s)
 	s->addr.sin_port = htons(s->port);
 	if (bind(s->m_sock, (struct sockaddr *)&s->addr, sizeof(s->addr)) < 0)
 	{
-		ft_putendl("error binding");
-		return ;
+		ft_printf("error binding, error code: %d\n", errno);
+		exit(1);
 	}
-	ft_printf("master socket initialized  on port: %d\n", s->port);
+	ft_printf("master socket: %d, initialized on port: %d\n", s->m_sock, s->port);
 }
 
 /*
