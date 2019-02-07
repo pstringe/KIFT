@@ -6,33 +6,11 @@
 /*   By: pstringe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/28 14:18:30 by pstringe          #+#    #+#             */
-/*   Updated: 2019/02/07 14:24:29 by pstringe         ###   ########.fr       */
+/*   Updated: 2019/02/07 14:36:41 by pstringe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "server.h"
-
-/*
-** commenting this struct out since I added it's parts to the s_server header
-**
-typedef struct s_server
-{
-	int					opt;
-	int					m_sock;
-	int					addrlen;
-	int					n_sock;
-	int					c_sock[MAX_CLIENTS];
-	int					activity;
-	int					max_clients;
-	int					ret;
-	int					sd;
-	int					max_sd;
-	struct sockaddr_in	addr;
-	char				buf[BUF_SIZE];
-	char				*msg;
-	fd_set				fds;
-}				t_server;
-*/
 
 /*
 ** initialize client sockets to 0
@@ -192,25 +170,3 @@ void	listening(t_server *s)
 	}
 	return ;
 }
-
-/*
-** initialize the values needed for this test server to function
-**
-void	init_server(t_server *s)
-{
-	s->max_clients = MAX_CLIENTS;
-	s->opt = TRUE;
-	s->msg = ft_strdup("ECHO Daemon v1.0 \r\n");
-	init_client_socks(s);
-	init_master(s, port);
-}
-
-int		main (void)
-{
-	t_server	s;
-	
-	init_server(&s);
-	listening(&s);
-	return (0);
-}
-*/

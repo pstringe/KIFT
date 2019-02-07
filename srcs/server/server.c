@@ -6,7 +6,7 @@
 /*   By: pstringe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/02 17:52:13 by pstringe          #+#    #+#             */
-/*   Updated: 2019/02/07 14:30:30 by pstringe         ###   ########.fr       */
+/*   Updated: 2019/02/07 14:36:39 by pstringe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,15 +33,10 @@ void	server_init(t_server *s, int port)
 	s->connect = init_master;
 	s->listen = listening;
 	s->cmds = g_cmds;
-//	s->dispatch = dispatch;
-//	s->respond = respond;
-
-	//multiserver initializations 
 	s->max_clients = MAX_CLIENTS;
 	s->opt = TRUE;
 	s->msg = ft_strdup("ECHO Daemon v1.0 \r\n");
 	init_client_socks(s);
-	//init_master(s);
 }
 
 int		main(int argc, char **argv)
@@ -51,11 +46,11 @@ int		main(int argc, char **argv)
 	if (argc >= 2)
 	{
 		server_init(&server, ft_atoi(argv[1]));
-		//ft_printf("initialized\n");
+		ft_printf("initialized\n");
 		server.connect(&server);
 		ft_printf("connected\n");
 		server.listen(&server);
-		//ft_printf("terminating server instance: %p\n", server);
+		ft_printf("terminating server instance: %p\n", server);
 	}
 	return(0);
 }

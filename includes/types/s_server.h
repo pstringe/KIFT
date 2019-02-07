@@ -6,7 +6,7 @@
 /*   By: pstringe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/14 10:28:39 by pstringe          #+#    #+#             */
-/*   Updated: 2019/02/06 08:53:29 by pstringe         ###   ########.fr       */
+/*   Updated: 2019/02/07 14:46:21 by pstringe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,10 +24,6 @@
 
 typedef struct  s_server
 {
-	/*
-	** multiserver declarations
-	*/
-
 	int					opt;
 	int					m_sock;
 	int					addrlen;
@@ -42,25 +38,8 @@ typedef struct  s_server
 	char				*msg;
 	fd_set				fds;
 	int					l_sock; //intended to hold the socket that currently needs to be written to
-
-	/*
-	**	old declarations
-	*/
-
 	int					listening;
 	int					port;
-	//int 				ret;
-	// I don't remember the neccessity of s_sock, I think I only read and write from c_sock
-	//int					s_sock; //prob getting rid of this
-	//int					c_sock; //this too 
-	
-	//int					m_sock; //master socket (new)
-	//fd_set				readfds; //the set of file descriptors (new)
-	//int					activity; //(new)
-	//int					valread; //(new)
-	//int					sd; //(new)
-	//int					client_sockets[MAX_CLIENTS]; //(new)
-	//int					opt;
 
 	struct sockaddr_in	addr;
 	socklen_t			addr_len;
