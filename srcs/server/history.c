@@ -6,7 +6,7 @@
 /*   By: pstringe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/10 10:53:29 by pstringe          #+#    #+#             */
-/*   Updated: 2018/09/20 10:40:27 by pstringe         ###   ########.fr       */
+/*   Updated: 2019/02/08 20:08:12 by pstringe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,7 @@ void	history_get(t_server *server)
 		if (!row[0])
 			break;
 		ft_memcpy(server->request.text, row[0], SOCK_BUF_SIZE);
-		if (ft_strcmp(" none", ft_strtrim(row[1])))
+		if (row[1] && ft_strcmp(" none", ft_strtrim(row[1])))
 			server->request.command.name = ft_strdup(row[1]);
 		else
 			server->request.command.name = ft_strdup( "none");
