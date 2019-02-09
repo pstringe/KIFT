@@ -5,27 +5,17 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: pstringe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/04/16 17:05:08 by pstringe          #+#    #+#             */
-/*   Updated: 2018/07/23 10:48:40 by pstringe         ###   ########.fr       */
+/*   Created: 2018/09/10 15:20:51 by pstringe          #+#    #+#             */
+/*   Updated: 2018/09/11 11:08:16 by pstringe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-int		ft_printf(const char *format, ...)
+int	 ft_printf(const char *format, ...)
 {
-	t_m		*m;
-	size_t	size;
-	char	buf[MAX];
+	va_list ap;
 
-	m = (t_m*)ft_memalloc(sizeof(t_m));
-	va_start(m->ap, format);
-	init(m, format, buf);
-	while (cpy(m, buf))
-		if (get_placeholder(m))
-			convert(m, buf);
-	put(m, buf);
-	size = m->pos_b;
-	dstry(m);
-	return (size);
+	va_start(ap, format);
+	return (ft_vdprintf(1, format, ap));
 }

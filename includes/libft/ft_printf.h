@@ -6,7 +6,7 @@
 /*   By: pstringe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/09 19:31:04 by pstringe          #+#    #+#             */
-/*   Updated: 2018/07/25 13:01:39 by pstringe         ###   ########.fr       */
+/*   Updated: 2018/09/11 12:36:33 by pstringe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,10 +86,12 @@ typedef	struct	s_m
 }				t_m;
 
 /*
-**	main function
+**	main functions
 */
 
-int				ft_printf(const char *str, ...);
+int				ft_vdprintf(int fd, const char *format, va_list ap);
+int				ft_dprintf(int fd, const char *format, ... );
+int				ft_printf(const char *format, ...);
 
 /*
 **	functions essential for the main operation of printf
@@ -170,7 +172,7 @@ void			ft_upn(uintmax_t nb, t_num *n, t_m *m);
 void			skip_whitespace(t_m *m);
 int				replace(t_m *m, char buf[MAX], char *conv);
 int				is_flag(char c);
-void			put(t_m *m, char buf[MAX]);
+void			put(int fd, t_m *m, char buf[MAX]);
 void			dstry(t_m *m);
 
 #endif
