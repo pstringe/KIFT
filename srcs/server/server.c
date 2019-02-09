@@ -6,7 +6,7 @@
 /*   By: pstringe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/02 17:52:13 by pstringe          #+#    #+#             */
-/*   Updated: 2019/02/08 19:54:38 by pstringe         ###   ########.fr       */
+/*   Updated: 2019/02/08 20:25:30 by pstringe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ void	server_init(t_server *s, int port)
 	s->cmds = g_cmds;
 	s->max_clients = MAX_CLIENTS;
 	s->opt = TRUE;
-	s->msg = ft_strdup("ECHO Daemon v1.0 \r\n");
+	s->msg = ft_strdup("KIFT 1.0 \r\n");
 	init_client_socks(s);
 }
 
