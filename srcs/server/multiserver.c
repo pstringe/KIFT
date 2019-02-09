@@ -6,7 +6,7 @@
 /*   By: pstringe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/28 14:18:30 by pstringe          #+#    #+#             */
-/*   Updated: 2019/02/07 14:36:41 by pstringe         ###   ########.fr       */
+/*   Updated: 2019/02/08 19:34:54 by pstringe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,6 +117,44 @@ void	handle_new_connections(t_server *s)
 }
 
 /*
+** A function to for writing to  the response object and sending it off
+*/
+
+void	respond(t_server *server, char *msg, size_t size)
+{
+	ft_bzero(server->response.txt, SOCK_BUF_SIZE);
+	ft_memcpy(server->response.txt, msg, size);
+	server->response.size = size;
+	write(server->sd, server->response.txt, server->response.size);
+}
+
+/*
+** server dispatch
+*/
+
+int		dispatch(t_server *server)
+{
+	int 	i;
+
+	i = -1;
+	while (server->cmds[++i].name)
+	{
+		if (!ft_strncmp(server->request.text, server->cmds[i].name, SOCK_BUF_SIZE))
+		{
+			server->request.command.name = server->cmds[i].name;
+			server->request.command.action = server->cmds[i].action;
+			server->cmds[i].action(server);
+			if (i)
+				server->history.update(server);
+			return (1);
+		}
+	}
+	server->request.command.name = NULL;
+	server->history.update(server);
+	return (0);
+}
+
+/*
 ** Here we check for socket closure on the client side, if not, we perform an 
 ** operation based on the input, right now, an echo. soon, dispatch
 */
@@ -129,18 +167,34 @@ void	handle_existing_connections(t_server *s)
 	while (++i < s->max_sd && s->c_sock[i])
 	{
 		s->sd = s->c_sock[i];
-		if ((s->ret = read(s->sd, s->buf, BUF_SIZE)) == 0)
+		ft_bzero(s->request.text, BUF_SIZE);
+		if ((s->request.size = read(s->sd, &(s->request.text), BUF_SIZE)) == 0)
 		{
 			getpeername(s->sd, (struct sockaddr*)&(s->addr), (socklen_t*)&(s->addrlen));
 			ft_printf("Host disconnected, ip %s, port %d\n", inet_ntoa(s->addr.sin_addr), ntohs(s->addr.sin_port));
 			close(s->sd);
 			s->c_sock[i] = 0; 
 		}
+		else if (s->sd < 0)
+		{
+			perror("socket descriptor: sd, returns less than 0\n");
+		}
 		else
 		{
+			/*
+			** old code
+			**
 			s->buf[s->ret] = '\0';
-			ft_printf("Host connected of socket: %d\nbuffer return: %d\nbuffer value: %s\n", s->sd, s->ret, s->buf);
+			ft_printf("Host connected on socket: %d\nbuffer return: %d\nbuffer value: %s\n", s->sd, s->ret, s->buf);
 			write(s->sd, s->buf, BUF_SIZE);
+			*/
+			
+			if (s->request.size)
+			{
+				ft_putendl(s->request.text);
+				if (!s->dispatch(s))
+					s->respond(s, "command not recognized", 22);
+			}
 		}
 	}
 }
