@@ -1,5 +1,6 @@
 CC = gcc
 NAME = libft.a
+
 SRCS = ft_dprintf.c\
 	   ft_vdprintf.c\
 	   ft_printf.c\
