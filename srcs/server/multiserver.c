@@ -6,7 +6,7 @@
 /*   By: pstringe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/28 14:18:30 by pstringe          #+#    #+#             */
-/*   Updated: 2019/02/08 19:11:44 by pstringe         ###   ########.fr       */
+/*   Updated: 2019/02/08 19:34:54 by pstringe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -167,6 +167,7 @@ void	handle_existing_connections(t_server *s)
 	while (++i < s->max_sd && s->c_sock[i])
 	{
 		s->sd = s->c_sock[i];
+		ft_bzero(s->request.text, BUF_SIZE);
 		if ((s->request.size = read(s->sd, &(s->request.text), BUF_SIZE)) == 0)
 		{
 			getpeername(s->sd, (struct sockaddr*)&(s->addr), (socklen_t*)&(s->addrlen));
@@ -188,7 +189,6 @@ void	handle_existing_connections(t_server *s)
 			write(s->sd, s->buf, BUF_SIZE);
 			*/
 			
-			ft_bzero(s->request.text, BUF_SIZE);
 			if (s->request.size)
 			{
 				ft_putendl(s->request.text);
