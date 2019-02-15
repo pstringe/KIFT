@@ -87,7 +87,7 @@ void	add_new_socket(t_server *s)
 		{
 			s->c_sock[i] = s->n_sock;
 			ft_printf("socket added as %d\n", i);
-			break;
+			break ;
 		}
 	}
 }
@@ -156,7 +156,7 @@ int		dispatch(t_server *server)
 
 /*
 ** Here we check for socket closure on the client side, if not, we perform an 
-** operation based on the input, right now, an echo. soon, dispatch
+** operation based on the input ( dispatch() )
 */
 
 void	handle_existing_connections(t_server *s)
@@ -176,23 +176,14 @@ void	handle_existing_connections(t_server *s)
 			s->c_sock[i] = 0; 
 		}
 		else if (s->sd < 0)
-		{
 			perror("socket descriptor: sd, returns less than 0\n");
-		}
 		else
 		{
-			/*
-			** old code
-			**
-			s->buf[s->ret] = '\0';
-			ft_printf("Host connected on socket: %d\nbuffer return: %d\nbuffer value: %s\n", s->sd, s->ret, s->buf);
-			write(s->sd, s->buf, BUF_SIZE);
-			*/
-			
+			s->l_sock = s->sd;
 			if (s->request.size)
 			{
 				ft_putendl(s->request.text);
-				if (!s->dispatch(s))
+				if (!s->dispatch(s) && s->request.size > 0)
 					s->respond(s, "command not recognized", 22);
 			}
 		}

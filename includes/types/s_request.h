@@ -17,8 +17,8 @@
 
 typedef struct 	s_request
 {
-	int					type;
-	char				text[SOCK_BUF_SIZE];
+	int			type;
+	char			text[BUF_SIZE];
 	struct s_command	command;
 	int 				size;
 }				t_request;

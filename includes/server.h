@@ -19,7 +19,7 @@
 #include <unistd.h>
 #include <sys/types.h>
 
-#define BUF_SIZE 256
+#define BUF_SIZE 4096
 #define TRUE	1
 #define FALSE	0
 
