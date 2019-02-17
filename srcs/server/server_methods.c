@@ -6,7 +6,7 @@
 /*   By: pstringe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/28 14:18:30 by pstringe          #+#    #+#             */
-/*   Updated: 2019/02/08 19:34:54 by pstringe         ###   ########.fr       */
+/*   Updated: 2019/02/17 10:12:19 by pstringe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -155,6 +155,21 @@ int		dispatch(t_server *server)
 }
 
 /*
+**	A function to prompt the client for a certain response Eventually, 
+** I may pass a function pointer to handel the request, but this will do for now
+*/
+
+int		prompt_request(t_server *s, int socket, char *prompt)
+{
+	if (prompt)
+		respond(s, prompt, ft_strlen(prompt));
+
+	ft_bzero(s->request.text, BUF_SIZE);
+	s->request.size = read(socket, &(s->request.text), BUF_SIZE);
+	return (s->request.size);
+}
+
+/*
 ** Here we check for socket closure on the client side, if not, we perform an 
 ** operation based on the input ( dispatch() )
 */
@@ -167,8 +182,7 @@ void	handle_existing_connections(t_server *s)
 	while (++i < s->max_sd && s->c_sock[i])
 	{
 		s->sd = s->c_sock[i];
-		ft_bzero(s->request.text, BUF_SIZE);
-		if ((s->request.size = read(s->sd, &(s->request.text), BUF_SIZE)) == 0)
+		if (!prompt_request(s, s->sd, NULL))
 		{
 			getpeername(s->sd, (struct sockaddr*)&(s->addr), (socklen_t*)&(s->addrlen));
 			ft_printf("Host disconnected, ip %s, port %d\n", inet_ntoa(s->addr.sin_addr), ntohs(s->addr.sin_port));
