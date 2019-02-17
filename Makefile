@@ -6,7 +6,7 @@
 #    By: pstringe <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/08/02 14:49:53 by pstringe          #+#    #+#              #
-#    Updated: 2019/02/05 15:28:47 by pstringe         ###   ########.fr        #
+#    Updated: 2019/02/17 11:28:22 by pstringe         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -28,6 +28,7 @@ SSRCS = server\
 		server_methods\
 		history\
 		entry\
+		alarm/alarm\
 		command_history\
 		command_quit
 
