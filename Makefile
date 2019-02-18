@@ -6,7 +6,7 @@
 #    By: pstringe <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/08/02 14:49:53 by pstringe          #+#    #+#              #
-#    Updated: 2019/02/18 13:36:44 by pstringe         ###   ########.fr        #
+#    Updated: 2019/02/18 15:28:25 by pstringe         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,7 +18,7 @@ INCD = ./includes/
 
 LIB = libft.a
 
-LIBD = $(INCD)libft/ 
+LIBD = $(INCD)libft/
 SINC = $(INCD)
 
 SSRCD = ./srcs/server/
@@ -31,6 +31,7 @@ SSRCS = server\
 		alarm/alarm\
 		command_music\
 		command_weather\
+		command_sms\
 		command_email\
 		command_search\
 		command_history\
