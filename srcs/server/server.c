@@ -6,7 +6,7 @@
 /*   By: pstringe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/02 17:52:13 by pstringe          #+#    #+#             */
-/*   Updated: 2019/02/17 12:09:49 by pstringe         ###   ########.fr       */
+/*   Updated: 2019/02/17 21:08:43 by pstringe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ struct s_command g_cmds[NO_OF_CMDS] = {
 	{"q", cmd_quit},
 	{"history", cmd_history},
 	{"set alarm", cmd_alarm},
+	{"search the web", cmd_search},
 	{NULL, NULL}
 };
 

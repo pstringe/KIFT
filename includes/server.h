@@ -6,7 +6,7 @@
 /*   By: pstringe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/05 18:05:26 by pstringe          #+#    #+#             */
-/*   Updated: 2019/02/17 12:09:52 by pstringe         ###   ########.fr       */
+/*   Updated: 2019/02/17 21:08:41 by pstringe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@
 
 # define SERVER_H
 # define MAX_COMMAND_SIZE 256
-# define NO_OF_CMDS 4
+# define NO_OF_CMDS 5
 # define SOCK_BUF_SIZE 256
 # include "libft.h"
 # include <stdio.h>
@@ -59,10 +59,12 @@ void		init_master(t_server *s);
 void		listening(t_server *server);
 void		history_init(t_server *s);
 t_request	prompt_request(t_server *s, int socket, char *prompt);
+
 /*
 **	commands
 */
 
+void 	cmd_search(t_server *server);
 void 	cmd_alarm(t_server *server);
 void	cmd_quit(t_server *server);
 void	cmd_history(t_server *server);
