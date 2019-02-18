@@ -6,7 +6,7 @@
 #    By: pstringe <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/08/02 14:49:53 by pstringe          #+#    #+#              #
-#    Updated: 2019/02/18 10:12:48 by pstringe         ###   ########.fr        #
+#    Updated: 2019/02/18 13:36:44 by pstringe         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -29,6 +29,7 @@ SSRCS = server\
 		history\
 		entry\
 		alarm/alarm\
+		command_music\
 		command_weather\
 		command_email\
 		command_search\
