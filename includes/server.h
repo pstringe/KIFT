@@ -6,38 +6,32 @@
 /*   By: pstringe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/05 18:05:26 by pstringe          #+#    #+#             */
-/*   Updated: 2019/02/18 15:25:53 by pstringe         ###   ########.fr       */
+/*   Updated: 2019/02/18 19:44:17 by pstringe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef SERVER_H
-/*
-** multiserver includes /defines
-*/
-
-#include <errno.h>
-#include <unistd.h>
-#include <sys/types.h>
-
-#define BUF_SIZE 4096
-#define TRUE	1
-#define FALSE	0
 
 /*
-**	will remove this eventually, just making sure it doesn't cause any problems first
-*/
-
-//#define PORT 	4000
-#define MAX_CLIENTS 3
-
-/*
-**	old includes / defines
+** defines
 */
 
 # define SERVER_H
+# define BUF_SIZE 4096
+# define TRUE	1
+# define FALSE	0
+# define MAX_CLIENTS 3
 # define MAX_COMMAND_SIZE 256
-# define NO_OF_CMDS 9
-# define SOCK_BUF_SIZE 256
+# define NO_OF_CMDS 11
+# define SOCK_BUF_SIZE 4096
+
+/*
+** includes
+*/
+
+# include <errno.h>
+# include <unistd.h>
+# include <sys/types.h>
 # include "libft.h"
 # include <stdio.h>
 # include <sys/socket.h>
@@ -64,6 +58,8 @@ t_request	prompt_request(t_server *s, int socket, char *prompt);
 **	commands
 */
 
+void	cmd_lightsup(t_server *server);
+void	cmd_lightsdown(t_server *server);
 void	cmd_sms(t_server *server);
 void	cmd_music(t_server *server);
 void	cmd_weather(t_server *server);

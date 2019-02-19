@@ -6,7 +6,7 @@
 #    By: pstringe <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/08/02 14:49:53 by pstringe          #+#    #+#              #
-#    Updated: 2019/02/18 15:28:25 by pstringe         ###   ########.fr        #
+#    Updated: 2019/02/18 19:34:17 by pstringe         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -29,6 +29,8 @@ SSRCS = server\
 		history\
 		entry\
 		alarm/alarm\
+		bright_or_dim_screen/command_lightsup\
+		bright_or_dim_screen/command_lightsdown\
 		command_music\
 		command_weather\
 		command_sms\

@@ -6,7 +6,7 @@
 /*   By: drosa-ta <drosa-ta@student.42.us.org>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/02 15:52:32 by pstringe          #+#    #+#             */
-/*   Updated: 2019/01/25 03:32:45 by pstringe         ###   ########.fr       */
+/*   Updated: 2019/02/18 19:43:09 by pstringe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,7 +116,7 @@ int main(int argc, char const **argv)
 		imode = 0;
 		ioctl(sock, FIONBIO, &imode);
 		int ret;
-		if ((ret = read(sock, &buf, CLIENT_BUF_SIZE)) < 0)
+		if ((ret = read(sock, &buf, 4096)) < 0)
 			ft_printf("error with read\n");
 		else if (ret == 0)
 			ft_printf("nothing returned");

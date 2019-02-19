@@ -6,7 +6,7 @@
 /*   By: pstringe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/02 17:52:13 by pstringe          #+#    #+#             */
-/*   Updated: 2019/02/18 15:24:56 by pstringe         ###   ########.fr       */
+/*   Updated: 2019/02/18 19:44:44 by pstringe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@
 */
 
 struct s_command g_cmds[NO_OF_CMDS] = {
+	{"lights up", cmd_lightsup},
+	{"lights down", cmd_lightsdown},
 	{"quit", cmd_quit},
 	{"history", cmd_history},
 	{"play music", cmd_music},
@@ -25,7 +27,6 @@ struct s_command g_cmds[NO_OF_CMDS] = {
 	{"send email", cmd_email},
 	{"send sms", cmd_sms},
 	{"weather", cmd_weather},
-	//{"lights MOTHAFUCKA!!!!", cmd_lights },
 	{NULL, NULL}
 };
 
