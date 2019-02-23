@@ -6,7 +6,7 @@
 /*   By: pstringe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/14 10:28:39 by pstringe          #+#    #+#             */
-/*   Updated: 2019/02/07 14:46:21 by pstringe         ###   ########.fr       */
+/*   Updated: 2019/02/21 20:07:54 by pstringe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@ typedef struct  s_server
 	int					l_sock; //intended to hold the socket that currently needs to be written to
 	int					listening;
 	int					port;
+	t_queue				*users;
 
 	struct sockaddr_in	addr;
 	socklen_t			addr_len;

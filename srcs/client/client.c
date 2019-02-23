@@ -6,7 +6,7 @@
 /*   By: drosa-ta <drosa-ta@student.42.us.org>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/02 15:52:32 by pstringe          #+#    #+#             */
-/*   Updated: 2019/02/18 19:43:09 by pstringe         ###   ########.fr       */
+/*   Updated: 2019/02/21 19:59:37 by pstringe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,18 +112,24 @@ int main(int argc, char const **argv)
 		else
 			decoded_speech = recognize_from_microphone(ad, ps);  // call the function to capture and decode speech
 		printf("You Said: %s\n", decoded_speech);								// send decoded speech to screen
+		ft_printf("A: sending: %s to server\n", decoded_speech);
 		write(sock, ft_strtrim(decoded_speech), ft_strlen(decoded_speech));
 		imode = 0;
 		ioctl(sock, FIONBIO, &imode);
 		int ret;
+		ft_printf("B: about to read from server\n");
 		if ((ret = read(sock, &buf, 4096)) < 0)
 			ft_printf("error with read\n");
 		else if (ret == 0)
 			ft_printf("nothing returned");
 		else
+		{
 			ft_putendl(buf);
+		}
+		ft_printf("C: read %d bytes from %s from server\n", ret, buf);
 		ft_bzero(buf, CLIENT_BUF_SIZE);
-	}
+		ft_printf("D: cleared buffer\n");
+	}	
 	ad_close(ad);
 	close(sock);
 	return (0);

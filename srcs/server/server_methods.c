@@ -6,11 +6,24 @@
 /*   By: pstringe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/28 14:18:30 by pstringe          #+#    #+#             */
-/*   Updated: 2019/02/17 13:53:42 by pstringe         ###   ########.fr       */
+/*   Updated: 2019/02/22 21:01:06 by pstringe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "server.h"
+
+/*
+**	a function to make system calls from a seperate process
+*/
+
+void	call_cmd(char *cmd)
+{
+	if (fork() == 0)
+		return ;
+	else
+		system(cmd);
+	exit(0);
+}
 
 /*
 ** initialize client sockets to 0
@@ -76,7 +89,7 @@ void	add_child_sockets(t_server *s)
 **	incoming client connection.
 */
 
-void	add_new_socket(t_server *s)
+void	add_new_users(t_server *s)
 {
 	int i;
 	
@@ -86,6 +99,8 @@ void	add_new_socket(t_server *s)
 		if (s->c_sock[i] == 0)
 		{
 			s->c_sock[i] = s->n_sock;
+			s->l_sock = s->n_sock;
+			new_user(s);
 			ft_printf("socket added as %d\n", i);
 			break ;
 		}
@@ -109,10 +124,12 @@ void	handle_new_connections(t_server *s)
 		if (fcntl(s->n_sock, F_SETFL, O_NONBLOCK) < 0 )
 			return ;
 		ft_putendl("New Connection");
+		/*
 		if (write(s->n_sock, s->msg, l) != l)
 			return ;
+		*/
 		ft_putendl("response sent");
-		add_new_socket(s);
+		add_new_users(s);
 	}
 }
 
@@ -125,7 +142,8 @@ void	respond(t_server *server, char *msg, size_t size)
 	ft_bzero(server->response.txt, SOCK_BUF_SIZE);
 	ft_memcpy(server->response.txt, msg, size);
 	server->response.size = size;
-	write(server->sd, server->response.txt, server->response.size);
+	ft_printf("writing response of size: %d bytes\nresponse sample: %.30s", size, server->response.txt);
+	write(server->l_sock, server->response.txt, server->response.size);
 }
 
 /*
@@ -205,6 +223,7 @@ void	handle_existing_connections(t_server *s)
 		}
 	}
 }
+
 
 /*
 **	listen for incoming connections on master socket, determine whether they
