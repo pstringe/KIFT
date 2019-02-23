@@ -6,7 +6,7 @@
 #    By: pstringe <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/08/02 14:49:53 by pstringe          #+#    #+#              #
-#    Updated: 2019/02/21 20:12:07 by pstringe         ###   ########.fr        #
+#    Updated: 2019/02/22 21:17:24 by pstringe         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -80,7 +80,7 @@ debug-multiserver: fclean $(INCD)$(LIB)
 
 debug-server: fclean $(INCD)$(LIB)
 	$(CC) $(CFLAGS) $(DFLAGS) -o $(SERVER) $(patsubst %, $(SSRCD)%.c, $(SSRCS)) \
-	-L$(LIBD) -lft -I $(INCD)  -I $(LIBD)
+	-L$(LIBD) -lft -lcurl -I $(INCD)  -I $(LIBD)
 
 debug-client: fclean $(INCD)$(LIB)
 	$(CC) $(CFLAGS) $(DFLAGS) -o $(CLIENT) $(patsubst %, $(CSRCD)%.c, $(CSRCS)) \
