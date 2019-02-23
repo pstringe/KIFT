@@ -6,7 +6,7 @@
 /*   By: pstringe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/05 18:05:26 by pstringe          #+#    #+#             */
-/*   Updated: 2019/02/21 20:17:06 by pstringe         ###   ########.fr       */
+/*   Updated: 2019/02/23 01:19:11 by pstringe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@
 **	server methods
 */
 
-void		respond(t_server *server, char *msg, size_t size);
+void		respond(t_server *server, char *msg, int size);
 int			dispatch(t_server *server);
 //int		establish_connection(t_server *server, int argc);
 void		init_client_socks(t_server *s);

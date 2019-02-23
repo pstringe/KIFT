@@ -6,7 +6,7 @@
 /*   By: drosa-ta <drosa-ta@student.42.us.org>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/02 15:52:32 by pstringe          #+#    #+#             */
-/*   Updated: 2019/02/22 21:37:35 by pstringe         ###   ########.fr       */
+/*   Updated: 2019/02/23 01:04:32 by pstringe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,9 @@ int main(int argc, char const **argv)
 	serv_addr.sin_port = htons(port);
 	serv_addr.sin_addr.s_addr = INADDR_ANY;
 	con = connect(sock, (struct sockaddr *)&serv_addr, sizeof(serv_addr));
-	read(sock, &buf, CLIENT_BUF_SIZE);
+	imode = 1;
+	ioctl(sock, FIONBIO, &imode);
+	while(read(sock, &buf, CLIENT_BUF_SIZE) < 0);
 	ft_putendl(buf);
 	ft_bzero(buf, CLIENT_BUF_SIZE);
 
@@ -103,29 +105,42 @@ int main(int argc, char const **argv)
 	ps = ps_init(config);                                                        // initialize the pocketsphinx decoder
 	ad = ad_open_dev("sysdefault", (int) cmd_ln_float32_r(config, "-samprate")); // open default microphone at default samplerate
 
+	//int f = 1; // a flag to test for first itteration
+	int	rr = 0;  // a flag to check that requests have been met with responses
+	int	f = 1;
 	while(1){
-		imode = 1;
-		ioctl(sock, FIONBIO, &imode);
-		if (debug_mode)
-			while (!getline((char**)&decoded_speech, &cap, stdin));
-		else
-			decoded_speech = recognize_from_microphone(ad, ps);  // call the function to capture and decode speech
-		printf("You Said: %s\n", decoded_speech);								// send decoded speech to screen
-		ft_printf("A: sending: %s to server\n", decoded_speech);
-		write(sock, ft_strtrim(decoded_speech), ft_strlen(decoded_speech));
-		int ret;
-		ft_printf("B: about to read from server\n");
-		if ((ret = read(sock, &buf, 4096)) < 0)
-			ft_printf("error with read\n");
-		else if (ret == 0)
-			ft_printf("nothing returned");
-		else
-		{
-			ft_putendl(buf);
+		if (!f){
+			int ret;
+			ft_printf("B: about to read from server\n");
+			if ((ret = read(sock, &buf, 4096)) < 0 /*&& (f = 0)*/)
+			{
+				ft_printf("waiting on server\n");
+				continue;
+			}
+			else if (ret == 0 && (rr = 0) /*&& (f = 0)*/)
+				ft_printf("server returned empty string");
+			else
+			{
+				ft_putendl(buf);
+				rr = 0;
+				f = 0;
+			}
+			ft_printf("C: read %d bytes from %s from server\n", ret, buf);
+			ft_bzero(buf, CLIENT_BUF_SIZE);
+			ft_printf("D: cleared buffer\n");
 		}
-		ft_printf("C: read %d bytes from %s from server\n", ret, buf);
-		ft_bzero(buf, CLIENT_BUF_SIZE);
-		ft_printf("D: cleared buffer\n");
+		if (!rr || f)
+		{
+			if (debug_mode)
+				while (getline((char**)&decoded_speech, &cap, stdin) < 0);
+			else
+				decoded_speech = recognize_from_microphone(ad, ps);  // call the function to capture and decode speech
+			printf("You Said: %s\n", decoded_speech);								// send decoded speech to screen
+			ft_printf("A: sending: %s to server\n", decoded_speech);
+			write(sock, ft_strtrim(decoded_speech), ft_strlen(decoded_speech));
+			rr = 1;
+			f = 0;
+		}
 	}	
 	ad_close(ad);
 	close(sock);

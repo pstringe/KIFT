@@ -6,7 +6,7 @@
 /*   By: pstringe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/10 10:53:29 by pstringe          #+#    #+#             */
-/*   Updated: 2019/02/08 20:08:12 by pstringe         ###   ########.fr       */
+/*   Updated: 2019/02/23 01:22:37 by pstringe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,14 +20,23 @@ void	history_display(t_server *server)
 {
 	t_list	*tmp;
 	t_entry *entry;
-	
+	char history[4096];
+
+	ft_bzero(history, 4096);
 	tmp = server->history.queue->head;
 	while (tmp)
 	{
 		entry = (t_entry*)(tmp->content);
-		entry->display(server, entry);
+		//entry->display(server, entry);
+		ft_strncat(history, "speech: ", 8 );
+		ft_strncat(history, entry->speech, ft_strlen(entry->speech));
+		ft_strncat(history, "\t", 1);
+		ft_strncat(history, "command: ", 9);
+		ft_strncat(history, entry->command, ft_strlen(entry->command));
+		ft_strncat(history, "\n", 1);
 		tmp = tmp->next;
 	}	
+	server->respond(server, history, -1);
 }
 
 /*

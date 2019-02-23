@@ -6,7 +6,7 @@
 /*   By: pstringe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/14 10:28:39 by pstringe          #+#    #+#             */
-/*   Updated: 2019/02/21 20:07:54 by pstringe         ###   ########.fr       */
+/*   Updated: 2019/02/23 01:21:49 by pstringe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ typedef struct  s_server
 	void				(*connect)(struct s_server*);
 	void				(*listen)(struct s_server*);
 	int					(*dispatch)(struct s_server*);
-	void				(*respond)(struct s_server*, char*, size_t);
+	void				(*respond)(struct s_server*, char*, int);
 }				t_server;
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: pstringe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/28 14:18:30 by pstringe          #+#    #+#             */
-/*   Updated: 2019/02/22 21:19:59 by pstringe         ###   ########.fr       */
+/*   Updated: 2019/02/23 01:18:31 by pstringe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,6 +102,7 @@ void	add_new_users(t_server *s)
 			s->l_sock = s->n_sock;
 			new_user(s);
 			ft_printf("user, %s added on as client, %d socket %d\n", s->users->tail->content, i, s->n_sock);
+			s->respond(s, "User Added", 11);
 			break ;
 		}
 	}
@@ -137,12 +138,14 @@ void	handle_new_connections(t_server *s)
 ** A function to for writing to  the response object and sending it off
 */
 
-void	respond(t_server *server, char *msg, size_t size)
+void	respond(t_server *server, char *msg, int size)
 {
+	if (size == -1)
+		size = ft_strlen(msg);
 	ft_bzero(server->response.txt, SOCK_BUF_SIZE);
 	ft_memcpy(server->response.txt, msg, size);
 	server->response.size = size;
-	ft_printf("writing response of size: %d bytes\nresponse sample: %.30s", size, server->response.txt);
+	ft_printf("writing response of size: %d bytes\nresponse sample: %.30s ...\n", size, server->response.txt);
 	write(server->l_sock, server->response.txt, server->response.size);
 }
 
