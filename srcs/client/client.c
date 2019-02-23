@@ -6,7 +6,7 @@
 /*   By: drosa-ta <drosa-ta@student.42.us.org>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/02 15:52:32 by pstringe          #+#    #+#             */
-/*   Updated: 2019/02/21 19:59:37 by pstringe         ###   ########.fr       */
+/*   Updated: 2019/02/22 21:37:35 by pstringe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,18 +104,15 @@ int main(int argc, char const **argv)
 	ad = ad_open_dev("sysdefault", (int) cmd_ln_float32_r(config, "-samprate")); // open default microphone at default samplerate
 
 	while(1){
+		imode = 1;
+		ioctl(sock, FIONBIO, &imode);
 		if (debug_mode)
-		{
-			if (getline((char**)&decoded_speech, &cap, stdin) == -1	)
-				return (-1);
-		}
+			while (!getline((char**)&decoded_speech, &cap, stdin));
 		else
 			decoded_speech = recognize_from_microphone(ad, ps);  // call the function to capture and decode speech
 		printf("You Said: %s\n", decoded_speech);								// send decoded speech to screen
 		ft_printf("A: sending: %s to server\n", decoded_speech);
 		write(sock, ft_strtrim(decoded_speech), ft_strlen(decoded_speech));
-		imode = 0;
-		ioctl(sock, FIONBIO, &imode);
 		int ret;
 		ft_printf("B: about to read from server\n");
 		if ((ret = read(sock, &buf, 4096)) < 0)
