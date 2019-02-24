@@ -6,7 +6,7 @@
 /*   By: pstringe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/28 14:18:30 by pstringe          #+#    #+#             */
-/*   Updated: 2019/02/23 01:18:31 by pstringe         ###   ########.fr       */
+/*   Updated: 2019/02/24 13:13:15 by pstringe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -242,14 +242,21 @@ void	listening(t_server *s)
 	while (TRUE)
 	{
 		FD_ZERO(&(s->fds));
+		ft_printf("debug: zeroed out fd struct\n");
 		FD_SET(s->m_sock, &(s->fds));
+		ft_printf("debug: set socket descriptors\n");
 		s->max_sd = s->m_sock;
+		ft_printf("debug: set max descriptor\n");
 		add_child_sockets(s);
+		ft_printf("debug: added child sockets\n");
 		s->activity = select( s->max_sd + 1, &(s->fds), NULL, NULL, NULL);
+		ft_printf("debug: select, returned %d file descriptors\n", s->activity);
 		if (s->activity < 0 && errno != EINTR)
 			ft_printf("select error\n");
 		handle_new_connections(s);
+		ft_printf("debug: handeled new connections");
 		handle_existing_connections(s);
+		ft_printf("debug: handeled existing connections");
 	}
 	return ;
 }

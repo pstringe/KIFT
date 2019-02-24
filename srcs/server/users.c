@@ -6,7 +6,7 @@
 /*   By: pstringe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/18 21:10:16 by pstringe          #+#    #+#             */
-/*   Updated: 2019/02/21 20:21:34 by pstringe         ###   ########.fr       */
+/*   Updated: 2019/02/24 13:39:26 by pstringe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,14 +25,17 @@ void cmd_whois(t_server *s)
 {
 	t_list	*tmp;
 	t_queue	*users;
+	char	response[4096];
 
 	users = s->users;
 	tmp = users->head;
 	while (tmp)
 	{
-		s->respond(s, tmp->content, tmp->content_size);
+		ft_strncat(response, tmp->content, tmp->content_size);
+		ft_strncat(response, tmp->next ? ", " : "", tmp->next ? 2 : 0);
 		tmp = tmp->next;
 	}
+	s->respond(s, response, ft_strlen(response));
 }
 
 void delete_user(t_server *s, int socket)
