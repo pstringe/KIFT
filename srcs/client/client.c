@@ -6,7 +6,7 @@
 /*   By: drosa-ta <drosa-ta@student.42.us.org>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/02 15:52:32 by pstringe          #+#    #+#             */
-/*   Updated: 2019/02/23 01:04:32 by pstringe         ###   ########.fr       */
+/*   Updated: 2019/02/24 12:43:03 by pstringe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,21 @@ const char * recognize_from_microphone(ad_rec_t *ad, ps_decoder_t *ps){
     }
 }
 
-int main(int argc, char const **argv)
+void 	say(char *buf)
+{
+	char cmd[4096];
+
+	ft_bzero(cmd, 4096);
+	ft_strncat(cmd, "say ", 4);
+	ft_strncat(cmd, buf, ft_strlen(buf));
+	if (fork() == 0)
+		system(cmd);
+	else
+		return ;
+	exit(0);
+}
+
+int		main(int argc, char const **argv)
 {
 	int					con;
 	int					port;
@@ -121,7 +135,7 @@ int main(int argc, char const **argv)
 				ft_printf("server returned empty string");
 			else
 			{
-				ft_putendl(buf);
+				say(buf);
 				rr = 0;
 				f = 0;
 			}
