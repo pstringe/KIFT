@@ -1,22 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   types.h                                            :+:      :+:    :+:   */
+/*   s_user.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pstringe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/09/16 19:19:33 by pstringe          #+#    #+#             */
-/*   Updated: 2019/02/24 17:56:05 by pstringe         ###   ########.fr       */
+/*   Created: 2019/02/24 14:01:50 by pstringe          #+#    #+#             */
+/*   Updated: 2019/02/24 18:02:55 by pstringe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef SERVER_TYPES_H
-# define SERVER_TYPES_H
-# include "types/s_server.h"
-# include "types/s_command.h"
-# include "types/s_entry.h"
-# include "types/s_history.h"
-# include "types/s_request.h"
-# include "types/s_response.h"
-# include "types/s_user.h"
+#ifndef S_USER_H
+# define S_USER_H
+# include <netinet/in.h>
+
+typedef struct	s_user
+{
+	char 	name[256];
+	int		port;
+	char	*address;
+}				t_user;
 #endif

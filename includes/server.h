@@ -6,7 +6,7 @@
 /*   By: pstringe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/05 18:05:26 by pstringe          #+#    #+#             */
-/*   Updated: 2019/02/23 01:19:11 by pstringe         ###   ########.fr       */
+/*   Updated: 2019/02/24 18:00:18 by pstringe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ t_request	prompt_request(t_server *s, int socket, char *prompt);
 **	user methods
 */
 
-void		new_user(t_server *s);
+void		add_user(t_server *s);
 void		delete_user(t_server *s, int idx);
 
 /*

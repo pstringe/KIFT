@@ -6,7 +6,7 @@
 /*   By: pstringe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/28 14:18:30 by pstringe          #+#    #+#             */
-/*   Updated: 2019/02/24 13:13:15 by pstringe         ###   ########.fr       */
+/*   Updated: 2019/02/24 14:34:48 by pstringe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,7 +100,7 @@ void	add_new_users(t_server *s)
 		{
 			s->c_sock[i] = s->n_sock;
 			s->l_sock = s->n_sock;
-			new_user(s);
+			add_user(s);
 			ft_printf("user, %s added on as client, %d socket %d\n", s->users->tail->content, i, s->n_sock);
 			s->respond(s, "User Added", 11);
 			break ;
