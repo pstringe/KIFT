@@ -6,7 +6,7 @@
 /*   By: pstringe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/28 14:18:30 by pstringe          #+#    #+#             */
-/*   Updated: 2019/02/24 14:34:48 by pstringe         ###   ########.fr       */
+/*   Updated: 2019/02/24 18:37:18 by pstringe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -208,6 +208,7 @@ void	handle_existing_connections(t_server *s)
 		if (!prompt_request(s, s->sd, NULL).size)
 		{
 			getpeername(s->sd, (struct sockaddr*)&(s->addr), (socklen_t*)&(s->addrlen));
+			delete_user(s, s->c_sock[i]);
 			ft_printf("Host disconnected, ip %s, port %d\n", inet_ntoa(s->addr.sin_addr), ntohs(s->addr.sin_port));
 			close(s->sd);
 			s->c_sock[i] = 0; 

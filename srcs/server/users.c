@@ -6,7 +6,7 @@
 /*   By: pstringe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/18 21:10:16 by pstringe          #+#    #+#             */
-/*   Updated: 2019/02/24 18:03:14 by pstringe         ###   ########.fr       */
+/*   Updated: 2019/02/24 18:38:38 by pstringe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ t_user	*new_user(t_server *s, char *name)
 	ft_bzero(user->name, 256);
 	ft_memcpy(user->name, name, ft_strlen(name));
 	user->port = port;
+	user->socket = s->l_sock;
 	user->address = ip;
 	return (user);
 }
@@ -64,16 +65,30 @@ void cmd_whois(t_server *s)
 
 void delete_user(t_server *s, int socket)
 {
-	(void)s;
-	(void)socket;
-	/*
-	int 	i;
-	t_list *tmp;
 	t_queue *users;
+	t_user 	*user;
+	t_list  *tmp;
+	t_list	*last;
 
-	i = -1;
-	while (++i < idx);
-	*/
-	return ;
+	users = s->users;
+	last = users->head;
+	tmp = users->head;
+	while(tmp)
+	{
+		user = (t_user*)(tmp->content);
+		if (user->socket == socket)
+		{
+			last->next = tmp->next;
+			if (tmp == users->head)
+				users->head = tmp->next;
+			if (tmp == users->tail)
+				users->tail = last;
+			free(tmp);
+
+		}
+		if (tmp != users->head)
+			last = last->next;
+		tmp = tmp->next;
+	}
 }
 
