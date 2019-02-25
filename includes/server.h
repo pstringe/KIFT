@@ -6,7 +6,7 @@
 /*   By: pstringe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/05 18:05:26 by pstringe          #+#    #+#             */
-/*   Updated: 2019/02/24 18:00:18 by pstringe         ###   ########.fr       */
+/*   Updated: 2019/02/24 19:03:58 by pstringe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@
 # define FALSE	0
 # define MAX_CLIENTS 3
 # define MAX_COMMAND_SIZE 256
-# define NO_OF_CMDS 12
+# define NO_OF_CMDS 13
 # define SOCK_BUF_SIZE 4096
 
 /*
@@ -59,12 +59,13 @@ t_request	prompt_request(t_server *s, int socket, char *prompt);
 */
 
 void		add_user(t_server *s);
-void		delete_user(t_server *s, int idx);
+void		delete_user(t_server *s, int sock);
 
 /*
 **	commands
 */
 
+void	cmd_whereis(t_server *s);
 void	cmd_whois(t_server *s);
 void	cmd_lightsup(t_server *server);
 void	cmd_lightsdown(t_server *server);

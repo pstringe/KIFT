@@ -6,7 +6,7 @@
 /*   By: pstringe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/02 17:52:13 by pstringe          #+#    #+#             */
-/*   Updated: 2019/02/22 20:38:28 by pstringe         ###   ########.fr       */
+/*   Updated: 2019/02/24 19:03:03 by pstringe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 
 struct s_command g_cmds[NO_OF_CMDS] = {
 	{"whois", cmd_whois},
+	{"whereis", cmd_whereis},
 	{"lights up", cmd_lightsup},
 	{"lights down", cmd_lightsdown},
 	{"quit", cmd_quit},
