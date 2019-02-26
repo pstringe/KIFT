@@ -6,7 +6,7 @@
 /*   By: pstringe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/28 14:18:30 by pstringe          #+#    #+#             */
-/*   Updated: 2019/02/24 18:37:18 by pstringe         ###   ########.fr       */
+/*   Updated: 2019/02/26 13:11:00 by pstringe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -182,13 +182,13 @@ int		dispatch(t_server *server)
 
 t_request	prompt_request(t_server *s, int socket, char *prompt)
 {
-	if (prompt)
-		respond(s, prompt, ft_strlen(prompt));
-
+	respond(s, !prompt ? "(null)" : prompt, !prompt ? 6 : ft_strlen(prompt));
 	ft_bzero(s->request.text, BUF_SIZE);
 
 	/*Here, we need the read to block*/
-	while ((s->request.size = read(socket, &(s->request.text), BUF_SIZE)) < 0);
+	while ((s->request.size = read(socket, &(s->request.text), BUF_SIZE)) < 0)
+		if (s->request.size == 0)
+			break ;
 	return (s->request);
 }
 
@@ -205,8 +205,10 @@ void	handle_existing_connections(t_server *s)
 	while (++i < s->max_sd && s->c_sock[i])
 	{
 		s->sd = s->c_sock[i];
+		ft_printf("debug:\n\th_e_c: set sock\n");
 		if (!prompt_request(s, s->sd, NULL).size)
 		{
+			ft_printf("removing user");
 			getpeername(s->sd, (struct sockaddr*)&(s->addr), (socklen_t*)&(s->addrlen));
 			delete_user(s, s->c_sock[i]);
 			ft_printf("Host disconnected, ip %s, port %d\n", inet_ntoa(s->addr.sin_addr), ntohs(s->addr.sin_port));
@@ -221,11 +223,12 @@ void	handle_existing_connections(t_server *s)
 			if (s->request.size)
 			{
 				ft_putendl(s->request.text);
-				if (!s->dispatch(s) && s->request.size > 0)
+				if (ft_strncmp(s->request.text, "(null)", 6) && !s->dispatch(s) && s->request.size > 0)
 					s->respond(s, "command not recognized", 22);
 			}
 		}
 	}
+	ft_printf("debug:\n\thec: end\n");
 }
 
 
@@ -255,9 +258,9 @@ void	listening(t_server *s)
 		if (s->activity < 0 && errno != EINTR)
 			ft_printf("select error\n");
 		handle_new_connections(s);
-		ft_printf("debug: handeled new connections");
+		ft_printf("debug: handeled new connections\n");
 		handle_existing_connections(s);
-		ft_printf("debug: handeled existing connections");
+		ft_printf("debug: handeled existing connections\n");
 	}
 	return ;
 }

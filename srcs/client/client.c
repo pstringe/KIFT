@@ -6,7 +6,7 @@
 /*   By: drosa-ta <drosa-ta@student.42.us.org>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/02 15:52:32 by pstringe          #+#    #+#             */
-/*   Updated: 2019/02/24 12:43:03 by pstringe         ###   ########.fr       */
+/*   Updated: 2019/02/26 01:50:04 by pstringe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,18 +123,23 @@ int		main(int argc, char const **argv)
 	int	rr = 0;  // a flag to check that requests have been met with responses
 	int	f = 1;
 	while(1){
-		if (!f){
+		if (!f)
+		{
 			int ret;
 			ft_printf("B: about to read from server\n");
-			if ((ret = read(sock, &buf, 4096)) < 0 /*&& (f = 0)*/)
+			if ((ret = read(sock, &buf, 4096)) < 0)
 			{
 				ft_printf("waiting on server\n");
 				continue;
 			}
-			else if (ret == 0 && (rr = 0) /*&& (f = 0)*/)
+			else if (ret == 0 && (rr = 0))
 				ft_printf("server returned empty string");
 			else
 			{
+				/*
+				if (!ft_strncmp(buf, "(null)", 6))
+					write(sock, "(null)", 6);
+				*/
 				say(buf);
 				rr = 0;
 				f = 0;
