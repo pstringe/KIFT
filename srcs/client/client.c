@@ -6,7 +6,7 @@
 /*   By: drosa-ta <drosa-ta@student.42.us.org>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/02 15:52:32 by pstringe          #+#    #+#             */
-/*   Updated: 2019/02/26 01:50:04 by pstringe         ###   ########.fr       */
+/*   Updated: 2019/03/01 01:07:55 by pstringe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,9 +67,19 @@ void 	say(char *buf)
 	exit(0);
 }
 
-int		main(int argc, char const **argv)
+typedef struct	s_sphinx
+{
+	cmd_ln_t *config;
+	ad_rec_t *ad;
+	ps_decoder_t *ps;
+
+}				t_sphinx;
+
+typedef	struct	s_client
 {
 	int					con;
+	int					rr;  // a flag to check that requests have been met with responses
+	int					f;
 	int					port;
 	int					sock;
 	int					debug_mode;
@@ -77,91 +87,117 @@ int		main(int argc, char const **argv)
 	char				buf[CLIENT_BUF_SIZE];
 	struct sockaddr_in 	serv_addr;
 	int 				imode;
+	char const			*decoded_speech;
+}				t_client;
 
-	//set debug mode to true if the option is set
-	debug_mode = !ft_strncmp(argv[1], "--debug", 7) ? 1 : 0;
-	cmd_ln_t *config = NULL;           // create configuration structure
-	ad_rec_t *ad = NULL;
-	ps_decoder_t *ps = NULL;           // create pocketsphinx decoder structure
-	char const *decoded_speech = NULL;
+void	sphinx_init(t_sphinx *s)
+{
+	//s->config = NULL;           			// create configuration structure
+	s->ad = NULL;
+	s->ps = NULL;           			// create pocketsphinx decoder structure
+	s->config = cmd_ln_init(NULL, ps_args(), TRUE,	// Load the configuration structure - ps_args() passes the default values
+		"-hmm", MODELDIR "/en-us/en-us", 			// path to the standard english language model
+		"-lm", MODELDIR "/en-us/en-us.lm.bin",  	// custom language model (file must be present)
+		"-dict", MODELDIR "/en-us/cmudict-en-us.dict",  // custom dictionary (file must be present)
+		"-logfn", "/dev/null",  					// suppress log info from being sent to screen
+		NULL);
 
+	s->ps = ps_init(s->config);        				// initialize the pocketsphinx decoder
+	s->ad = ad_open_dev("sysdefault", (int) cmd_ln_float32_r(s->config, "-samprate")); // open default microphone at default samplerate
+}
+
+void	client_init(int argc, char **argv, t_client *c, t_sphinx *s)
+{
+	c->rr = 0;
+	c->f = 1;
+	c->debug_mode = !ft_strncmp(argv[1], "--debug", 7) ? 1 : 0;
+	c->decoded_speech = NULL;
 	if (argc < 2)
 	{
 		perror("Please specify port");
-		return (-1);
+		exit(1);
 	}
-
-	sock = socket(AF_INET, SOCK_STREAM, 0);
-	serv_addr.sin_family = AF_INET;
-	port = ft_atoi(debug_mode ? argv[2] : argv[1]);
-	serv_addr.sin_port = htons(port);
-	serv_addr.sin_addr.s_addr = INADDR_ANY;
-	con = connect(sock, (struct sockaddr *)&serv_addr, sizeof(serv_addr));
-	imode = 1;
-	ioctl(sock, FIONBIO, &imode);
-	while(read(sock, &buf, CLIENT_BUF_SIZE) < 0);
-	ft_putendl(buf);
-	ft_bzero(buf, CLIENT_BUF_SIZE);
-
-	if (con < 0)
+	c->sock = socket(AF_INET, SOCK_STREAM, 0);
+	c->serv_addr.sin_family = AF_INET;
+	c->port = ft_atoi(c->debug_mode ? argv[2] : argv[1]);
+	c->serv_addr.sin_port = htons(c->port);
+	c->serv_addr.sin_addr.s_addr = INADDR_ANY;
+	c->con = connect(c->sock, (struct sockaddr *)&(c->serv_addr), sizeof(c->serv_addr));
+	c->imode = 1;
+	ioctl(c->sock, FIONBIO, &(c->imode));
+	while(read(c->sock, &(c->buf), CLIENT_BUF_SIZE) < 0);
+	ft_putendl(c->buf);
+	ft_bzero(c->buf, CLIENT_BUF_SIZE);
+	if (c->con < 0)
 	{
 		perror("Connection error");
-		return (-1);
+		exit(1);
 	}
+	sphinx_init(s);
+}
 
-	config = cmd_ln_init(NULL, ps_args(), TRUE,                   // Load the configuration structure - ps_args() passes the default values
-		"-hmm", MODELDIR "/en-us/en-us",                            // path to the standard english language model
-		"-lm", MODELDIR "/en-us/en-us.lm.bin",                      // custom language model (file must be present)
-		"-dict", MODELDIR "/en-us/cmudict-en-us.dict",              // custom dictionary (file must be present)
-		"-logfn", "/dev/null",                                      // suppress log info from being sent to screen
-		NULL);
+void	user_request(t_client *c, t_sphinx *s)
+{
 
-	ps = ps_init(config);                                                        // initialize the pocketsphinx decoder
-	ad = ad_open_dev("sysdefault", (int) cmd_ln_float32_r(config, "-samprate")); // open default microphone at default samplerate
+	if (!c->rr || c->f)
+	{
+		if (c->debug_mode)
+			while (getline((char**)&(c->decoded_speech), &(c->cap), stdin) < 0);
+		else
+			c->decoded_speech = recognize_from_microphone(s->ad, s->ps);  // call the function to capture and decode speech
+		printf("You Said: %s\n", c->decoded_speech);								// send decoded speech to screen
+		ft_printf("A: sending: %s to server\n", c->decoded_speech);
+		write(c->sock, ft_strtrim(c->decoded_speech), ft_strlen(c->decoded_speech));
+		c->rr = 1;
+		c->f = 0;
+	}
+}
 
-	//int f = 1; // a flag to test for first itteration
-	int	rr = 0;  // a flag to check that requests have been met with responses
-	int	f = 1;
+int		server_response(t_client *c)
+{
+	if (!c->f)
+	{
+		int ret;
+		
+		ft_printf("B: about to read from server\n");
+		if ((ret = read(c->sock, &(c->buf), 4096)) < 0)
+		{
+			ft_printf("waiting on server\n");
+			return (0);
+		}
+		else if (ret == 0 && (c->rr = 0))
+			ft_printf("server returned empty string");
+		else
+		{
+			say(c->buf);
+			c->rr = 0;
+			c->f = 0;
+		}
+		ft_printf("C: read %d bytes from %s from server\n", ret, c->buf);
+		ft_bzero(c->buf, CLIENT_BUF_SIZE);
+		ft_printf("D: cleared buffer\n");
+	}
+	return (1);
+}
+
+void	client_terminate(t_client *c, t_sphinx *s)
+{
+	ad_close(s->ad);
+	close(c->sock);
+}
+
+int		main(int argc, char **argv)
+{
+
+	t_client	client;
+	t_sphinx	sphinx;
+
+	client_init(argc, argv, &client, &sphinx);
 	while(1){
-		if (!f)
-		{
-			int ret;
-			ft_printf("B: about to read from server\n");
-			if ((ret = read(sock, &buf, 4096)) < 0)
-			{
-				ft_printf("waiting on server\n");
-				continue;
-			}
-			else if (ret == 0 && (rr = 0))
-				ft_printf("server returned empty string");
-			else
-			{
-				/*
-				if (!ft_strncmp(buf, "(null)", 6))
-					write(sock, "(null)", 6);
-				*/
-				say(buf);
-				rr = 0;
-				f = 0;
-			}
-			ft_printf("C: read %d bytes from %s from server\n", ret, buf);
-			ft_bzero(buf, CLIENT_BUF_SIZE);
-			ft_printf("D: cleared buffer\n");
-		}
-		if (!rr || f)
-		{
-			if (debug_mode)
-				while (getline((char**)&decoded_speech, &cap, stdin) < 0);
-			else
-				decoded_speech = recognize_from_microphone(ad, ps);  // call the function to capture and decode speech
-			printf("You Said: %s\n", decoded_speech);								// send decoded speech to screen
-			ft_printf("A: sending: %s to server\n", decoded_speech);
-			write(sock, ft_strtrim(decoded_speech), ft_strlen(decoded_speech));
-			rr = 1;
-			f = 0;
-		}
+		if(!server_response(&client))
+			continue ;
+		user_request(&client, &sphinx);
 	}	
-	ad_close(ad);
-	close(sock);
+	client_terminate(&client, &sphinx);
 	return (0);
 }
