@@ -6,7 +6,7 @@
 /*   By: drosa-ta <drosa-ta@student.42.us.org>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/02 15:52:32 by pstringe          #+#    #+#             */
-/*   Updated: 2019/03/03 14:13:51 by pstringe         ###   ########.fr       */
+/*   Updated: 2019/03/03 15:15:50 by pstringe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,10 @@ const char * recognize_from_microphone(ad_rec_t *ad, ps_decoder_t *ps)
     }
 }
 
+/*
+**	reads aloud whatever string is passed to it. the string must not have new line chars
+*/
+
 void 	say(char *buf)
 {
 	char cmd[4096];
@@ -91,6 +95,10 @@ typedef	struct	s_client
 	char const			*decoded_speech;
 }				t_client;
 
+/*
+**	initializes pocket sphinx tools for speech recognition
+*/
+
 void	sphinx_init(t_sphinx *s)
 {
 	//s->config = NULL;           			// create configuration structure
@@ -106,6 +114,11 @@ void	sphinx_init(t_sphinx *s)
 	s->ps = ps_init(s->config);        				// initialize the pocketsphinx decoder
 	s->ad = ad_open_dev("sysdefault", (int) cmd_ln_float32_r(s->config, "-samprate")); // open default microphone at default samplerate
 }
+
+/*
+**	initializes input and networking properties of the client, as well as the neccessary tools
+**	for speech recognition
+*/
 
 void	client_init(int argc, char **argv, t_client *c, t_sphinx *s)
 {
@@ -137,6 +150,10 @@ void	client_init(int argc, char **argv, t_client *c, t_sphinx *s)
 	sphinx_init(s);
 }
 
+/*
+**	this function obtains user input and sends it to the server
+*/
+
 void	user_request(t_client *c, t_sphinx *s)
 {
 
@@ -153,6 +170,10 @@ void	user_request(t_client *c, t_sphinx *s)
 		c->f = 0;
 	}
 }
+
+/*
+**	this function handels responses from the server
+*/
 
 int		server_response(t_client *c)
 {
@@ -187,6 +208,10 @@ int		server_response(t_client *c)
 	}
 	return (1);
 }
+
+/*
+**	a function to terminate the client
+*/
 
 void	client_terminate(t_client *c, t_sphinx *s)
 {
