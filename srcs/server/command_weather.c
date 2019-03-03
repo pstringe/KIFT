@@ -6,7 +6,7 @@
 /*   By: ssong <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/13 16:51:21 by ssong             #+#    #+#             */
-/*   Updated: 2019/02/18 10:21:03 by pstringe         ###   ########.fr       */
+/*   Updated: 2019/03/03 02:15:47 by pstringe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@ char *parse_JSON(char *message)
 	temperature[2] = 0;
 	
 	response = ft_strnew(128);
-	sprintf(response, "Today's temperature is %s degrees farenheit with %s\n", temperature, conditions);
+	sprintf(response, "\"Today\'s temperature is %s degrees farenheit with %s\"", temperature, conditions);
 	return (response);
 }
 
