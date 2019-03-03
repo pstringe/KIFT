@@ -6,7 +6,7 @@
 /*   By: drosa-ta <drosa-ta@student.42.us.org>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/02 15:52:32 by pstringe          #+#    #+#             */
-/*   Updated: 2019/03/01 01:07:55 by pstringe         ###   ########.fr       */
+/*   Updated: 2019/03/02 23:55:01 by pstringe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,8 @@
 ** ad creates audio recording structure - for use with ALSA functions
 */
 
-const char * recognize_from_microphone(ad_rec_t *ad, ps_decoder_t *ps){
+const char * recognize_from_microphone(ad_rec_t *ad, ps_decoder_t *ps)
+{
 	int16 adbuf[4096];                 // buffer array to hold audio data
 	uint8 utt_started, in_speech;      // flags for tracking active speech - has speech started? - is speech currently happening?
 	int32 k;                           // holds the number of frames in the audio buffer
@@ -160,7 +161,8 @@ int		server_response(t_client *c)
 		int ret;
 		
 		ft_printf("B: about to read from server\n");
-		if ((ret = read(c->sock, &(c->buf), 4096)) < 0)
+		while ((ret = read(c->sock, &(c->buf), 4096)) && !ft_strncmp(c->buf, "(null)", 6));
+		if ( ret < 0)
 		{
 			ft_printf("waiting on server\n");
 			return (0);
@@ -188,15 +190,13 @@ void	client_terminate(t_client *c, t_sphinx *s)
 
 int		main(int argc, char **argv)
 {
-
 	t_client	client;
 	t_sphinx	sphinx;
 
 	client_init(argc, argv, &client, &sphinx);
 	while(1){
-		if(!server_response(&client))
-			continue ;
-		user_request(&client, &sphinx);
+		if(server_response(&client))
+			user_request(&client, &sphinx);
 	}	
 	client_terminate(&client, &sphinx);
 	return (0);
