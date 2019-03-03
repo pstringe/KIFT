@@ -6,7 +6,7 @@
 /*   By: pstringe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/02 17:52:13 by pstringe          #+#    #+#             */
-/*   Updated: 2019/03/03 01:31:10 by pstringe         ###   ########.fr       */
+/*   Updated: 2019/03/03 14:32:21 by pstringe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,18 +17,18 @@
 */
 
 struct s_command g_cmds[NO_OF_CMDS] = {
-	{"whois", cmd_whois},
-	{"whereis", cmd_whereis},
-	{"bright", cmd_lightsup},
-	{"dim", cmd_lightsdown},
-	{"quit", cmd_quit},
-	{"history", cmd_history},
-	{"play music", cmd_music},
-	{"set alarm", cmd_alarm},
-	{"search the web", cmd_search},
-	{"send email", cmd_email},
-	{"send sms", cmd_sms},
-	{"weather", cmd_weather},
+	{"WHOIS", cmd_whois},
+	{"WHEREIS", cmd_whereis},
+	{"BRIGHT", cmd_lightsup},
+	{"DIM", cmd_lightsdown},
+	{"QUIT", cmd_quit},
+	{"HISTORY", cmd_history},
+	{"PLAYMUSIC", cmd_music},
+	{"SETALARM", cmd_alarm},
+	{"SEARCHTHEWEB", cmd_search},
+	{"SENDEMAIL", cmd_email},
+	{"SENDSMS", cmd_sms},
+	{"WEATHER", cmd_weather},
 	{NULL, NULL}
 };
 

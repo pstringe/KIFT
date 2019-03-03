@@ -6,7 +6,7 @@
 /*   By: drosa-ta <drosa-ta@student.42.us.org>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/02 15:52:32 by pstringe          #+#    #+#             */
-/*   Updated: 2019/03/03 02:06:45 by pstringe         ###   ########.fr       */
+/*   Updated: 2019/03/03 14:13:51 by pstringe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,9 +98,9 @@ void	sphinx_init(t_sphinx *s)
 	s->ps = NULL;           			// create pocketsphinx decoder structure
 	s->config = cmd_ln_init(NULL, ps_args(), TRUE,	// Load the configuration structure - ps_args() passes the default values
 		"-hmm", MODELDIR "/en-us/en-us", 			// path to the standard english language model
-		"-lm", MODELDIR "/en-us/en-us.lm.bin",  	// custom language model (file must be present)
-		"-dict", MODELDIR "/en-us/cmudict-en-us.dict",  // custom dictionary (file must be present)
-		"-logfn", "/dev/null",  					// suppress log info from being sent to screen
+		"-lm", "dict/model.lm.bin"/*MODELDIR "/en-us/en-us.lm.bin"*/,  	// custom language model (file must be present)
+		"-dict", "dict/dict.dic" /*MODELDIR "/en-us/cmudict-en-us.dict"*/,  // custom dictionary (file must be present)
+		/*"-logfn", "/dev/null",*/  					// suppress log info from being sent to screen
 		NULL);
 
 	s->ps = ps_init(s->config);        				// initialize the pocketsphinx decoder
@@ -145,7 +145,7 @@ void	user_request(t_client *c, t_sphinx *s)
 		if (c->debug_mode)
 			while (getline((char**)&(c->decoded_speech), &(c->cap), stdin) < 0);
 		else
-			c->decoded_speech = recognize_from_microphone(s->ad, s->ps);  // call the function to capture and decode speech
+			while (!ft_strlen((c->decoded_speech = recognize_from_microphone(s->ad, s->ps))));
 		printf("You Said: %s\n", c->decoded_speech);								// send decoded speech to screen
 		ft_printf("A: sending: %s to server\n", c->decoded_speech);
 		write(c->sock, ft_strtrim(c->decoded_speech), ft_strlen(c->decoded_speech));

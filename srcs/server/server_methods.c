@@ -6,7 +6,7 @@
 /*   By: pstringe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/28 14:18:30 by pstringe          #+#    #+#             */
-/*   Updated: 2019/03/02 23:34:00 by pstringe         ###   ########.fr       */
+/*   Updated: 2019/03/03 02:32:09 by pstringe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -166,12 +166,16 @@ int		dispatch(t_server *server)
 			server->request.command.action = server->cmds[i].action;
 			server->cmds[i].action(server);
 			if (i)
+			{
 				server->history.update(server);
+				server->history.save(server);
+			}
 			return (1);
 		}
 	}
 	server->request.command.name = NULL;
 	server->history.update(server);
+	server->history.save(server);
 	return (0);
 }
 
