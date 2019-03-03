@@ -6,7 +6,7 @@
 /*   By: pstringe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/18 14:53:31 by pstringe          #+#    #+#             */
-/*   Updated: 2019/02/18 15:39:39 by pstringe         ###   ########.fr       */
+/*   Updated: 2019/03/03 01:55:05 by pstringe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,4 +26,5 @@ void	cmd_sms(t_server *s)
 	ft_strlcat((char*)cmd, no, 512);
 	ft_strlcat((char*)cmd, body, 512);
 	system((const char *)cmd);
+	s->respond(s, "sms has been sent", 17);
 }

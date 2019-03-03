@@ -6,7 +6,7 @@
 /*   By: drosa-ta <drosa-ta@student.42.us.org>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/02 15:52:32 by pstringe          #+#    #+#             */
-/*   Updated: 2019/03/02 23:55:01 by pstringe         ###   ########.fr       */
+/*   Updated: 2019/03/03 02:06:45 by pstringe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -161,7 +161,13 @@ int		server_response(t_client *c)
 		int ret;
 		
 		ft_printf("B: about to read from server\n");
-		while ((ret = read(c->sock, &(c->buf), 4096)) && !ft_strncmp(c->buf, "(null)", 6));
+		while ((ret = read(c->sock, &(c->buf), 4096)) && !ft_strncmp(c->buf, "(null)", 6)){ 
+			if (!ft_strncmp(c->buf, "(null)", 6)){
+				sleep(1);
+				if((ret = read(c->sock, &(c->buf), 4096)) >= 0)
+					break;
+			}
+		}
 		if ( ret < 0)
 		{
 			ft_printf("waiting on server\n");
