@@ -6,7 +6,7 @@
 /*   By: pstringe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/18 21:10:16 by pstringe          #+#    #+#             */
-/*   Updated: 2019/03/03 22:32:41 by pstringe         ###   ########.fr       */
+/*   Updated: 2019/03/04 07:32:40 by pstringe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,7 @@ void cmd_whois(t_server *s)
 
 	users = s->users;
 	tmp = users->head;
+	ft_bzero(response, 4096);
 	while (tmp)
 	{
 		user = (t_user*)(tmp->content);

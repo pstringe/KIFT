@@ -6,7 +6,7 @@
 /*   By: pstringe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/10 10:53:29 by pstringe          #+#    #+#             */
-/*   Updated: 2019/03/03 22:13:20 by pstringe         ###   ########.fr       */
+/*   Updated: 2019/03/04 07:20:19 by pstringe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,7 +104,7 @@ void	history_get(t_server *server)
 			free(row);
 			break;
 		}
-		ft_memcpy(server->request.text, row[0], SOCK_BUF_SIZE);
+		ft_memcpy(server->request.text, row[0], ft_strlen(row[0]));
 		if (row[1] && ft_strcmp(" none", (trim = ft_strtrim(row[1])))){
 			server->request.command.name = ft_strdup(trim);
 			free(trim);
