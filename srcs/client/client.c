@@ -6,7 +6,7 @@
 /*   By: drosa-ta <drosa-ta@student.42.us.org>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/02 15:52:32 by pstringe          #+#    #+#             */
-/*   Updated: 2019/03/03 17:47:10 by pstringe         ###   ########.fr       */
+/*   Updated: 2019/03/03 18:07:49 by pstringe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ void 	say(char *buf)
 	ft_bzero(cmd, 4096);
 	ft_strncat(cmd, "say ", 4);
 	ft_strncat(cmd, buf, ft_strlen(buf));
-	ft_printf("saying: buf");	
+	ft_printf("saying: %s\n", buf);	
 	if (fork() == 0)
 		system(cmd);
 	else
