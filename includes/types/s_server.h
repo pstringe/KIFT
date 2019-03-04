@@ -6,7 +6,7 @@
 /*   By: pstringe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/14 10:28:39 by pstringe          #+#    #+#             */
-/*   Updated: 2019/02/23 01:21:49 by pstringe         ###   ########.fr       */
+/*   Updated: 2019/03/03 17:01:02 by pstringe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,7 @@ typedef struct  s_server
 	struct sockaddr_in	addr;
 	socklen_t			addr_len;
 	struct s_request	request;
+	struct s_request	conf;
 	struct s_response	response;
 	struct s_history	history;
 	struct s_command	*cmds;
