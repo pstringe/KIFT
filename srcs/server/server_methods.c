@@ -6,7 +6,7 @@
 /*   By: pstringe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/28 14:18:30 by pstringe          #+#    #+#             */
-/*   Updated: 2019/03/03 02:32:09 by pstringe         ###   ########.fr       */
+/*   Updated: 2019/03/03 16:25:39 by pstringe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -186,6 +186,10 @@ int		dispatch(t_server *server)
 
 t_request	prompt_request(t_server *s, int socket, char *prompt)
 {
+	char *speech;
+	char *req;
+
+	speech = NULL;
 	respond(s, !prompt ? "(null)" : prompt, !prompt ? 6 : ft_strlen(prompt));
 	ft_bzero(s->request.text, BUF_SIZE);
 
@@ -193,6 +197,26 @@ t_request	prompt_request(t_server *s, int socket, char *prompt)
 	while ((s->request.size = read(socket, &(s->request.text), BUF_SIZE)) < 0)
 		if (s->request.size == 0)
 			break ;
+//	copy s->request.txt to new string
+	speech = ft_strdup(s->request.text);
+	req = ft_strjoin("did you mean to say: ", s->request.text);
+//	prompt_request("did you mean to say: s->request.txt?")
+	if (ft_strncmp(prompt, "did you mean to say: ", 21))
+		return (prompt_request(s, s->l_sock, req));
+	if (!ft_strncmp(s->request.text, "YES", 3))
+	{
+		ft_bzero(s->request.text, ft_strlen(s->request.text));
+		ft_memcpy(s->request.text, speech, ft_strlen(speech));
+		s->request.size = ft_strlen(speech);
+		free(speech);
+		free(req);
+		return(s->request);
+	}
+	else if (!ft_strncmp(s->request.text, "NO", 2)){
+		return(prompt_request(s, s->l_sock, "Ok, what did you mean to say?"));
+	}
+	else
+		respond(s, "Please say, yes or no.", 22);
 	return (s->request);
 }
 
