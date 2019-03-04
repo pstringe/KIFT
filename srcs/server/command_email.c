@@ -6,7 +6,7 @@
 /*   By: pstringe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/17 21:47:23 by pstringe          #+#    #+#             */
-/*   Updated: 2019/03/03 01:43:01 by pstringe         ###   ########.fr       */
+/*   Updated: 2019/03/04 08:42:29 by pstringe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,11 +40,11 @@ void cmd_email(t_server *s)
 	
 
 	ft_bzero(cmd, 512);
-	ft_strlcat((char*)cmd, script, 512);
-	ft_strlcat((char*)cmd, msg, 512);
-	ft_strlcat((char*)cmd, destination, 512);
-	ft_strlcat((char*)cmd, email, 512);
-	ft_strlcat((char*)cmd, psswd, 512);
+	ft_strlcat((char*)cmd, script, ft_strlen(script));
+	ft_strlcat((char*)cmd, msg, ft_strlen(msg));
+	ft_strlcat((char*)cmd, destination, ft_strlen(destination));
+	ft_strlcat((char*)cmd, email, ft_strlen(email));
+	ft_strlcat((char*)cmd, psswd, ft_strlen(psswd));
 	
 	ft_printf("email string: %s\n", cmd);
 	system((const char*)cmd);
