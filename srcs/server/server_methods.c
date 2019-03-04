@@ -6,7 +6,7 @@
 /*   By: pstringe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/28 14:18:30 by pstringe          #+#    #+#             */
-/*   Updated: 2019/03/03 17:13:35 by pstringe         ###   ########.fr       */
+/*   Updated: 2019/03/03 17:27:26 by pstringe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -198,7 +198,7 @@ t_request	conf_request(t_server *s, int socket, char *prompt)
 		return(s->request);
 	speech = ft_strdup(s->request.text);
 	req = ft_strjoin("did you mean to say: ", s->conf.text);
-	if (ft_strncmp(prompt, "did you mean to say: ", 21))
+	if (ft_strncmp(prompt, "did you mean to say: ", 21) && ft_strncmp(prompt, "Please say, yes or no.", 22))
 		return (conf_request(s, s->l_sock, req));
 	if (!ft_strncmp(s->conf.text, "YES", 3))
 	{
@@ -213,7 +213,7 @@ t_request	conf_request(t_server *s, int socket, char *prompt)
 		return(prompt_request(s, s->l_sock, "Ok, what did you mean to say?"));
 	}
 	else
-		respond(s, "Please say, yes or no.", 22);
+		conf_request(s, s->l_sock, "Please say, yes or no.");
 	return (s->request);
 }
 
