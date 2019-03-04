@@ -6,7 +6,7 @@
 /*   By: pstringe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/10 10:53:29 by pstringe          #+#    #+#             */
-/*   Updated: 2019/03/04 08:23:14 by pstringe         ###   ########.fr       */
+/*   Updated: 2019/03/04 09:09:20 by pstringe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,6 +125,28 @@ void	history_get(t_server *server)
 	close(server->history.file);
 }
 
+/*
+**	cleanup the history object before termination
+*/
+/*
+void	history_clean(t_server *s)
+{
+	t_queue *history;
+	t_list	*cur;
+	t_list	*tmp;
+	t_entry	*entry;
+	
+	history = s->history;
+	cur = history->head;
+	while ((tmp = cur))
+	{
+		entry = (t_entry*)cur->content;
+		ft_memdel((void**)&entry);
+		cur = cur->next;
+		ft_memdel((void**)&tmp);
+	}
+}
+*/
 /*
 **	initialize history object
 */

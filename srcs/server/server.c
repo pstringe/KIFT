@@ -6,7 +6,7 @@
 /*   By: pstringe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/02 17:52:13 by pstringe          #+#    #+#             */
-/*   Updated: 2019/03/03 14:32:21 by pstringe         ###   ########.fr       */
+/*   Updated: 2019/03/04 09:07:23 by pstringe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,7 @@ int		main(int argc, char **argv)
 		ft_printf("connected\n");
 		server.listen(&server);
 		ft_printf("terminating server instance: %p\n", server);
+		//history_clean();
 	}
 	return(0);
 }
