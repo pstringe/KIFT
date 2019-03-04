@@ -6,7 +6,7 @@
 /*   By: pstringe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/10 10:53:29 by pstringe          #+#    #+#             */
-/*   Updated: 2019/02/23 01:22:37 by pstringe         ###   ########.fr       */
+/*   Updated: 2019/03/03 22:13:20 by pstringe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,18 +45,21 @@ void	history_display(t_server *server)
 
 void	history_update(t_server *server)
 {
-	t_history *history;
-	t_request request;
+	t_history	*history;
+	t_request	request;
+	t_entry		*entry;
 
 	request = server->request;
 	history = &(server->history);
+	entry = entry_new(request);
 	if (!history->queue)
 	{
-		history->queue = ft_queuenw((void*)(entry_new(request)), sizeof(t_entry));
+		history->queue = ft_queuenw((void*)(entry), sizeof(t_entry));
 		history->last_save = history->queue->head;
 	}
 	else
-		ft_enqueue(history->queue, (void*)(entry_new(request)), sizeof(t_entry));	
+		ft_enqueue(history->queue, (void*)(entry), sizeof(t_entry));
+	free(entry);
 }
 
 /*
@@ -88,6 +91,7 @@ void	history_get(t_server *server)
 {
 	char	*line;
 	char 	**row;
+	char	*trim;
 
 	server->history.file = open("history.csv", O_RDONLY);
 	ft_printf("loading history...\n");
@@ -95,16 +99,26 @@ void	history_get(t_server *server)
 	{
 		ft_bzero(server->request.text, SOCK_BUF_SIZE);
 		row = ft_strsplit(line, ',');
-		if (!row[0])
+		if (!row[0]){
+			free(line);
+			free(row);
 			break;
+		}
 		ft_memcpy(server->request.text, row[0], SOCK_BUF_SIZE);
-		if (row[1] && ft_strcmp(" none", ft_strtrim(row[1])))
-			server->request.command.name = ft_strdup(row[1]);
+		if (row[1] && ft_strcmp(" none", (trim = ft_strtrim(row[1])))){
+			server->request.command.name = ft_strdup(trim);
+			free(trim);
+		}
 		else
 			server->request.command.name = ft_strdup( "none");
 		server->request.size = ft_strlen(server->request.text);
 		server->history.update(server);
+		free(server->request.command.name);
 		ft_printf("%s, %s\n", row[0], row[1]);
+		free(row[0]);
+		free(row[1]);
+		free(row);
+		free(line);
 	}
 	server->history.last_save = server->history.queue->tail;
 	close(server->history.file);

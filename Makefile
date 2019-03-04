@@ -6,7 +6,7 @@
 #    By: pstringe <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/08/02 14:49:53 by pstringe          #+#    #+#              #
-#    Updated: 2019/02/22 21:17:24 by pstringe         ###   ########.fr        #
+#    Updated: 2019/03/03 21:39:52 by pstringe         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -88,7 +88,7 @@ debug-client: fclean $(INCD)$(LIB)
 
 sanitize-server: fclean $(INCD)$(LIB)
 	$(CC) $(CFLAGS) $(SFLAGS) -o $(SERVER) $(patsubst %, $(SSRCD)%.c, $(SSRCS)) \
-	-L$(LIBD) -lft -I $(LIBD)  -I $(INCD)
+	-L$(LIBD) -lft -lcurl -I $(LIBD)  -I $(INCD)
 
 sanitize-client: fclean $(INCD)$(LIB)
 	$(CC) $(CFLAGS) $(SFLAGS) -o $(CLIENT) $(patsubst %, $(CSRCD)%.c, $(CSRCS)) \
