@@ -6,7 +6,7 @@
 /*   By: pstringe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/28 14:18:30 by pstringe          #+#    #+#             */
-/*   Updated: 2019/03/03 17:27:26 by pstringe         ###   ########.fr       */
+/*   Updated: 2019/03/03 17:59:35 by pstringe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -250,7 +250,9 @@ t_request	prompt_request(t_server *s, int socket, char *prompt)
 void	handle_existing_connections(t_server *s)
 {
 	int	i;
+	char *req;
 
+	req = NULL;
 	i = -1;
 	while (++i < s->max_sd && s->c_sock[i])
 	{
@@ -272,7 +274,11 @@ void	handle_existing_connections(t_server *s)
 			s->l_sock = s->sd;
 			if (s->request.size)
 			{
+				req = ft_strjoin("did you mean to say: ", s->request.text);
+				conf_request(s, s->l_sock, req);
+				free(req);
 				ft_putendl(s->request.text);
+				
 				if (ft_strncmp(s->request.text, "(null)", 6) && !s->dispatch(s) && s->request.size > 0)
 					s->respond(s, "command not recognized", 22);
 			}
