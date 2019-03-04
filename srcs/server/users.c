@@ -6,7 +6,7 @@
 /*   By: pstringe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/18 21:10:16 by pstringe          #+#    #+#             */
-/*   Updated: 2019/02/24 19:14:31 by pstringe         ###   ########.fr       */
+/*   Updated: 2019/03/03 22:32:41 by pstringe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,7 @@ void cmd_whois(t_server *s)
 	{
 		user = (t_user*)(tmp->content);
 		ft_strncat(response, user->name, ft_strlen(user->name));
+		ft_printf("debug: cmd_whois:\n\tusername: %s\n", user->name);
 		ft_strncat(response, tmp->next ? ", " : "", tmp->next ? 2 : 0);
 		tmp = tmp->next;
 	}

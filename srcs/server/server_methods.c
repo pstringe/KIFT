@@ -6,7 +6,7 @@
 /*   By: pstringe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/28 14:18:30 by pstringe          #+#    #+#             */
-/*   Updated: 2019/03/03 17:59:35 by pstringe         ###   ########.fr       */
+/*   Updated: 2019/03/03 22:30:18 by pstringe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -202,7 +202,7 @@ t_request	conf_request(t_server *s, int socket, char *prompt)
 		return (conf_request(s, s->l_sock, req));
 	if (!ft_strncmp(s->conf.text, "YES", 3))
 	{
-		ft_bzero(s->request.text, ft_strlen(s->request.text));
+		ft_bzero(s->request.text, SOCK_BUF_SIZE);
 		ft_memcpy(s->request.text, speech, ft_strlen(speech));
 		s->request.size = ft_strlen(speech);
 		free(speech);
