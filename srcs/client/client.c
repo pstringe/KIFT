@@ -6,7 +6,7 @@
 /*   By: drosa-ta <drosa-ta@student.42.us.org>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/02 15:52:32 by pstringe          #+#    #+#             */
-/*   Updated: 2019/03/03 18:07:49 by pstringe         ###   ########.fr       */
+/*   Updated: 2019/03/04 08:19:55 by pstringe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 #include <netinet/in.h>
 #include "libft.h"
 #include "mic.h"
-#define CLIENT_BUF_SIZE 256
+#define CLIENT_BUF_SIZE 4096
 
 /*
 ** ad creates audio recording structure - for use with ALSA functions
@@ -66,11 +66,13 @@ void 	say(char *buf)
 	ft_strncat(cmd, "say ", 4);
 	ft_strncat(cmd, buf, ft_strlen(buf));
 	ft_printf("saying: %s\n", buf);	
-	if (fork() == 0)
-		system(cmd);
-	else
-		return ;
-	exit(0);
+	if (ft_strncmp(buf, "history", 7)){
+		if (fork() == 0)
+			system(cmd);
+		else
+			return ;
+		exit(0);
+	}
 }
 
 typedef struct	s_sphinx
@@ -190,7 +192,7 @@ int		server_response(t_client *c)
 					break;
 			}
 		}
-		if ( ret < 0)
+		if (ret < 0 && !ft_strlen(c->buf))
 		{
 			ft_printf("waiting on server\n");
 			return (0);

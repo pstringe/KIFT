@@ -6,7 +6,7 @@
 #    By: pstringe <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/08/02 14:49:53 by pstringe          #+#    #+#              #
-#    Updated: 2019/03/03 21:39:52 by pstringe         ###   ########.fr        #
+#    Updated: 2019/03/04 08:05:16 by pstringe         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -109,7 +109,7 @@ $(INCD)$(LIB):
 clean:
 	make -C $(INCD)libft clean
 	rm -rf *.o
-	rm -rf *.dSYM
+	#rm -Rrf *.dSYM
 
 fclean: clean
 	make -C $(INCD)libft fclean

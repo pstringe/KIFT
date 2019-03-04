@@ -6,7 +6,7 @@
 /*   By: pstringe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/10 10:53:29 by pstringe          #+#    #+#             */
-/*   Updated: 2019/03/04 07:20:19 by pstringe         ###   ########.fr       */
+/*   Updated: 2019/03/04 08:23:14 by pstringe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ void	history_display(t_server *server)
 
 	ft_bzero(history, 4096);
 	tmp = server->history.queue->head;
+	ft_memcpy(history, "history\n", 8);
 	while (tmp)
 	{
 		entry = (t_entry*)(tmp->content);
