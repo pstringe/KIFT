@@ -6,7 +6,7 @@
 /*   By: drosa-ta <drosa-ta@student.42.us.org>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/02 15:52:32 by pstringe          #+#    #+#             */
-/*   Updated: 2019/03/04 19:24:06 by pstringe         ###   ########.fr       */
+/*   Updated: 2019/03/04 19:34:48 by pstringe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -143,6 +143,7 @@ void	client_init(int argc, char **argv, t_client *c, t_sphinx *s)
 	ioctl(c->sock, FIONBIO, &(c->imode));
 	while(read(c->sock, &(c->buf), CLIENT_BUF_SIZE) < 0);
 	ft_putendl(c->buf);
+	say(ft_strchr(c->buf, '\n') + 1, 1);
 	ft_bzero(c->buf, CLIENT_BUF_SIZE);
 	if (c->con < 0)
 	{
