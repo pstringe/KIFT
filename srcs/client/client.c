@@ -6,7 +6,7 @@
 /*   By: drosa-ta <drosa-ta@student.42.us.org>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/02 15:52:32 by pstringe          #+#    #+#             */
-/*   Updated: 2019/03/04 08:19:55 by pstringe         ###   ########.fr       */
+/*   Updated: 2019/03/04 19:24:06 by pstringe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@
 
 const char * recognize_from_microphone(ad_rec_t *ad, ps_decoder_t *ps)
 {
-	int16 adbuf[4096];                 // buffer array to hold audio data
+	int16 adbuf[2048];                 // buffer array to hold audio data
 	uint8 utt_started, in_speech;      // flags for tracking active speech - has speech started? - is speech currently happening?
 	int32 k;                           // holds the number of frames in the audio buffer
 	char const *hyp;                   // pointer to "hypothesis" (best guess at the decoded result)
@@ -35,7 +35,7 @@ const char * recognize_from_microphone(ad_rec_t *ad, ps_decoder_t *ps)
     utt_started = FALSE;                             // clear the utt_started flag
 
     while(1) {
-        k = ad_read(ad, adbuf, 4096);                // capture the number of frames in the audio buffer
+        k = ad_read(ad, adbuf, 2048);                // capture the number of frames in the audio buffer
         ps_process_raw(ps, adbuf, k, FALSE, FALSE);  // send the audio buffer to the pocketsphinx decoder
 
         in_speech = ps_get_in_speech(ps);            // test to see if speech is being detected
@@ -47,7 +47,7 @@ const char * recognize_from_microphone(ad_rec_t *ad, ps_decoder_t *ps)
         if (!in_speech && utt_started) {             // if speech has ended and the utt_started flag is true
             ps_end_utt(ps);                          // then mark the end of the utterance
             ad_stop_rec(ad);                         // stop recording
-            hyp = ps_get_hyp(ps, NULL );             // query pocketsphinx for "hypothesis" of decoded statement
+            hyp = ps_get_hyp(ps, NULL);             // query pocketsphinx for "hypothesis" of decoded statement
             return hyp;                              // the function returns the hypothesis
             break;                                   // exit the while loop and return to main
         }
@@ -58,7 +58,7 @@ const char * recognize_from_microphone(ad_rec_t *ad, ps_decoder_t *ps)
 **	reads aloud whatever string is passed to it. the string must not have new line chars
 */
 
-void 	say(char *buf)
+void 	say(char *buf, int time)
 {
 	char cmd[4096];
 
@@ -67,11 +67,9 @@ void 	say(char *buf)
 	ft_strncat(cmd, buf, ft_strlen(buf));
 	ft_printf("saying: %s\n", buf);	
 	if (ft_strncmp(buf, "history", 7)){
-		if (fork() == 0)
-			system(cmd);
-		else
-			return ;
-		exit(0);
+		system(cmd);
+		sleep(time);
+		return ;
 	}
 }
 
@@ -111,7 +109,7 @@ void	sphinx_init(t_sphinx *s)
 		"-hmm", MODELDIR "/en-us/en-us", 			// path to the standard english language model
 		"-lm", "dict/model.lm.bin"/*MODELDIR "/en-us/en-us.lm.bin"*/,  	// custom language model (file must be present)
 		"-dict", "dict/dict.dic" /*MODELDIR "/en-us/cmudict-en-us.dict"*/,  // custom dictionary (file must be present)
-		/*"-logfn", "/dev/null",*/  					// suppress log info from being sent to screen
+		"-logfn", "/dev/null",  					// suppress log info from being sent to screen
 		NULL);
 
 	s->ps = ps_init(s->config);        				// initialize the pocketsphinx decoder
@@ -125,6 +123,7 @@ void	sphinx_init(t_sphinx *s)
 
 void	client_init(int argc, char **argv, t_client *c, t_sphinx *s)
 {
+	ft_bzero(c->buf, CLIENT_BUF_SIZE);
 	c->rr = 0;
 	c->f = 1;
 	c->debug_mode = !ft_strncmp(argv[1], "--debug", 7) ? 1 : 0;
@@ -162,10 +161,14 @@ void	user_request(t_client *c, t_sphinx *s)
 
 	if (!c->rr || c->f)
 	{
+		c->decoded_speech = NULL;
 		if (c->debug_mode)
 			while (getline((char**)&(c->decoded_speech), &(c->cap), stdin) < 0);
-		else
-			while (!ft_strlen((c->decoded_speech = recognize_from_microphone(s->ad, s->ps))));
+		else {
+			say("Speak!", 1);
+			while (!ft_strlen((c->decoded_speech = recognize_from_microphone(s->ad, s->ps))))
+				sleep(1);
+		}
 		printf("You Said: %s\n", c->decoded_speech);								// send decoded speech to screen
 		ft_printf("A: sending: %s to server\n", c->decoded_speech);
 		write(c->sock, ft_strtrim(c->decoded_speech), ft_strlen(c->decoded_speech));
@@ -201,7 +204,7 @@ int		server_response(t_client *c)
 			ft_printf("server returned empty string");
 		else
 		{
-			say(c->buf);
+			say(c->buf, 2);
 			c->rr = 0;
 			c->f = 0;
 		}

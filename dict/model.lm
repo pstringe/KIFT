@@ -5,7 +5,7 @@ This model based on a corpus of 32 sentences and 32 words
 The (fixed) discount mass is 0.5
 
 \data\
-ngram 1=32
+ngram 1=36
 
 \1-grams:
 -0.7782 </s> -0.3010
@@ -22,6 +22,7 @@ ngram 1=32
 -1.8062 JAMIE -0.3010
 -1.8062 MALIK -0.3010
 -1.8062 NINE -0.3010
+-1.8062 NO -0.3010
 -1.8062 ONE -0.3010
 -1.8062 PLAYMUSIC -0.3010
 -1.8062 PM -0.3010
@@ -41,6 +42,7 @@ ngram 1=32
 -1.8062 WEATHER -0.3010
 -1.8062 WHEREIS -0.3010
 -1.8062 WHOIS -0.3010
+-1.8062 YES -0.3010
 -1.8062 ZERO -0.3010
 
 \end\
