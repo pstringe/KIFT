@@ -67,8 +67,8 @@ void	cmd_alarm(t_server *s)
 	am_pm = ft_strdup(prompt_request(s, s->l_sock, "Please tell me, am or pm?").text);
 	hr = convert_hour(hour, am_pm); //hour + am/pm
 	min = ft_atoi(minute);
-	printf("%i min in main (line95)\n", min); //TESTING REMOVE
-	printf("%i hour in main (line 95)\n", hr);//TESTING REMOVE
+	free(hour);
+	free(minute);
 	kift_alarm(hr, min); //hour, minute.
 	s->respond(s, "Ring Ring Ring", 15);
 }
