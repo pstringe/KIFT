@@ -6,7 +6,7 @@
 /*   By: pstringe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/28 14:18:30 by pstringe          #+#    #+#             */
-/*   Updated: 2019/03/05 21:19:45 by pstringe         ###   ########.fr       */
+/*   Updated: 2019/03/05 21:33:28 by pstringe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -250,6 +250,14 @@ t_request	prompt_request(t_server *s, int socket, char *prompt)
 	return (s->request);
 }
 
+void	remove_client(t_server *s, int *i)
+{
+	getpeername(s->sd, (struct sockaddr*)&(s->addr), (socklen_t*)&(s->addrlen));
+	delete_user(s, s->c_sock[*i]);
+	ft_printf("Host disconnected, ip %s, port %d\n", inet_ntoa(s->addr.sin_addr), ntohs(s->addr.sin_port));				close(s->sd);
+	s->c_sock[*i] = 0; 
+}
+
 /*
 ** Here we check for socket closure on the client side, if not, we perform an 
 ** operation based on the input ( dispatch() )
@@ -257,24 +265,16 @@ t_request	prompt_request(t_server *s, int socket, char *prompt)
 
 void	handle_existing_connections(t_server *s)
 {
-	int	i;
-	char *req;
+	int		i;
+	char	*req;
 
 	req = NULL;
 	i = -1;
 	while (++i < s->max_sd && s->c_sock[i])
 	{
 		s->sd = s->c_sock[i];
-		ft_printf("debug:\n\th_e_c: set sock\n");
 		if (!prompt_request(s, s->sd, NULL).size)
-		{
-			ft_printf("removing user");
-			getpeername(s->sd, (struct sockaddr*)&(s->addr), (socklen_t*)&(s->addrlen));
-			delete_user(s, s->c_sock[i]);
-			ft_printf("Host disconnected, ip %s, port %d\n", inet_ntoa(s->addr.sin_addr), ntohs(s->addr.sin_port));
-			close(s->sd);
-			s->c_sock[i] = 0; 
-		}
+			remove_client(s, &i);
 		else if (s->sd < 0)
 			perror("socket descriptor: sd, returns less than 0\n");
 		else
@@ -292,7 +292,6 @@ void	handle_existing_connections(t_server *s)
 			}
 		}
 	}
-	ft_printf("debug:\n\thec: end\n");
 }
 
 
