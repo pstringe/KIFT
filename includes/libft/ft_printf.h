@@ -6,7 +6,7 @@
 /*   By: pstringe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/09 19:31:04 by pstringe          #+#    #+#             */
-/*   Updated: 2018/09/11 12:36:33 by pstringe         ###   ########.fr       */
+/*   Updated: 2019/03/05 19:05:23 by jadawson         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,7 @@ typedef	struct	s_m
 */
 
 int				ft_vdprintf(int fd, const char *format, va_list ap);
-int				ft_dprintf(int fd, const char *format, ... );
+int				ft_dprintf(int fd, const char *format, ...);
 int				ft_printf(const char *format, ...);
 
 /*
