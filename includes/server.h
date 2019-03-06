@@ -6,7 +6,7 @@
 /*   By: pstringe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/05 18:05:26 by pstringe          #+#    #+#             */
-/*   Updated: 2019/03/04 09:06:27 by pstringe         ###   ########.fr       */
+/*   Updated: 2019/03/05 20:44:18 by jadawson         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,17 +65,17 @@ void		delete_user(t_server *s, int sock);
 **	commands
 */
 
-void	cmd_whereis(t_server *s);
-void	cmd_whois(t_server *s);
-void	cmd_lightsup(t_server *server);
-void	cmd_lightsdown(t_server *server);
-void	cmd_sms(t_server *server);
-void	cmd_music(t_server *server);
-void	cmd_weather(t_server *server);
-void	cmd_email(t_server *server);
-void 	cmd_search(t_server *server);
-void 	cmd_alarm(t_server *server);
-void	cmd_quit(t_server *server);
-void	cmd_history(t_server *server);
+void		cmd_whereis(t_server *s);
+void		cmd_whois(t_server *s);
+void		cmd_lightsup(t_server *server);
+void		cmd_lightsdown(t_server *server);
+void		cmd_sms(t_server *server);
+void		cmd_music(t_server *server);
+void		cmd_weather(t_server *server);
+void		cmd_email(t_server *server);
+void		cmd_search(t_server *server);
+void		cmd_alarm(t_server *server);
+void		cmd_quit(t_server *server);
+void		cmd_history(t_server *server);
 
 #endif
