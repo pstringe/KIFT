@@ -6,7 +6,7 @@
 /*   By: pstringe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/10 10:13:21 by pstringe          #+#    #+#             */
-/*   Updated: 2018/12/22 13:05:45 by pstringe         ###   ########.fr       */
+/*   Updated: 2019/03/05 19:44:24 by jadawson         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,6 @@
 # include "types/s_history.h"
 # include "types/s_request.h"
 
-t_entry		*entry_new(struct s_request);
+t_entry		*entry_new(struct s_request kift_project_name_here);
 
 #endif
