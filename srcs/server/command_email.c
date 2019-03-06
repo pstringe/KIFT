@@ -6,7 +6,7 @@
 /*   By: pstringe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/17 21:47:23 by pstringe          #+#    #+#             */
-/*   Updated: 2019/03/05 21:11:37 by jadawson         ###   ########.fr       */
+/*   Updated: 2019/03/06 00:31:34 by pstringe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,9 @@
 
 char		*email_grabber(int dst)
 {
+	char	*destination;
+
+	destination = NULL;
 	if (dst == 1)
 		destination = ft_strdup("jadawson@student.42.us.org ");
 	else if (dst == 2)
@@ -27,8 +30,8 @@ char		*email_grabber(int dst)
 
 void		cmd_email(t_server *s)
 {
-	char	*cmd[512];
 	char	*destination;
+	char	*cmd[512];
 	int		dst;
 	char	*script;
 	char	*msg;

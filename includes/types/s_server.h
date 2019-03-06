@@ -6,7 +6,7 @@
 /*   By: pstringe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/14 10:28:39 by pstringe          #+#    #+#             */
-/*   Updated: 2019/03/05 20:52:02 by jadawson         ###   ########.fr       */
+/*   Updated: 2019/03/06 00:26:56 by pstringe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,9 +41,7 @@ typedef struct			s_server
 	int					listening;
 	int					port;
 	t_queue				*users;
-	int					ret;
 	int					s_sock;
-	int					c_sock;
 	struct sockaddr_in	addr;
 	socklen_t			addr_len;
 	struct s_request	request;

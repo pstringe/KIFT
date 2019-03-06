@@ -6,7 +6,7 @@
 /*   By: jadawson <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/05 21:29:54 by jadawson          #+#    #+#             */
-/*   Updated: 2019/03/05 21:33:41 by jadawson         ###   ########.fr       */
+/*   Updated: 2019/03/06 00:44:19 by pstringe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,8 @@ static size_t	write_mem_callback(void *contents,
 	size_t	realsize;
 	struct	memory_struct *mem;
 
-	*mem = (struct memory_struct *)userp;
+	mem = NULL;
+	mem = (struct memory_struct *)userp;
 	realsize = size * nmemb;
 	mem->memory = realloc(mem->memory, mem->size + realsize + 1);
 	memcpy(&(mem->memory[mem->size]), contents, realsize);
@@ -43,9 +44,9 @@ char *weather_curl(void)
 	chunk.memory = malloc(1);
 	chunk.size = 0;
 	curl_handle = curl_easy_init();
-	curl_easy_setopt(curl_handle, CURLOPT_URL,
-			"http://api.openweathermap.org/data/2.5/weather?zip=94555,
-			us&units=imperial&APPID=a84567876c635d5929647ab1879c3122");
+	curl_easy_setopt(curl_handle, CURLOPT_URL, \
+			"http://api.openweathermap.org/data/2.5/weather?zip=94555,\
+us&units=imperial&APPID=a84567876c635d5929647ab1879c3122");
 	curl_easy_setopt(curl_handle, CURLOPT_WRITEFUNCTION, write_mem_callback);
 	curl_easy_setopt(curl_handle, CURLOPT_WRITEDATA, (void *)&chunk);
 	res = curl_easy_perform(curl_handle);
