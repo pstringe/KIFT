@@ -1,23 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   history.h                                          :+:      :+:    :+:   */
+/*   lights_up_file.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pstringe <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: jadawson <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/09/10 10:13:21 by pstringe          #+#    #+#             */
-/*   Updated: 2019/03/05 19:44:24 by jadawson         ###   ########.fr       */
+/*   Created: 2019/01/06 17:10:24 by jadawson          #+#    #+#             */
+/*   Updated: 2019/01/06 17:11:17 by jadawson         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef HISTORY_H
-# define HISTORY_H
-# include "server.h"
-# include <time.h>
-# include "types/s_entry.h"
-# include "types/s_history.h"
-# include "types/s_request.h"
+#include <stdlib.h>
 
-t_entry		*entry_new(struct s_request kift_project_name_here);
+void	lights_up(void)
+{
+	system("osascript /nfs/2017/j/jadawson/Desktop/brightness/make_bright.script");
+}
 
-#endif
+int		main()
+{
+	lights_up();
+	return (0);
+}

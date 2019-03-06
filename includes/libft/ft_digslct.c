@@ -6,13 +6,13 @@
 /*   By: pstringe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/02 14:01:59 by pstringe          #+#    #+#             */
-/*   Updated: 2018/08/02 15:27:52 by pstringe         ###   ########.fr       */
+/*   Updated: 2019/03/05 19:03:05 by jadawson         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-int ft_digslct(int k, int n)
+int		ft_digslct(int k, int n)
 {
 	return ((k / ft_exp(10, n - 1)) % 10);
 }
