@@ -6,7 +6,7 @@
 /*   By: pstringe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/28 14:18:30 by pstringe          #+#    #+#             */
-/*   Updated: 2019/03/03 22:30:18 by pstringe         ###   ########.fr       */
+/*   Updated: 2019/03/05 21:19:45 by pstringe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,8 @@ void	init_master(t_server *s)
 		ft_putendl("error creating master socket");
 		return ;
 	}
-	if (setsockopt(s->m_sock, SOL_SOCKET, SO_REUSEADDR, (char *)&(s->opt), sizeof(s->opt)) < 0)
+	if (setsockopt(s->m_sock, SOL_SOCKET, SO_REUSEADDR, \
+				(char *)&(s->opt), sizeof(s->opt)) < 0)
 	{
 		ft_putendl("error setsockopt");
 		return ;
@@ -62,17 +63,18 @@ void	init_master(t_server *s)
 		ft_printf("error binding, error code: %d\n", errno);
 		exit(1);
 	}
-	ft_printf("master socket: %d, initialized on port: %d\n", s->m_sock, s->port);
+	ft_printf("master socket: %d, initialized on port: %d\n", \
+			s->m_sock, s->port);
 }
 
 /*
-**	Here, we add sockets to the fd structure 
+**	Here, we add sockets to the fd structure
 */
 
 void	add_child_sockets(t_server *s)
 {
 	int i;
-	
+
 	i = -1;
 	while (++i < MAX_CLIENTS)
 	{
@@ -81,7 +83,7 @@ void	add_child_sockets(t_server *s)
 			FD_SET(s->sd, &(s->fds));
 		if (s->sd > s->max_sd)
 			s->max_sd = s->sd;
-	} 
+	}
 }
 
 /*
@@ -92,7 +94,7 @@ void	add_child_sockets(t_server *s)
 void	add_new_users(t_server *s)
 {
 	int i;
-	
+
 	i = -1;
 	while (++i < MAX_CLIENTS)
 	{
@@ -101,7 +103,8 @@ void	add_new_users(t_server *s)
 			s->c_sock[i] = s->n_sock;
 			s->l_sock = s->n_sock;
 			add_user(s);
-			ft_printf("user, %s added on as client, %d socket %d\n", s->users->tail->content, i, s->n_sock);
+			ft_printf("user, %s added on as client, %d socket %d\n", \
+					s->users->tail->content, i, s->n_sock);
 			s->respond(s, "User Added", 11);
 			break ;
 		}
@@ -118,18 +121,14 @@ void	handle_new_connections(t_server *s)
 	int	l;
 
 	l = ft_strlen(s->msg);
-	if(FD_ISSET(s->m_sock, &(s->fds)))
+	if (FD_ISSET(s->m_sock, &(s->fds)))
 	{
-		if ((s->n_sock = accept(s->m_sock, (struct sockaddr *)&(s->addr), (socklen_t *)&(s->addr))) < 0)
+		if ((s->n_sock = accept(s->m_sock, (struct sockaddr *)&(s->addr), \
+						(socklen_t *)&(s->addr))) < 0)
 			return ;
-		if (fcntl(s->n_sock, F_SETFL, O_NONBLOCK) < 0 )
+		if (fcntl(s->n_sock, F_SETFL, O_NONBLOCK) < 0)
 			return ;
 		ft_putendl("New Connection");
-		/*
-		if (write(s->n_sock, s->msg, l) != l)
-			return ;
-		*/
-		ft_putendl("response sent");
 		add_new_users(s);
 	}
 }
@@ -145,7 +144,8 @@ void	respond(t_server *server, char *msg, int size)
 	ft_bzero(server->response.txt, SOCK_BUF_SIZE);
 	ft_memcpy(server->response.txt, msg, size);
 	server->response.size = size;
-	ft_printf("writing response of size: %d bytes\nresponse sample: %.30s ...\n", size, server->response.txt);
+	ft_printf("writing response of size: %d bytes\nresponse sample: \
+			%.30s ...\n", size, server->response.txt);
 	write(server->l_sock, server->response.txt, server->response.size);
 }
 
@@ -155,12 +155,13 @@ void	respond(t_server *server, char *msg, int size)
 
 int		dispatch(t_server *server)
 {
-	int 	i;
+	int	i;
 
 	i = -1;
 	while (server->cmds[++i].name)
 	{
-		if (!ft_strncmp(server->request.text, server->cmds[i].name, SOCK_BUF_SIZE))
+		if (!ft_strncmp(server->request.text, server->cmds[i].name, \
+					SOCK_BUF_SIZE))
 		{
 			server->request.command.name = server->cmds[i].name;
 			server->request.command.action = server->cmds[i].action;
@@ -180,25 +181,37 @@ int		dispatch(t_server *server)
 }
 
 /*
+**	a function to allow controle over which buffer the request is stored in
+**	this is to keep the program from trying to execute upon queries related
+**	to argument resolution.
+*/
+
+void		init_prompt(t_server *s, int sock, char *prompt, t_request *req)
+{
+	respond(s, !prompt ? "(null)" : prompt, !prompt ? 6 : ft_strlen(prompt));
+	ft_bzero(req->text, BUF_SIZE);
+	while ((req->size = read(sock, &(req->text), BUF_SIZE)) < 0)
+		if (req->size == 0)
+			break ;
+}
+
+/*
 **	a function to handel confirmation during resolution of speech arguments
 */
+#define CHECK_IF_CONF_QUESTION	ft_strncmp(prompt, "did you mean to say: ", 21)
+#define CHECK_IF_CONF_PROMPT	ft_strncmp(prompt, "Please say, yes or no.", 22)
 
 t_request	conf_request(t_server *s, int socket, char *prompt)
 {
 	char *speech;
 	char *req;
 
-	speech = NULL;
-	respond(s, !prompt ? "(null)" : prompt, !prompt ? 6 : ft_strlen(prompt));
-	ft_bzero(s->conf.text, BUF_SIZE);
-	while ((s->conf.size = read(socket, &(s->conf.text), BUF_SIZE)) < 0)
-		if (s->conf.size == 0)
-			break ;
+	init_prompt(s, socket, prompt, &(s->conf));
 	if (!prompt)
-		return(s->request);
+		return (s->request);
 	speech = ft_strdup(s->request.text);
 	req = ft_strjoin("did you mean to say: ", s->conf.text);
-	if (ft_strncmp(prompt, "did you mean to say: ", 21) && ft_strncmp(prompt, "Please say, yes or no.", 22))
+	if (CHECK_IF_CONF_QUESTION && CHECK_IF_CONF_PROMPT)
 		return (conf_request(s, s->l_sock, req));
 	if (!ft_strncmp(s->conf.text, "YES", 3))
 	{
@@ -207,10 +220,10 @@ t_request	conf_request(t_server *s, int socket, char *prompt)
 		s->request.size = ft_strlen(speech);
 		free(speech);
 		free(req);
-		return(s->request);
+		return (s->request);
 	}
 	else if (!ft_strncmp(s->conf.text, "NO", 2)){
-		return(prompt_request(s, s->l_sock, "Ok, what did you mean to say?"));
+		return (prompt_request(s, s->l_sock, "Ok, what did you mean to say?"));
 	}
 	else
 		conf_request(s, s->l_sock, "Please say, yes or no.");
@@ -227,12 +240,7 @@ t_request	prompt_request(t_server *s, int socket, char *prompt)
 	char *speech;
 	char *req;
 
-	speech = NULL;
-	respond(s, !prompt ? "(null)" : prompt, !prompt ? 6 : ft_strlen(prompt));
-	ft_bzero(s->request.text, BUF_SIZE);
-	while ((s->request.size = read(socket, &(s->request.text), BUF_SIZE)) < 0)
-		if (s->request.size == 0)
-			break ;
+	init_prompt(s, socket, prompt, &(s->request));
 	if (!prompt)
 		return(s->request);
 	speech = ft_strdup(s->request.text);
