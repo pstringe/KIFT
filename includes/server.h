@@ -6,7 +6,7 @@
 /*   By: pstringe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/05 18:05:26 by pstringe          #+#    #+#             */
-/*   Updated: 2019/03/05 22:30:34 by pstringe         ###   ########.fr       */
+/*   Updated: 2019/03/06 00:15:48 by pstringe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,12 @@ void		init_client_socks(t_server *s);
 void		init_master(t_server *s);
 void		history_init(t_server *s);
 void		history_clean(t_server *s);
+
+/*
+**	prompt functions
+*/
+
+t_request	conf_request(t_server *s, int socket, char *prompt);
 t_request	prompt_request(t_server *s, int socket, char *prompt);
 
 /*
@@ -65,6 +71,8 @@ void		listening(t_server *server);
 
 void		add_user(t_server *s);
 void		delete_user(t_server *s, int sock);
+void		add_new_users(t_server *s);
+void		add_child_sockets(t_server *s);
 
 /*
 **	commands

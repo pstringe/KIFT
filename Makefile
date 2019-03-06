@@ -6,7 +6,7 @@
 #    By: pstringe <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/08/02 14:49:53 by pstringe          #+#    #+#              #
-#    Updated: 2019/03/04 08:05:16 by pstringe         ###   ########.fr        #
+#    Updated: 2019/03/06 00:10:18 by pstringe         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -26,6 +26,8 @@ CSRCD = ./srcs/client/
 
 SSRCS = server\
 		server_methods\
+		prompt\
+		listening\
 		users\
 		history\
 		entry\
