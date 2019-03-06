@@ -6,7 +6,7 @@
 /*   By: pstringe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/14 10:25:33 by pstringe          #+#    #+#             */
-/*   Updated: 2018/09/16 19:27:05 by pstringe         ###   ########.fr       */
+/*   Updated: 2019/03/05 17:51:36 by jadawson         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,9 +18,9 @@
 ** dispatch table element
 */
 
-typedef struct 	s_command
+typedef struct	s_command
 {
-	char	*name;
-	void	(*action)(struct s_server*);
+	char		*name;
+	void		(*action)(struct s_server*);
 }				t_command;
 #endif

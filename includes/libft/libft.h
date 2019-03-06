@@ -6,7 +6,7 @@
 /*   By: pstringe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/28 12:59:29 by pstringe          #+#    #+#             */
-/*   Updated: 2018/08/17 09:15:37 by pstringe         ###   ########.fr       */
+/*   Updated: 2019/03/05 19:15:22 by jadawson         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,6 @@ typedef struct		s_queue
 	struct s_list	*tail;
 
 }					t_queue;
-
 
 void				*ft_dequeue(struct s_queue *q);
 void				ft_enqueue(struct s_queue *q, void *n, size_t size);
@@ -100,8 +99,10 @@ void				ft_lstadd(t_list **alst, t_list *new);
 t_list				*ft_lstmap(t_list *lst, t_list *(*f)(t_list *elem));
 int					ft_strlcat(char *dst, char const *src, size_t size);
 void				ft_bzero(void *s, size_t n);
-void				ft_lstsort(t_list *begin, int (*cmp)(void *, void *, void **, int), void **aux, int len);
-void				ft_lstforeach(t_list *lst, void (*f)(), void **aux, int len);
+void				ft_lstsort(t_list *begin, int (*cmp)(void *, void *,
+						void **, int), void **aux, int len);
+void				ft_lstforeach(t_list *lst,
+						void (*f)(), void **aux, int len);
 int					ft_digslct(int k, int n);
 int					ft_exp(int base, int power);
 #endif

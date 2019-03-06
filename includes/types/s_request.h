@@ -6,7 +6,7 @@
 /*   By: pstringe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/15 14:51:14 by pstringe          #+#    #+#             */
-/*   Updated: 2018/09/15 16:20:38 by pstringe         ###   ########.fr       */
+/*   Updated: 2019/03/05 18:03:27 by jadawson         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,12 +15,12 @@
 # include "server.h"
 # include "types/s_command.h"
 
-typedef struct 	s_request
+typedef struct			s_request
 {
 	int					type;
 	char				text[SOCK_BUF_SIZE];
 	struct s_command	command;
-	int 				size;
-}				t_request;
+	int					size;
+}						t_request;
 
 #endif

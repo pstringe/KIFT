@@ -6,7 +6,7 @@
 /*   By: pstringe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/14 10:28:39 by pstringe          #+#    #+#             */
-/*   Updated: 2018/12/22 13:09:49 by pstringe         ###   ########.fr       */
+/*   Updated: 2019/03/05 18:02:18 by jadawson         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,14 +19,14 @@
 # include "types/s_history.h"
 
 /*
-**	server struct containing essential variables for communication with client 
+**	server struct containing essential variables for communication with client
 */
 
-typedef struct  s_server
+typedef struct			s_server
 {
 	int					listening;
 	int					port;
-	int 				ret;
+	int					ret;
 	int					s_sock;
 	int					c_sock;
 	struct sockaddr_in	addr;
@@ -39,6 +39,5 @@ typedef struct  s_server
 	void				(*listen)(struct s_server*);
 	int					(*dispatch)(struct s_server*);
 	void				(*respond)(struct s_server*, char*, size_t);
-}				t_server;
-
+}						t_server;
 #endif
