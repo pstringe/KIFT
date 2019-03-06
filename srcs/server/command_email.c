@@ -6,7 +6,7 @@
 /*   By: pstringe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/17 21:47:23 by pstringe          #+#    #+#             */
-/*   Updated: 2019/03/06 00:31:34 by pstringe         ###   ########.fr       */
+/*   Updated: 2019/03/06 01:53:38 by pstringe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ void		cmd_email(t_server *s)
 	char	*msg;
 
 	script = "python srcs/server/cmd_email.py ";
-	msg = "Congratualations you just recieved an email from kift";
+	msg = "\"Congratualations you just recieved an email from kift\" ";
 	dst = ft_atoi(prompt_request(s, s->l_sock, "select person to email: \
 			1, for Jamie, \
 			2, for Poitier, \
@@ -46,11 +46,11 @@ void		cmd_email(t_server *s)
 	").text);
 	destination = email_grabber(dst);
 	ft_bzero(cmd, 512);
-	ft_strlcat((char*)cmd, script, ft_strlen(script));
-	ft_strlcat((char*)cmd, msg, ft_strlen(msg));
-	ft_strlcat((char*)cmd, destination, ft_strlen(destination));
-	ft_strlcat((char*)cmd, "42kift@gmail.com", ft_strlen("42kift@gmail.com"));
-	ft_strlcat((char*)cmd, "42Kiftkift", ft_strlen("42Kiftkift"));
+	ft_strlcat((char*)cmd, script, 512);
+	ft_strlcat((char*)cmd, msg, 512);
+	ft_strlcat((char*)cmd, destination, 512);
+	ft_strlcat((char*)cmd, "42kift@gmail.com ", 512);
+	ft_strlcat((char*)cmd, "42Kiftkift", 512);
 	ft_printf("email string: %s\n", cmd);
 	system((const char*)cmd);
 	s->respond(s, "Email has been sent\n", 21);
