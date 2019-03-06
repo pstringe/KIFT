@@ -6,12 +6,12 @@
 /*   By: pstringe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/14 10:25:33 by pstringe          #+#    #+#             */
-/*   Updated: 2019/03/05 17:51:36 by jadawson         ###   ########.fr       */
+/*   Updated: 2019/03/05 19:29:30 by jadawson         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef S_DEFINE_H
-# define S_DEFINE_H
+#ifndef S_COMMAND_H
+# define S_COMMAND_H
 # include "s_server.h"
 
 /*
