@@ -6,7 +6,7 @@
 /*   By: pstringe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/14 10:28:39 by pstringe          #+#    #+#             */
-/*   Updated: 2019/03/05 20:39:29 by jadawson         ###   ########.fr       */
+/*   Updated: 2019/03/05 20:52:02 by jadawson         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,6 @@ typedef struct			s_server
 	int					listening;
 	int					port;
 	t_queue				*users;
-
 	int					ret;
 	int					s_sock;
 	int					c_sock;
@@ -52,13 +51,9 @@ typedef struct			s_server
 	struct s_response	response;
 	struct s_history	history;
 	struct s_command	*cmds;
-
 	void				(*connect)(struct s_server*);
 	void				(*listen)(struct s_server*);
 	int					(*dispatch)(struct s_server*);
 	void				(*respond)(struct s_server*, char*, int);
-}				t_server;
-
-	void				(*respond)(struct s_server*, char*, size_t);
 }						t_server;
 #endif
