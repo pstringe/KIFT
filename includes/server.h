@@ -6,7 +6,7 @@
 /*   By: pstringe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/05 18:05:26 by pstringe          #+#    #+#             */
-/*   Updated: 2019/03/04 09:06:27 by pstringe         ###   ########.fr       */
+/*   Updated: 2019/03/05 22:30:34 by pstringe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,10 +49,15 @@ void		respond(t_server *server, char *msg, int size);
 int			dispatch(t_server *server);
 void		init_client_socks(t_server *s);
 void		init_master(t_server *s);
-void		listening(t_server *server);
 void		history_init(t_server *s);
 void		history_clean(t_server *s);
 t_request	prompt_request(t_server *s, int socket, char *prompt);
+
+/*
+** listening functions
+*/
+
+void		listening(t_server *server);
 
 /*
 **	user methods

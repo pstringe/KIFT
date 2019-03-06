@@ -6,30 +6,17 @@
 /*   By: pstringe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/28 14:18:30 by pstringe          #+#    #+#             */
-/*   Updated: 2019/03/05 21:33:28 by pstringe         ###   ########.fr       */
+/*   Updated: 2019/03/05 22:28:57 by pstringe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "server.h"
 
 /*
-**	a function to make system calls from a seperate process
-*/
-
-void	call_cmd(char *cmd)
-{
-	if (fork() == 0)
-		return ;
-	else
-		system(cmd);
-	exit(0);
-}
-
-/*
 ** initialize client sockets to 0
 */
 
-void	init_client_socks(t_server *s)
+void		init_client_socks(t_server *s)
 {
 	int i;
 
@@ -42,7 +29,7 @@ void	init_client_socks(t_server *s)
 **	initialize master socket
 */
 
-void	init_master(t_server *s)
+void		init_master(t_server *s)
 {
 	if ((s->m_sock = socket(AF_INET, SOCK_STREAM, 0)) == 0)
 	{
@@ -68,10 +55,11 @@ void	init_master(t_server *s)
 }
 
 /*
-**	Here, we add sockets to the fd structure
+**	A function to add new sockets to the fd structure. Called from
+**	handel_new_connections.c
 */
 
-void	add_child_sockets(t_server *s)
+void		add_child_sockets(t_server *s)
 {
 	int i;
 
@@ -87,11 +75,12 @@ void	add_child_sockets(t_server *s)
 }
 
 /*
-**	We call this function to add a new socket to our fd set when we get a new
-**	incoming client connection.
+**	A function to add a new socket to our fd set when we get a new
+**	incoming client connection. Called from handel_new_connections in
+**	listening.c
 */
 
-void	add_new_users(t_server *s)
+void		add_new_users(t_server *s)
 {
 	int i;
 
@@ -116,7 +105,7 @@ void	add_new_users(t_server *s)
 **	a new socket to manage connections to this particular client.
 */
 
-void	handle_new_connections(t_server *s)
+void		handle_new_connections(t_server *s)
 {
 	int	l;
 
@@ -134,10 +123,10 @@ void	handle_new_connections(t_server *s)
 }
 
 /*
-** A function to for writing to  the response object and sending it off
+**	A function to for writing to  the response object and sending it off
 */
 
-void	respond(t_server *server, char *msg, int size)
+void		respond(t_server *server, char *msg, int size)
 {
 	if (size == -1)
 		size = ft_strlen(msg);
@@ -150,10 +139,11 @@ void	respond(t_server *server, char *msg, int size)
 }
 
 /*
-** server dispatch
+**	a function to hanel server dispatch called from listenting() in
+**	listening.c
 */
 
-int		dispatch(t_server *server)
+int			dispatch(t_server *server)
 {
 	int	i;
 
@@ -222,16 +212,15 @@ t_request	conf_request(t_server *s, int socket, char *prompt)
 		free(req);
 		return (s->request);
 	}
-	else if (!ft_strncmp(s->conf.text, "NO", 2)){
+	else if (!ft_strncmp(s->conf.text, "NO", 2))
 		return (prompt_request(s, s->l_sock, "Ok, what did you mean to say?"));
-	}
 	else
 		conf_request(s, s->l_sock, "Please say, yes or no.");
 	return (s->request);
 }
 
 /*
-**	A function to prompt the client for a certain response Eventually, 
+**	A function to prompt the client for a certain response Eventually,
 ** I may pass a function pointer to handel the request, but this will do for now
 */
 
@@ -242,88 +231,10 @@ t_request	prompt_request(t_server *s, int socket, char *prompt)
 
 	init_prompt(s, socket, prompt, &(s->request));
 	if (!prompt)
-		return(s->request);
+		return (s->request);
 	speech = ft_strdup(s->request.text);
 	req = ft_strjoin("did you mean to say: ", s->request.text);
 	if (ft_strncmp(prompt, "did you mean to say: ", 21))
 		return (conf_request(s, s->l_sock, req));
 	return (s->request);
-}
-
-void	remove_client(t_server *s, int *i)
-{
-	getpeername(s->sd, (struct sockaddr*)&(s->addr), (socklen_t*)&(s->addrlen));
-	delete_user(s, s->c_sock[*i]);
-	ft_printf("Host disconnected, ip %s, port %d\n", inet_ntoa(s->addr.sin_addr), ntohs(s->addr.sin_port));				close(s->sd);
-	s->c_sock[*i] = 0; 
-}
-
-/*
-** Here we check for socket closure on the client side, if not, we perform an 
-** operation based on the input ( dispatch() )
-*/
-
-void	handle_existing_connections(t_server *s)
-{
-	int		i;
-	char	*req;
-
-	req = NULL;
-	i = -1;
-	while (++i < s->max_sd && s->c_sock[i])
-	{
-		s->sd = s->c_sock[i];
-		if (!prompt_request(s, s->sd, NULL).size)
-			remove_client(s, &i);
-		else if (s->sd < 0)
-			perror("socket descriptor: sd, returns less than 0\n");
-		else
-		{
-			s->l_sock = s->sd;
-			if (s->request.size)
-			{
-				req = ft_strjoin("did you mean to say: ", s->request.text);
-				conf_request(s, s->l_sock, req);
-				free(req);
-				ft_putendl(s->request.text);
-				
-				if (ft_strncmp(s->request.text, "(null)", 6) && !s->dispatch(s) && s->request.size > 0)
-					s->respond(s, "command not recognized", 22);
-			}
-		}
-	}
-}
-
-
-/*
-**	listen for incoming connections on master socket, determine whether they
-**	come from new or existing clients, and act accordingly
-*/
-
-void	listening(t_server *s)
-{
-	if (listen(s->m_sock, 3) < 0)
-		return ;
-	s->addrlen = sizeof(s->addr);
-	ft_putendl("waiting for connections");
-	while (TRUE)
-	{
-		FD_ZERO(&(s->fds));
-		ft_printf("debug: zeroed out fd struct\n");
-		FD_SET(s->m_sock, &(s->fds));
-		ft_printf("debug: set socket descriptors\n");
-		s->max_sd = s->m_sock;
-		ft_printf("debug: set max descriptor\n");
-		add_child_sockets(s);
-		ft_printf("debug: added child sockets\n");
-		s->activity = select( s->max_sd + 1, &(s->fds), NULL, NULL, NULL);
-		ft_printf("debug: select, returned %d file descriptors\n", s->activity);
-		if (s->activity < 0 && errno != EINTR)
-			ft_printf("select error\n");
-		handle_new_connections(s);
-		ft_printf("debug: handeled new connections\n");
-		handle_existing_connections(s);
-		ft_printf("debug: handeled existing connections\n");
-	}
-	return ;
 }
