@@ -12,22 +12,8 @@
 
 #include "server.h"
 
-void		cmd_email(t_server *s)
+char		*email_grabber(int dst)
 {
-	char	*cmd[512];
-	char	*destination;
-	int		dst;
-	char	*script = "python srcs/server/cmd_email.py ";
-	char	*msg = "\"Congratualations you just recieved an email from kift\" ";
-	char	*email = "42kift@gmail.com ";
-	char	*psswd = "42Kiftkift";
-
-	dst = ft_atoi(prompt_request(s, s->l_sock, "Who would you like to send an email to? You can say: \
-			1, for Jaimie, \
-			2, for Poitier, \
-			3, for Dylan, \
-			4, for Malik. \
-	").text);
 	if (dst == 1)
 		destination = ft_strdup("jadawson@student.42.us.org ");
 	else if (dst == 2)
@@ -36,12 +22,32 @@ void		cmd_email(t_server *s)
 		destination = ft_strdup("dysotoma@student.42.us.org ");
 	else if (dst == 4)
 		destination = ft_strdup("maljean@student.42.us.org ");
+	return (destination);
+}
+
+void		cmd_email(t_server *s)
+{
+	char	*cmd[512];
+	char	*destination;
+	int		dst;
+	char	*script;
+	char	*msg;
+
+	script = "python srcs/server/cmd_email.py ";
+	msg = "Congratualations you just recieved an email from kift";
+	dst = ft_atoi(prompt_request(s, s->l_sock, "select person to email: \
+			1, for Jamie, \
+			2, for Poitier, \
+			3, for Dylan, \
+			4, for Malik. \
+	").text);
+	destination = email_grabber(dst);
 	ft_bzero(cmd, 512);
 	ft_strlcat((char*)cmd, script, ft_strlen(script));
 	ft_strlcat((char*)cmd, msg, ft_strlen(msg));
 	ft_strlcat((char*)cmd, destination, ft_strlen(destination));
-	ft_strlcat((char*)cmd, email, ft_strlen(email));
-	ft_strlcat((char*)cmd, psswd, ft_strlen(psswd));
+	ft_strlcat((char*)cmd, "42kift@gmail.com", ft_strlen("42kift@gmail.com"));
+	ft_strlcat((char*)cmd, "42Kiftkift", ft_strlen("42Kiftkift"));
 	ft_printf("email string: %s\n", cmd);
 	system((const char*)cmd);
 	s->respond(s, "Email has been sent\n", 21);
