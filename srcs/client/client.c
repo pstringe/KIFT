@@ -6,7 +6,7 @@
 /*   By: dysotoma <dysotoma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/02 15:52:32 by pstringe          #+#    #+#             */
-/*   Updated: 2019/03/06 21:16:26 by dysotoma         ###   ########.fr       */
+/*   Updated: 2019/03/07 11:26:33 by dysotoma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,9 @@ static void		client_init(int argc, char **argv, t_client *c, t_sphinx *s)
 	sizeof(c->serv_addr));
 	c->imode = 1;
 	ioctl(c->sock, FIONBIO, &(c->imode));
-	while(read(c->sock, &(c->buf), CLIENT_BUF_SIZE) < 0);
+	while ((read(c->sock, &(c->buf), CLIENT_BUF_SIZE)) < 0)
+	{
+	}
 	ft_putendl(c->buf);
 	say(ft_strchr(c->buf, '\n') + 1, 1);
 	ft_bzero(c->buf, CLIENT_BUF_SIZE);
@@ -51,22 +53,24 @@ static void		client_init(int argc, char **argv, t_client *c, t_sphinx *s)
 
 static void		user_request(t_client *c, t_sphinx *s)
 {
-
 	if (!c->rr || c->f)
 	{
 		c->decoded_speech = NULL;
 		if (c->debug_mode)
-			while (getline((char**)&(c->decoded_speech), &(c->cap), stdin) < 0);
-		else {
+			while (getline((char**)&(c->decoded_speech), &(c->cap), stdin) < 0)
+			{
+			}
+		else
+		{
 			say("Speak!", 1);
-			while (!ft_strlen((c->decoded_speech = 
+			while (!ft_strlen((c->decoded_speech =
 			recognize_from_microphone(s->ad, s->ps))))
 				sleep(1);
 		}
 		printf("You Said: %s\n", c->decoded_speech);
 		ft_printf("A: sending: %s to server\n", c->decoded_speech);
 		write(c->sock, ft_strtrim(c->decoded_speech),
-		 ft_strlen(c->decoded_speech));
+		ft_strlen(c->decoded_speech));
 		c->rr = 1;
 		c->f = 0;
 	}
@@ -78,18 +82,16 @@ static void		user_request(t_client *c, t_sphinx *s)
 
 static int		server_response(t_client *c)
 {
+	int ret;
+
 	if (!c->f)
 	{
-		int ret;
-
 		ft_printf("B: about to read from server\n");
 		while ((ret = read(c->sock, &(c->buf), 4096)) && !ft_strncmp(c->buf,
-		"(null)", 6)) 
-			if (!ft_strncmp(c->buf, "(null)", 6) && sleep(1))//{
-				// sleep(1);
-				if((ret = read(c->sock, &(c->buf), 4096)) >= 0)
+		"(null)", 6))
+			if (!ft_strncmp(c->buf, "(null)", 6) && sleep(1))
+				if ((ret = read(c->sock, &(c->buf), 4096)) >= 0)
 					break ;
-			// }
 		if (ret < 0 && !ft_strlen(c->buf))
 			return (ft_printf("waiting on server\n") ? 0 : 0);
 		else if (ret == 0 && (c->rr = 0))
@@ -123,11 +125,11 @@ int				main(int argc, char **argv)
 	t_sphinx	sphinx;
 
 	client_init(argc, argv, &client, &sphinx);
-	while(1)
+	while (1)
 	{
-		if(server_response(&client))
+		if (server_response(&client))
 			user_request(&client, &sphinx);
-	}	
+	}
 	client_terminate(&client, &sphinx);
 	return (0);
 }

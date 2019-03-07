@@ -6,7 +6,7 @@
 /*   By: dysotoma <dysotoma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/06 20:09:38 by dysotoma          #+#    #+#             */
-/*   Updated: 2019/03/07 10:53:51 by dysotoma         ###   ########.fr       */
+/*   Updated: 2019/03/07 11:02:33 by dysotoma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,16 +19,16 @@
 
 const char		*recognize_from_microphone(ad_rec_t *ad, ps_decoder_t *ps)
 {
-	int16 adbuf[2048];
-	uint8 utt_started, in_speech;
-	int32 k;
-	char const *hyp;
+	int16		adbuf[2048];
+	uint8		utt_started;
+	uint8		in_speech;
+	int32		k;
+	char const	*hyp;
 
 	ad_start_rec(ad);
 	ps_start_utt(ps);
 	utt_started = FALSE;
-
-	while(1)
+	while (1)
 	{
 		k = ad_read(ad, adbuf, 2048);
 		ps_process_raw(ps, adbuf, k, FALSE, FALSE);
@@ -40,8 +40,8 @@ const char		*recognize_from_microphone(ad_rec_t *ad, ps_decoder_t *ps)
 			ps_end_utt(ps);
 			ad_stop_rec(ad);
 			hyp = ps_get_hyp(ps, NULL);
-			return hyp;
-			break;
+			return (hyp);
+			break ;
 		}
 	}
 }
@@ -51,14 +51,14 @@ const char		*recognize_from_microphone(ad_rec_t *ad, ps_decoder_t *ps)
 **	the string must not have new line chars
 */
 
-void 			say(char *buf, int time)
+void			say(char *buf, int time)
 {
 	char cmd[4096];
 
 	ft_bzero(cmd, 4096);
 	ft_strncat(cmd, "say ", 4);
 	ft_strncat(cmd, buf, ft_strlen(buf));
-	ft_printf("saying: %s\n", buf);	
+	ft_printf("saying: %s\n", buf);
 	if (ft_strncmp(buf, "history", 7))
 	{
 		system(cmd);
@@ -82,7 +82,7 @@ void			sphinx_init(t_sphinx *s)
 		"-logfn", "/dev/null",
 		NULL);
 	s->ps = ps_init(s->config);
-	s->ad = ad_open_dev("sysdefault", (int) cmd_ln_float32_r(s->config,
+	s->ad = ad_open_dev("sysdefault", (int)cmd_ln_float32_r(s->config,
 		"-samprate"));
 }
 
