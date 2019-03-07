@@ -6,11 +6,7 @@
 /*   By: dysotoma <dysotoma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/02 15:52:32 by pstringe          #+#    #+#             */
-<<<<<<< HEAD
-/*   Updated: 2019/03/07 11:26:33 by dysotoma         ###   ########.fr       */
-=======
-/*   Updated: 2019/03/07 11:28:58 by pstringe         ###   ########.fr       */
->>>>>>> df6cdf5465074d2fe8c9bb73ca00b8231ba21d27
+/*   Updated: 2019/03/07 11:44:45 by dysotoma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +57,6 @@ static void		user_request(t_client *c, t_sphinx *s)
 	{
 		c->decoded_speech = NULL;
 		if (c->debug_mode)
-<<<<<<< HEAD
 			while (getline((char**)&(c->decoded_speech), &(c->cap), stdin) < 0)
 			{
 			}
@@ -70,16 +65,7 @@ static void		user_request(t_client *c, t_sphinx *s)
 			say("Speak!", 1);
 			while (!ft_strlen((c->decoded_speech =
 			recognize_from_microphone(s->ad, s->ps))))
-				sleep(1);
-=======
-			while (getline((char**)&(c->decoded_speech), &(c->cap), stdin) < 0);
-		else
-		{
-			say("Speak!", 1);
-			while (!ft_strlen((c->decoded_speech = recognize_from_microphone(s->ad, s->ps))))
-			{
-			}
->>>>>>> df6cdf5465074d2fe8c9bb73ca00b8231ba21d27
+				sleep(0);
 		}
 		printf("You Said: %s\n", c->decoded_speech);
 		ft_printf("A: sending: %s to server\n", c->decoded_speech);
