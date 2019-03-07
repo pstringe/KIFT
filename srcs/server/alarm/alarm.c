@@ -6,7 +6,7 @@
 /*   By: jadawson <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/06 19:31:43 by jadawson          #+#    #+#             */
-/*   Updated: 2019/03/06 20:15:35 by jadawson         ###   ########.fr       */
+/*   Updated: 2019/03/07 14:53:10 by pstringe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,13 +32,19 @@ int		convert_hour(char *hr, char *am_pm)
 	return (send_am_or_pm_hour);
 }
 
-int		kift_alarm(int hr, int min)
+int		kift_alarm(/*int hr, int min*/)
 {
+	int			hr;
+	int			min;
+	int 		t;
 	time_t		current_time;
 	struct tm	*my_time;
 
-	my_time = localtime(&current_time);
+	t = 1;
 	time(&current_time);
+	my_time = localtime(&current_time);
+	hr = my_time->tm_min + t >= 60 ? my_time->tm_hour + 1 : my_time->tm_hour;
+	min = my_time->tm_min + t > 60 ? my_time->tm_min + t - 60 : my_time->tm_min + t;
 	while (hr != my_time->tm_hour || min != my_time->tm_min)
 	{
 		time(&current_time);
@@ -58,12 +64,11 @@ int		kift_alarm(int hr, int min)
 
 void	cmd_alarm(t_server *s)
 {
-	int		hr;
-	int		min;
+	/*
 	char	*hour;
 	char	*minute;
 	char	*am_pm;
-
+	
 	hour = ft_strdup(prompt_request(s, s->l_sock,
 				"What time? Please tell me the hour.").text);
 	ft_printf("test hour: %s\n", hour);
@@ -77,5 +82,7 @@ void	cmd_alarm(t_server *s)
 	free(hour);
 	free(minute);
 	kift_alarm(hr, min);
+	*/
+	kift_alarm();
 	s->respond(s, "Ring Ring Ring", 15);
 }
