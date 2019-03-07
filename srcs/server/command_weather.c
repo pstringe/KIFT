@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   weather.c                                          :+:      :+:    :+:   */
+/*   command_weather.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ssong <marvin@42.fr>                       +#+  +:+       +#+        */
+/*   By: jadawson <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/09/13 16:51:21 by ssong             #+#    #+#             */
-/*   Updated: 2019/03/03 02:15:47 by pstringe         ###   ########.fr       */
+/*   Created: 2019/03/05 21:29:54 by jadawson          #+#    #+#             */
+/*   Updated: 2019/03/06 18:11:44 by pstringe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,8 +81,8 @@ with %s\"", temperature, conditions);
 
 void			cmd_weather(t_server *s)
 {
-	char *data;
-	char *response;
+	char	*data;
+	char	*response;
 
 	data = weather_curl();
 	response = parse_json(data);

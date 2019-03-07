@@ -6,15 +6,14 @@
 /*   By: pstringe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/06 15:37:43 by pstringe          #+#    #+#             */
-/*   Updated: 2018/12/22 13:01:49 by pstringe         ###   ########.fr       */
+/*   Updated: 2019/03/06 18:18:19 by pstringe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "server.h"
 
 /*
-** this command sends the msg, "quit" to the client,
-** and terminates the server proccess
+**	this command sends the msg "quit" to the client and terminates the server
 */
 
 void	cmd_quit(t_server *server)

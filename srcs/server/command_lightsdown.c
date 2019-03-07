@@ -1,23 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   history.h                                          :+:      :+:    :+:   */
+/*   lights_down_file.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pstringe <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: jadawson <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/09/10 10:13:21 by pstringe          #+#    #+#             */
-/*   Updated: 2019/03/05 19:44:24 by jadawson         ###   ########.fr       */
+/*   Created: 2019/01/06 17:10:09 by jadawson          #+#    #+#             */
+/*   Updated: 2019/02/21 15:02:34 by pstringe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef HISTORY_H
-# define HISTORY_H
-# include "server.h"
-# include <time.h>
-# include "types/s_entry.h"
-# include "types/s_history.h"
-# include "types/s_request.h"
+#include "server.h"
 
-t_entry		*entry_new(struct s_request kift_project_name_here);
-
-#endif
+void	cmd_lightsdown(t_server * s)
+{
+	call_cmd("osascript srcs/server/bright_or_dim_screen/make_dim.script");
+}

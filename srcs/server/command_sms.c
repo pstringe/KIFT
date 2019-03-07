@@ -6,7 +6,7 @@
 /*   By: pstringe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/18 14:53:31 by pstringe          #+#    #+#             */
-/*   Updated: 2019/03/04 20:51:12 by pstringe         ###   ########.fr       */
+/*   Updated: 2019/03/05 21:26:41 by jadawson         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,12 +15,13 @@
 void	cmd_sms(t_server *s)
 {
 	char	*no;
-	char *cmd[512];
-	char *script = "python srcs/server/sms.py ";
-	char *body = " \"Congratulations! You just recieved an sms from KIFT\"";
-	
-	no = "12094908409"/*prompt_request(s, s->l_sock, "Please tell me the number you would like to send a message to.").text*/;
+	char	*cmd[512];
+	char	*script;
+	char	*body;
 
+	no = "12094908409";
+	script = "python srcs/server/sms.py ";
+	body = "Congratulations! You just recieved an sms from KIFT";
 	ft_bzero(cmd, 512);
 	ft_strlcat((char*)cmd, script, 512);
 	ft_strlcat((char*)cmd, no, 512);

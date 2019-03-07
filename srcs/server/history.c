@@ -6,7 +6,7 @@
 /*   By: pstringe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/10 10:53:29 by pstringe          #+#    #+#             */
-/*   Updated: 2019/03/04 09:09:20 by pstringe         ###   ########.fr       */
+/*   Updated: 2019/03/06 16:18:18 by pstringe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,6 +84,18 @@ void	history_save(t_server *server)
 	close(server->history.file);
 }
 
+void	handel_it(t_server *server, char *line, char **row)
+{
+	server->request.size = ft_strlen(server->request.text);
+	server->history.update(server);
+	free(server->request.command.name);
+	ft_printf("%s, %s\n", row[0], row[1]);
+	free(row[0]);
+	free(row[1]);
+	free(row);
+	free(line);
+}
+
 /*
 **	retrieve history from file, enqueue within history object
 */
@@ -112,14 +124,7 @@ void	history_get(t_server *server)
 		}
 		else
 			server->request.command.name = ft_strdup( "none");
-		server->request.size = ft_strlen(server->request.text);
-		server->history.update(server);
-		free(server->request.command.name);
-		ft_printf("%s, %s\n", row[0], row[1]);
-		free(row[0]);
-		free(row[1]);
-		free(row);
-		free(line);
+		handel_it(server, line, row);
 	}
 	server->history.last_save = server->history.queue->tail;
 	close(server->history.file);
