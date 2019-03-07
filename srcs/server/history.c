@@ -6,7 +6,7 @@
 /*   By: pstringe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/10 10:53:29 by pstringe          #+#    #+#             */
-/*   Updated: 2019/03/06 19:06:10 by pstringe         ###   ########.fr       */
+/*   Updated: 2019/03/07 13:26:47 by pstringe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,21 +22,26 @@ void	history_display(t_server *server)
 	t_entry	*entry;
 	char	history[4096];
 
-	ft_bzero(history, 4096);
-	tmp = server->history.queue->head;
-	ft_memcpy(history, "history\n", 8);
-	while (tmp)
+	if (server->history.queue)
 	{
-		entry = (t_entry*)(tmp->content);
-		ft_strncat(history, "speech: ", 8);
-		ft_strncat(history, entry->speech, ft_strlen(entry->speech));
-		ft_strncat(history, "\t", 1);
-		ft_strncat(history, "command: ", 9);
-		ft_strncat(history, entry->command, ft_strlen(entry->command));
-		ft_strncat(history, "\n", 1);
-		tmp = tmp->next;
+		ft_bzero(history, 4096);
+		tmp = server->history.queue->head;
+		ft_memcpy(history, "history\n", 8);
+		while (tmp)
+		{
+			entry = (t_entry*)(tmp->content);
+			ft_strncat(history, "speech: ", 8);
+			ft_strncat(history, entry->speech, ft_strlen(entry->speech));
+			ft_strncat(history, "\t", 1);
+			ft_strncat(history, "command: ", 9);
+			ft_strncat(history, entry->command, ft_strlen(entry->command));
+			ft_strncat(history, "\n", 1);
+			tmp = tmp->next;
+		}
+		server->respond(server, history, -1);
 	}
-	server->respond(server, history, -1);
+	else
+		server->respond(server, "No History\n", 11);
 }
 
 /*
@@ -107,7 +112,8 @@ void	history_get(t_server *server)
 		ft_memcpy(server->request.text, row[0], ft_strlen(row[0]));
 		handel_it(server, line, row);
 	}
-	server->history.last_save = server->history.queue->tail;
+	if (server->history.queue)
+		server->history.last_save = server->history.queue->tail;
 	close(server->history.file);
 }
 
