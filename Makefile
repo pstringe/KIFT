@@ -51,7 +51,8 @@ MSRCS = server\
 		command_history\
 		command_quit
 
-CSRCS = client
+CSRCS = client\
+		mic
 
 SOBJS = $(patsubst $(SSRCD)%, %.o, $(SSRCS))
 COBJS = $(patsubst $(CSRCD)%, %.o, $(CSRCS))
