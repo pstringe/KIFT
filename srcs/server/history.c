@@ -19,8 +19,8 @@
 void	history_display(t_server *server)
 {
 	t_list	*tmp;
-	t_entry *entry;
-	char history[4096];
+	t_entry	*entry;
+	char	history[4096];
 
 	ft_bzero(history, 4096);
 	tmp = server->history.queue->head;
@@ -28,15 +28,14 @@ void	history_display(t_server *server)
 	while (tmp)
 	{
 		entry = (t_entry*)(tmp->content);
-		//entry->display(server, entry);
-		ft_strncat(history, "speech: ", 8 );
+		ft_strncat(history, "speech: ", 8);
 		ft_strncat(history, entry->speech, ft_strlen(entry->speech));
 		ft_strncat(history, "\t", 1);
 		ft_strncat(history, "command: ", 9);
 		ft_strncat(history, entry->command, ft_strlen(entry->command));
 		ft_strncat(history, "\n", 1);
 		tmp = tmp->next;
-	}	
+	}
 	server->respond(server, history, -1);
 }
 
@@ -71,14 +70,14 @@ void	history_save(t_server *server)
 {
 	t_list	*tmp;
 	t_entry *entry;
-	
 
 	server->history.file = open("history.csv", O_WRONLY | O_APPEND);
 	tmp = server->history.last_save->next;
-	while(tmp)
+	while (tmp)
 	{
 		entry = (t_entry*)tmp->content;
-		ft_dprintf(server->history.file, "%s, %s\n", entry->speech, entry->command);
+		ft_dprintf(server->history.file, "%s, %s\n", entry->speech,\
+		entry->command);
 		tmp = tmp->next;
 	}
 	close(server->history.file);
@@ -91,7 +90,7 @@ void	history_save(t_server *server)
 void	history_get(t_server *server)
 {
 	char	*line;
-	char 	**row;
+	char	**row;
 	char	*trim;
 
 	server->history.file = open("history.csv", O_RDONLY);
@@ -100,18 +99,20 @@ void	history_get(t_server *server)
 	{
 		ft_bzero(server->request.text, SOCK_BUF_SIZE);
 		row = ft_strsplit(line, ',');
-		if (!row[0]){
+		if (!row[0])
+		{
 			free(line);
 			free(row);
-			break;
+			break ;
 		}
 		ft_memcpy(server->request.text, row[0], ft_strlen(row[0]));
-		if (row[1] && ft_strcmp(" none", (trim = ft_strtrim(row[1])))){
+		if (row[1] && ft_strcmp(" none", (trim = ft_strtrim(row[1]))))
+		{
 			server->request.command.name = ft_strdup(trim);
 			free(trim);
 		}
 		else
-			server->request.command.name = ft_strdup( "none");
+			server->request.command.name = ft_strdup("none");
 		server->request.size = ft_strlen(server->request.text);
 		server->history.update(server);
 		free(server->request.command.name);
@@ -125,28 +126,6 @@ void	history_get(t_server *server)
 	close(server->history.file);
 }
 
-/*
-**	cleanup the history object before termination
-*/
-/*
-void	history_clean(t_server *s)
-{
-	t_queue *history;
-	t_list	*cur;
-	t_list	*tmp;
-	t_entry	*entry;
-	
-	history = s->history;
-	cur = history->head;
-	while ((tmp = cur))
-	{
-		entry = (t_entry*)cur->content;
-		ft_memdel((void**)&entry);
-		cur = cur->next;
-		ft_memdel((void**)&tmp);
-	}
-}
-*/
 /*
 **	initialize history object
 */
