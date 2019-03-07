@@ -6,7 +6,7 @@
 /*   By: pstringe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/05 18:05:26 by pstringe          #+#    #+#             */
-/*   Updated: 2019/03/06 18:19:09 by pstringe         ###   ########.fr       */
+/*   Updated: 2019/03/06 18:36:27 by pstringe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,27 +78,27 @@ void		add_child_sockets(t_server *s);
 **	commands
 */
 
-void	cmd_whereis(t_server *s);
-void	cmd_whois(t_server *s);
-void	cmd_lightsup(t_server *server);
-void	cmd_lightsdown(t_server *server);
-void	cmd_sms(t_server *server);
-void	cmd_music(t_server *server);
-void	cmd_weather(t_server *server);
-void	cmd_email(t_server *server);
-void 	cmd_search(t_server *server);
-void 	cmd_alarm(t_server *server);
-void	cmd_quit(t_server *server);
-void	cmd_history(t_server *server);
-void	cmd_team(t_server *server);
+void		cmd_whereis(t_server *s);
+void		cmd_whois(t_server *s);
+void		cmd_lightsup(t_server *server);
+void		cmd_lightsdown(t_server *server);
+void		cmd_sms(t_server *server);
+void		cmd_music(t_server *server);
+void		cmd_weather(t_server *server);
+void		cmd_email(t_server *server);
+void		cmd_search(t_server *server);
+void		cmd_alarm(t_server *server);
+void		cmd_quit(t_server *server);
+void		cmd_history(t_server *server);
+void		cmd_team(t_server *server);
 
 /*
 ** struct
 */
 
-struct s_memorystruct {
+struct		s_memorystruct {
 	char	*memory;
 	size_t	size;
-};
+}			t_memorystruct;
 
 #endif
