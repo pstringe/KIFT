@@ -6,13 +6,13 @@
 /*   By: jadawson <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/06 17:10:09 by jadawson          #+#    #+#             */
-/*   Updated: 2019/02/21 15:02:34 by pstringe         ###   ########.fr       */
+/*   Updated: 2019/03/06 18:43:15 by pstringe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "server.h"
 
-void	cmd_lightsdown(t_server * s)
+void	cmd_lightsdown(t_server *s)
 {
 	call_cmd("osascript srcs/server/bright_or_dim_screen/make_dim.script");
 }
