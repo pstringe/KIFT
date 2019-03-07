@@ -6,12 +6,14 @@
 /*   By: dysotoma <dysotoma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/02 15:52:32 by pstringe          #+#    #+#             */
-/*   Updated: 2019/03/07 11:44:45 by dysotoma         ###   ########.fr       */
+/*   Updated: 2019/03/07 12:02:59 by dysotoma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 #include "mic.h"
+#define SNCMP(x, y, z) ft_strncmp(x, y, z)
+#define O "(null)"
 
 /*
 **	initializes input and networking properties of the client,
@@ -37,8 +39,7 @@ static void		client_init(int argc, char **argv, t_client *c, t_sphinx *s)
 	c->imode = 1;
 	ioctl(c->sock, FIONBIO, &(c->imode));
 	while ((read(c->sock, &(c->buf), CLIENT_BUF_SIZE)) < 0)
-	{
-	}
+		;
 	ft_putendl(c->buf);
 	say(ft_strchr(c->buf, '\n') + 1, 1);
 	ft_bzero(c->buf, CLIENT_BUF_SIZE);
@@ -87,8 +88,7 @@ static int		server_response(t_client *c)
 	if (!c->f)
 	{
 		ft_printf("B: about to read from server\n");
-		while ((ret = read(c->sock, &(c->buf), 4096)) && !ft_strncmp(c->buf,
-		"(null)", 6))
+		while ((ret = read(c->sock, &(c->buf), 4096)) && !SNCMP(c->buf, O, 6))
 			if (!ft_strncmp(c->buf, "(null)", 6) && sleep(1))
 				if ((ret = read(c->sock, &(c->buf), 4096)) >= 0)
 					break ;
