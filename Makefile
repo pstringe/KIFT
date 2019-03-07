@@ -38,7 +38,8 @@ SSRCS = server\
 		command_email\
 		command_search\
 		command_history\
-		command_quit
+		command_quit\
+		command_team
 
 MSRCS = server\
 		multiserver\

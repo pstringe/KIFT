@@ -13,7 +13,8 @@
 #include "server.h"
 
 /*
-**	this command sends the msg, "quit" to the client, and terminates the server proccess
+** this command sends the msg, "quit" to the client,
+** and terminates the server proccess
 */
 
 void	cmd_quit(t_server *server)
@@ -23,4 +24,3 @@ void	cmd_quit(t_server *server)
 	server->history.save(server);
 	server->listening = 0;
 }
-

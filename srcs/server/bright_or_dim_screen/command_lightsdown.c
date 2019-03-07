@@ -17,4 +17,3 @@ void	cmd_lightsdown(t_server *s)
 	system("osascript srcs/server/bright_or_dim_screen/make_dim.script");
 	s->respond(s, "lights down", 11);
 }
-

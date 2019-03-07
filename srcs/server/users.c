@@ -13,22 +13,21 @@
 #include "server.h"
 
 /*
-**	The new user function takes a name, and returns a sruct containing the name and other
-** 	information relevant to the client machine the user is connected on.
+** The new user function takes a name, and returns
+** a sruct containing the name and other information
+** relevant to the client machine the user is connected on.
 */
 
 t_user	*new_user(t_server *s, char *name)
 {
 	t_user	*user;
 	char	*ip;
-	int 	port;
-	
+	int		port;
+
 	user = malloc(sizeof(t_user));
-	
 	getpeername(s->sd, (struct sockaddr*)&(s->addr), (socklen_t*)&(s->addrlen));
 	ip = inet_ntoa(s->addr.sin_addr);
 	port = ntohs(s->addr.sin_port);
-
 	ft_bzero(user->name, 256);
 	ft_memcpy(user->name, name, ft_strlen(name));
 	user->port = port;
@@ -38,16 +37,17 @@ t_user	*new_user(t_server *s, char *name)
 }
 
 /*
-**	The add_user() function will be called whenever a new client connection is initiated
-**	It will prompt the user for the name they would like to be known as on the system,
-**	and save that information along with the adress, port and socket the client is 
-**	connected on.
+** The add_user() function will be called whenever a new client
+** connection is initiated It will prompt the user for the name
+** they would like to be known as on the system, and save that
+** information along with the adress, port and socket the client
+** is connected on.
 */
 
-void add_user(t_server *s)
+void	add_user(t_server *s)
 {
 	t_user *user;
-	
+
 	prompt_request(s, s->l_sock, "KIFT 1.0\nPlease enter your name: ");
 	user = new_user(s, s->request.text);
 	if (!s->users)
@@ -57,11 +57,12 @@ void add_user(t_server *s)
 }
 
 /*
-**	The whois command, when called from the client will cause the server to respond with 
-** 	a string containing users who are currently connected to the system
+** The whois command, when called from the client will
+** cause the server to respond with a string containing
+** users who are currently connected to the system
 */
 
-void cmd_whois(t_server *s)
+void	cmd_whois(t_server *s)
 {
 	t_list	*tmp;
 	t_queue	*users;
@@ -83,24 +84,23 @@ void cmd_whois(t_server *s)
 }
 
 /*
-**	The whereis command, when called from the client, will prompt the user for the name of
-**	a person who is connected to the system. Upon recieving said name, will return
-** 	the user's ip address
+** The whereis command, when called from the client, will prompt
+** the user for the name of a person who is connected to the system.
+** Upon recieving said name, will return the user's ip address.
 */
 
-void cmd_whereis(t_server *s)
+void	cmd_whereis(t_server *s)
 {
-	t_queue *users;
-	t_user 	*user;
+	t_queue	*users;
+	t_user	*user;
 	t_list	*tmp;
-	char 	response[256];
+	char	response[256];
 
 	prompt_request(s, s->l_sock, "Which user would you like to locate?");
-	
 	users = s->users;
 	tmp = users->head;
 	ft_memcpy(response, "This user is not currently connected", 36);
-	while(tmp)
+	while (tmp)
 	{
 		user = (t_user*)(tmp->content);
 		if (!ft_strncmp(user->name, s->request.text, s->request.size))
@@ -121,17 +121,17 @@ void cmd_whereis(t_server *s)
 **	A function to delete a user
 */
 
-void delete_user(t_server *s, int socket)
+void	delete_user(t_server *s, int socket)
 {
-	t_queue *users;
-	t_user 	*user;
-	t_list  *tmp;
+	t_queue	*users;
+	t_user	*user;
+	t_list	*tmp;
 	t_list	*last;
 
 	users = s->users;
 	last = users->head;
 	tmp = users->head;
-	while(tmp)
+	while (tmp)
 	{
 		user = (t_user*)(tmp->content);
 		if (user->socket == socket)
@@ -142,11 +142,9 @@ void delete_user(t_server *s, int socket)
 			if (tmp == users->tail)
 				users->tail = last;
 			free(tmp);
-
 		}
 		if (tmp != users->head)
 			last = last->next;
 		tmp = tmp->next;
 	}
 }
-

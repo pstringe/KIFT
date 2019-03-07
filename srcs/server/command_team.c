@@ -1,19 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   command_lightsup.c                                 :+:      :+:    :+:   */
+/*   group_pic.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pstringe <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: jadawson <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/02/18 19:37:02 by pstringe          #+#    #+#             */
-/*   Updated: 2019/03/03 01:28:16 by pstringe         ###   ########.fr       */
+/*   Created: 2019/03/02 10:59:23 by jadawson          #+#    #+#             */
+/*   Updated: 2019/03/04 21:12:11 by jadawson         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "server.h"
 
-void	cmd_lightsup(t_server *s)
+void cmd_team(t_server *s)
 {
-	system("osascript srcs/server/bright_or_dim_screen/make_bright.script");
-	s->respond(s, "lights up", 9);
+	s->respond(s, "Displaying team", 15);
+	system("open https://www.flickr.com/photos/162616625@N08/33410045108/in\
+/dateposted-public/");
 }

@@ -22,7 +22,7 @@
 # define FALSE	0
 # define MAX_CLIENTS 3
 # define MAX_COMMAND_SIZE 256
-# define NO_OF_CMDS 13
+# define NO_OF_CMDS 14
 # define SOCK_BUF_SIZE 4096
 
 /*
@@ -77,5 +77,15 @@ void 	cmd_search(t_server *server);
 void 	cmd_alarm(t_server *server);
 void	cmd_quit(t_server *server);
 void	cmd_history(t_server *server);
+void	cmd_team(t_server *server);
+
+/*
+** struct
+*/
+
+struct s_memorystruct {
+	char	*memory;
+	size_t	size;
+};
 
 #endif

@@ -28,6 +28,7 @@ struct s_command g_cmds[NO_OF_CMDS] = {
 	{"SEARCHTHEWEB", cmd_search},
 	{"SENDEMAIL", cmd_email},
 	{"SENDSMS", cmd_sms},
+	{"TEAM", cmd_team},
 	{"WEATHER", cmd_weather},
 	{NULL, NULL}
 };
@@ -64,7 +65,6 @@ int		main(int argc, char **argv)
 		ft_printf("connected\n");
 		server.listen(&server);
 		ft_printf("terminating server instance: %p\n", server);
-		//history_clean();
 	}
-	return(0);
+	return (0);
 }
