@@ -6,7 +6,7 @@
 #    By: pstringe <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/08/02 14:49:53 by pstringe          #+#    #+#              #
-#    Updated: 2019/03/06 00:10:18 by pstringe         ###   ########.fr        #
+#    Updated: 2019/03/06 19:10:44 by pstringe         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -41,7 +41,8 @@ SSRCS = server\
 		command_search\
 		command_history\
 		command_quit\
-		command_team
+		command_team\
+		help
 
 MSRCS = server\
 		multiserver\

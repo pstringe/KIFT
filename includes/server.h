@@ -6,7 +6,7 @@
 /*   By: pstringe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/05 18:05:26 by pstringe          #+#    #+#             */
-/*   Updated: 2019/03/06 18:36:27 by pstringe         ###   ########.fr       */
+/*   Updated: 2019/03/06 19:13:05 by pstringe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ t_request	prompt_request(t_server *s, int socket, char *prompt);
 void		listening(t_server *server);
 
 /*
-**	user methods
+**	user functions
 */
 
 void		add_user(t_server *s);
@@ -91,6 +91,12 @@ void		cmd_alarm(t_server *server);
 void		cmd_quit(t_server *server);
 void		cmd_history(t_server *server);
 void		cmd_team(t_server *server);
+
+/*
+**	helper functions
+*/
+
+void		handel_it(t_server *s, char *line, char **row);
 
 /*
 ** struct
