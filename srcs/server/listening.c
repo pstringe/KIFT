@@ -6,15 +6,15 @@
 /*   By: pstringe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/05 22:26:41 by pstringe          #+#    #+#             */
-/*   Updated: 2019/03/06 00:16:24 by pstringe         ###   ########.fr       */
+/*   Updated: 2019/03/07 16:25:44 by pstringe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "server.h"
 
 /*
-**	this funciton is called from handel_existing_connections in
-**	server_methods.c to handel client removal.
+**	this funciton is called from remove_clients in
+**	users.c to handel client removal.
 */
 
 void		remove_client(t_server *s, int *i)
@@ -27,7 +27,7 @@ void		remove_client(t_server *s, int *i)
 	getpeername(s->sd, (struct sockaddr*)&(s->addr), (socklen_t*)&(s->addrlen));
 	delete_user(s, s->c_sock[*i]);
 	ft_printf("Host disconnected, ip %s, port %d\n", ip, port);
-	close(s->sd);
+	close(s->c_sock[*i]);
 	s->c_sock[*i] = 0;
 }
 
