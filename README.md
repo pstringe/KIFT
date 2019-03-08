@@ -1,5 +1,6 @@
-USAGE
----
+# KIFT
+### USAGE
+
 
 1. Clone and and enter repository:
 ```
@@ -29,7 +30,7 @@ make setup
 ```
 
 
-#### Available Commands
+### Available Commands
 
 * WHOIS
 * WHEREIS
