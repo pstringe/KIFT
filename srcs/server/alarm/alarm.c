@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   alarm.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jadawson <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: dysotoma <dysotoma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/06 19:31:43 by jadawson          #+#    #+#             */
-/*   Updated: 2019/03/07 16:10:10 by pstringe         ###   ########.fr       */
+/*   Updated: 2019/03/07 16:34:09 by dysotoma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ void	cmd_alarm(t_server *s)
 {
 	int t;
 
-	t = ft_atoi(prompt_request(s, s->l_sock, 
+	t = ft_atoi(prompt_request(s, s->l_sock,
 				"Please say the number of minutes").text);
 	kift_alarm(t);
 	s->respond(s, "Ring Ring Ring", 15);
