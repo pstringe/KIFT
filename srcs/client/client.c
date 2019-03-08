@@ -6,7 +6,7 @@
 /*   By: dysotoma <dysotoma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/02 15:52:32 by pstringe          #+#    #+#             */
-/*   Updated: 2019/03/07 16:17:46 by pstringe         ###   ########.fr       */
+/*   Updated: 2019/03/07 16:33:21 by dysotoma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,14 +87,11 @@ static int		server_response(t_client *c)
 
 	if (!c->f)
 	{
-		ft_printf("B: about to read from server\n");
 		while ((ret = read(c->sock, &(c->buf), 4096)) && !SNCMP(c->buf, O, 6))
 			if (!ft_strncmp(c->buf, "(null)", 6) && sleep(1))
 				if ((ret = read(c->sock, &(c->buf), 4096)) >= 0)
 					break ;
-		if (ret < 0 && !ft_strlen(c->buf))
-			return (ft_printf("waiting on server\n") ? 0 : 0);
-		else if (ret == 0 && (c->rr = 0))
+		if (ret == 0 && (c->rr = 0))
 			ft_printf("server returned empty string");
 		else if (!ft_strncmp(c->buf, "quit", 4))
 			exit(0);
@@ -105,9 +102,7 @@ static int		server_response(t_client *c)
 			c->rr = 0;
 			c->f = 0;
 		}
-		ft_printf("C: read %d bytes from %s from server\n", ret, c->buf);
 		ft_bzero(c->buf, CLIENT_BUF_SIZE);
-		ft_printf("cleared buffer\n");
 	}
 	return (1);
 }
