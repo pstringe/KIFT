@@ -6,7 +6,7 @@
 /*   By: dysotoma <dysotoma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/02 15:52:32 by pstringe          #+#    #+#             */
-/*   Updated: 2019/03/07 18:07:39 by pstringe         ###   ########.fr       */
+/*   Updated: 2019/03/07 19:19:07 by pstringe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,7 +91,9 @@ static int		server_response(t_client *c)
 			if (!ft_strncmp(c->buf, "(null)", 6) && sleep(1))
 				if ((ret = read(c->sock, &(c->buf), 4096)) >= 0)
 					break ;
-		if (ret == 0 && (c->rr = 0))
+		if (ret < 0 && !ft_strlen(c->buf))
+			return (0);
+		else if (ret == 0 && (c->rr = 0))
 			ft_printf("server returned empty string");
 		else if (!ft_strncmp(c->buf, "quit", 4))
 			exit(0);
